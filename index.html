@@ -2674,6 +2674,265 @@
   }
 </style>
 
+
+<style id="acadence-2026-07-layout-refinement">
+  /* Toolbar controls use identical box metrics. */
+  .top-appbar-right {
+    align-items: stretch !important;
+  }
+  .top-appbar-right > .import-chip,
+  .top-appbar-right > button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 13px !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+    border-radius: 10px !important;
+  }
+
+  /* Planner controls should sit directly on the workspace, not inside a bordered card. */
+  body[data-planner-mode="calendar"] .calendar-view-card,
+  .calendar-view-card.center-view-card {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 0 12px !important;
+  }
+  .calendar-view-card .planner-title-row { margin-bottom: 14px !important; }
+  .calendar-view-card .planner-control-bar { margin-top: 0 !important; }
+
+  /* Remove the remaining beige calendar surfaces. */
+  body[data-planner-mode="calendar"] #viewRoot > section,
+  body[data-planner-mode="calendar"] .semester-month-block,
+  body[data-planner-mode="calendar"] .week-day,
+  body[data-planner-mode="calendar"] .day-detail,
+  body[data-planner-mode="calendar"] .agenda-card,
+  .month-wrap,
+  .calendar-scroll,
+  .semester-card {
+    background: #ffffff !important;
+    border-color: #e1e1ef !important;
+  }
+  .calendar-grid,
+  .mini-calendar-grid {
+    background: #e1e1ef !important;
+    border-color: #e1e1ef !important;
+  }
+  .calendar-head,
+  .mini-calendar-head {
+    background: #f1efff !important;
+    color: #3f368f !important;
+    border-color: #e1e1ef !important;
+  }
+  .calendar-cell,
+  .mini-calendar-cell {
+    background: #ffffff !important;
+    border-color: #e1e1ef !important;
+  }
+  .calendar-cell.out,
+  .mini-calendar-cell.out {
+    background: #f7f6ff !important;
+    color: #85869a !important;
+  }
+  .calendar-cell.holiday,
+  .mini-calendar-cell.holiday,
+  .calendar-cell.online,
+  .mini-calendar-cell.online {
+    background: #f5f3ff !important;
+  }
+  .date-num { color: #3f4055 !important; font-weight: 600 !important; }
+  .calendar-cell.today,
+  .mini-calendar-cell.today,
+  .week-day.today {
+    background: #f7f5ff !important;
+  }
+  .calendar-cell.today .date-num::after,
+  .mini-calendar-cell.today .date-num::after,
+  .week-day.today h3::after {
+    background: #e8e5ff !important;
+    color: #493bc5 !important;
+  }
+  .calendar-cell.today,
+  .mini-calendar-cell.today {
+    box-shadow: inset 0 0 0 2px #8c82ef !important;
+  }
+  .weekly-time-rail,
+  .weekly-day-rail {
+    background: #ffffff !important;
+    border-color: #e1e1ef !important;
+  }
+  .weekly-day-block.common-hour-block {
+    background: #f1efff !important;
+    border-left-color: #6c5cf2 !important;
+    color: #4037a6 !important;
+  }
+
+  /* Hidden on desktop; becomes the drawer control on narrower screens. */
+  .mobile-nav-toggle,
+  .mobile-nav-backdrop { display: none; }
+
+  @media (max-width: 1024px) {
+    html, body { overflow-x: hidden !important; }
+    body { padding-bottom: 0 !important; }
+
+    .mobile-nav-toggle {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      min-height: 38px !important;
+      padding: 0 11px !important;
+      border: 1px solid #d9d5ff !important;
+      border-radius: 10px !important;
+      background: #f1efff !important;
+      color: #493bc5 !important;
+      white-space: nowrap !important;
+    }
+    .mobile-nav-bars { font-size: 17px; line-height: 1; }
+
+    .app-sidebar {
+      position: fixed !important;
+      z-index: 1400 !important;
+      left: 0 !important;
+      right: auto !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      width: min(300px, 86vw) !important;
+      height: 100dvh !important;
+      padding: 18px 14px calc(18px + env(safe-area-inset-bottom)) !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      gap: 5px !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      transform: translateX(-105%) !important;
+      transition: transform .22s ease !important;
+      box-shadow: 16px 0 36px rgba(10, 14, 35, .24) !important;
+    }
+    .app-sidebar.mobile-open { transform: translateX(0) !important; }
+    .app-sidebar .side-brand {
+      display: flex !important;
+      flex: 0 0 auto !important;
+      margin-bottom: 12px !important;
+    }
+    .app-sidebar .side-label { display: block !important; }
+    .app-sidebar .side-spacer { display: block !important; flex: 1 1 auto !important; }
+    .app-sidebar .side-subnav { display: block !important; }
+    .app-sidebar button,
+    .app-sidebar button.side-subitem,
+    .app-sidebar a.side-link {
+      display: flex !important;
+      flex-direction: row !important;
+      justify-content: flex-start !important;
+      align-items: center !important;
+      gap: 10px !important;
+      flex: 0 0 auto !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      min-height: 42px !important;
+      height: auto !important;
+      padding: 10px 12px !important;
+      margin: 0 !important;
+      border-radius: 10px !important;
+      text-align: left !important;
+      font-size: 13px !important;
+      line-height: 1.2 !important;
+    }
+    .app-sidebar button.side-subitem { padding-left: 30px !important; }
+    .app-sidebar button span,
+    .app-sidebar a.side-link span {
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+    .mobile-nav-backdrop {
+      position: fixed !important;
+      z-index: 1390 !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: rgba(9, 13, 31, .48) !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      transition: opacity .2s ease !important;
+    }
+    body.mobile-nav-open { overflow: hidden !important; }
+    body.mobile-nav-open .mobile-nav-backdrop {
+      display: block !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    header.top-appbar {
+      margin-left: 0 !important;
+      min-height: 60px !important;
+      padding: 10px 12px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      flex-wrap: wrap !important;
+      gap: 8px !important;
+    }
+    .top-appbar-left {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex: 1 1 300px !important;
+      min-width: 0 !important;
+    }
+    .top-appbar-left select {
+      flex: 1 1 auto !important;
+      width: auto !important;
+      max-width: 280px !important;
+      min-width: 0 !important;
+      height: 38px !important;
+    }
+    .top-appbar-right {
+      display: flex !important;
+      align-items: stretch !important;
+      justify-content: flex-end !important;
+      flex: 0 0 auto !important;
+      gap: 7px !important;
+    }
+    .top-appbar-right > .import-chip,
+    .top-appbar-right > button {
+      min-height: 38px !important;
+      height: 38px !important;
+      padding: 0 11px !important;
+      font-size: 12px !important;
+    }
+    .app { margin-left: 0 !important; padding: 14px 12px 24px !important; }
+  }
+
+  @media (max-width: 560px) {
+    header.top-appbar { align-items: stretch !important; }
+    .top-appbar-left { flex-basis: 100% !important; width: 100% !important; }
+    .top-appbar-left select { max-width: none !important; }
+    .top-appbar-right { width: 100% !important; }
+    .top-appbar-right > .import-chip,
+    .top-appbar-right > button { flex: 1 1 0 !important; }
+
+    .calendar-view-card .planner-title-row { margin-bottom: 10px !important; }
+    .planner-control-bar { gap: 12px !important; }
+    .compact-tabs { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; width: 100% !important; }
+    .compact-tabs .tab { width: 100% !important; min-width: 0 !important; padding: 8px 5px !important; }
+    .week-start-control select { width: 100% !important; max-width: none !important; }
+    body[data-planner-mode="calendar"] #viewRoot > section { padding: 8px !important; }
+    .calendar-grid { min-width: 600px !important; }
+    .scroll-x { overflow-x: auto !important; -webkit-overflow-scrolling: touch; }
+  }
+</style>
+
 </head>
 <body class="auth-required">
 
@@ -2688,7 +2947,7 @@
     </div>
   </section>
 
-  <nav class="app-sidebar no-print" aria-label="Planner navigation">
+  <nav id="acadenceSidebar" class="app-sidebar no-print" aria-label="Planner navigation">
     <div class="side-brand">
       <div class="side-logo studio-logo" aria-label="Acadence logo">
         <svg viewBox="0 0 72 58" role="img" aria-hidden="true">
@@ -2720,9 +2979,13 @@
     <div class="side-spacer"></div>
     <button id="nav-account" onclick="setView('account')">◌ <span>Account</span></button>
   </nav>
+  <button id="mobileNavBackdrop" class="mobile-nav-backdrop no-print" type="button" aria-label="Close navigation" onclick="closeMobileNavigation()"></button>
 
   <header class="top-appbar">
     <div class="top-appbar-left">
+      <button id="mobileNavToggle" class="mobile-nav-toggle no-print" type="button" aria-label="Open navigation" aria-controls="acadenceSidebar" aria-expanded="false" onclick="toggleMobileNavigation()">
+        <span class="mobile-nav-bars" aria-hidden="true">☰</span><span>Menu</span>
+      </button>
       <select id="semesterSelect" onchange="setSemester(this.value)" aria-label="Semester"></select>
     </div>
     <div class="top-appbar-right no-print">
@@ -2882,7 +3145,6 @@
           <div class="activity-options-bottom">
             <button id="reviewFinalsButton" class="soft" onclick="setView('finals')">Review Finals</button>
             <div id="finalConflictAlert" class="planner-inline-alert hidden"></div>
-            <label class="inline-check compact-check"><input id="enableRatings" type="checkbox" onchange="setRatingEnabled(this.checked)"> Rate class meetings</label>
             <label class="inline-check compact-check"><input id="noConflictingActivities" type="checkbox" onchange="setNoConflictingActivities(this.checked)"> No conflicting class activities</label>
           </div>
           <div class="activity-section custom-activity-inline">
@@ -3100,7 +3362,7 @@ const DATA = {
   }
 };
 
-const DEFAULT_STATE = { selectedSemester: 'fall2026', currentView: 'dashboard', selectedMonth: '2026-08', selectedWeekStart: '2026-08-24', selectedDay: '2026-08-24', selectedCourseFilter: '', selectedCourseFilters: [], interfaceVersion: 'dashboardSummaryV3', bySemester: {} };
+const DEFAULT_STATE = { selectedSemester: 'fall2026', currentView: 'dashboard', selectedMonth: '2026-08', selectedWeekStart: '2026-08-23', selectedDay: '2026-08-24', selectedCourseFilter: '', selectedCourseFilters: [], interfaceVersion: 'dashboardSummaryV3', bySemester: {} };
 const COURSE_COLORS = ['#8064A2', '#5B6FA6', '#5B9BD5', '#4BACC6', '#70AD47', '#A9D18E', '#F2C75C', '#ED7D31', '#C0504D', '#C27BA0'];
 const OLD_COURSE_COLORS = ['#7030A0', '#4472C4', '#00B0F0', '#92D050', '#FFC000', '#C00000', '#A64D79', '#b8adb7', '#aeb4c8', '#9fb7c7', '#9bbfc0', '#a5bca8', '#b9bd98', '#c6b58f', '#c1a094', '#bd9c9c', '#b5a5bd', '#b7bdc6', '#4f46e5', '#0f766e', '#be123c', '#b45309', '#047857', '#7e22ce', '#0369a1', '#c2410c', '#bfdbfe', '#bbf7d0', '#fecdd3', '#fde68a', '#ddd6fe', '#bae6fd', '#fed7aa', '#ccfbf1', '#fbcfe8', '#e2e8f0', '#c4b5fd', '#a5b4fc', '#93c5fd', '#7dd3fc', '#5eead4', '#86efac', '#fdba74', '#fca5a5', '#f9a8d4', '#cbd5e1'];
 const BUILT_IN_TYPES = ['Quiz', 'Lab', 'Lecture Plan', 'Exam', 'Homework', 'Note'];
@@ -3682,7 +3944,7 @@ function renderActionsHome() {
     <p class="muted-copy">Use the Add Class form above to build your semester. Use the action cards on the right to auto-schedule activities, create custom activity types, or add custom days off.</p>
     <div class="dashboard-actions-grid action-choice-row">
       <button class="soft" onclick="setView('tasks')">Tasks</button>
-      <button class="soft" onclick="setView('ratings')">Ratings</button>
+      
       <button class="soft" onclick="setView('finals')">Finals</button>
       <button class="soft" onclick="setView('weeklySchedule')">Weekly Schedule</button>
       <button class="soft" onclick="openAcademicCalendar()">Academic Calendar</button>
@@ -4573,7 +4835,7 @@ function renderMiniMonth(ym) {
 }
 function renderSemesterView() { return `<section><h2>Semester Overview</h2><p style="color:var(--muted);">This view shows all semester months with major academic dates, no-class days, online-class days, instructor-scheduled exam dates, and loaded final exam dates.</p><div class="semester-months">${monthKeysForSemester().map(renderMiniMonth).join('')}</div></section>`; }
 
-function defaultTaskWeekStart() { const sem = DATA[state.selectedSemester]; const t = todayIso(); if (t < sem.start) return mondayOf(sem.start); if (t > sem.lastClass) return mondayOf(sem.lastClass); return mondayOf(t); }
+function defaultTaskWeekStart() { const sem = DATA[state.selectedSemester]; const t = todayIso(); if (t < sem.start) return startOfPreferredWeek(sem.start); if (t > sem.lastClass) return startOfPreferredWeek(sem.lastClass); return startOfPreferredWeek(t); }
 function goToTaskWeek() { state.selectedWeekStart = defaultTaskWeekStart(); saveState(); render(); }
 function buildTasksForWeek(start) {
   const end = iso(addDays(parseISO(start), 6)); const days = dateRange(start, end); const tasksByDate = Object.fromEntries(days.map(d => [d, []]));
@@ -4896,7 +5158,7 @@ function renderDashboardHome() {
     <div class="uni-dashboard-grid dashboard-progress-layout">
       <div class="uni-main-col">
         <div class="uni-card dashboard-progress-top">
-          <div class="uni-card-head"><h3>Overall Progress</h3><button onclick="setView('ratings')">Ratings</button></div>
+          <div class="uni-card-head"><h3>Overall Progress</h3></div>
           <div class="progress-meta"><strong>Semester progress</strong><span>${p.pct}%</span></div>
           <div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;"></div></div>
           <p class="muted-copy" style="margin-top:10px;">${p.done} complete · ${p.toGo} remaining · ${p.total} counted meetings</p>
@@ -5236,7 +5498,7 @@ function renderDashboardHome() {
     </div>
     <div class="uni-dashboard-grid dashboard-progress-layout"><div class="uni-main-col">
       <div class="uni-card dashboard-progress-top">
-        <div class="uni-card-head"><h3>Overall Progress</h3><button onclick="setView('ratings')">Ratings</button></div>
+        <div class="uni-card-head"><h3>Overall Progress</h3></div>
         <div class="progress-meta"><strong>Semester progress</strong><span>${p.pct}%</span></div>
         <div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;"></div></div>
         <p class="muted-copy" style="margin-top:10px;">${p.done} complete · ${p.toGo} remaining · ${p.total} counted meetings</p>
@@ -5522,7 +5784,17 @@ function renderExportView() {
 /* 2026-07 custom recurrence, edit modal, week-start, account, and weekly schedule updates */
 function weekStartPreference() {
   const s = semState();
-  if (!s.settings.weekStartsOn) s.settings.weekStartsOn = 'M';
+  // Migrate existing plans that only inherited the former Monday default.
+  if (!s.settings.weekStartPreferenceExplicit) {
+    s.settings.weekStartsOn = 'U';
+    s.settings.weekStartDefaultVersion = 'sundayV1';
+    if (state.selectedWeekStart) {
+      const d = parseISO(state.selectedWeekStart);
+      state.selectedWeekStart = iso(addDays(d, -d.getDay()));
+    }
+  } else if (!s.settings.weekStartsOn) {
+    s.settings.weekStartsOn = 'U';
+  }
   return s.settings.weekStartsOn;
 }
 function startOfPreferredWeek(dateIso) {
@@ -5542,7 +5814,8 @@ function orderedWeekDays(short=false) {
 }
 function setWeekStartPreference(value) {
   const s = semState();
-  s.settings.weekStartsOn = value || 'M';
+  s.settings.weekStartsOn = value || 'U';
+  s.settings.weekStartPreferenceExplicit = true;
   const base = state.selectedDay || DATA[state.selectedSemester].start;
   state.selectedWeekStart = startOfPreferredWeek(base);
   saveState();
@@ -5794,7 +6067,7 @@ function renderDashboardHome() {
   const dashboardFirstName = String(window.acadenceProfile?.firstName || window.acadenceUser?.displayName || '').trim().split(/\s+/)[0];
   const dashboardHeading = dashboardFirstName ? `Hi ${escapeHtml(dashboardFirstName)}` : 'Dashboard';
   return `<section class="uni-dashboard"><div class="uni-welcome-row"><div class="uni-welcome"><h2 class="acadence-greeting">${dashboardHeading}</h2><p>${DATA[state.selectedSemester].label} · Week ${weekNum} of 15 · ${formatDate(weekStart, false)} – ${formatDate(weekEnd, false)} · ${p.done} meetings complete · ${p.toGo} left</p></div><div class="uni-welcome-actions"><button class="uni-primary" onclick="openAddClassModal()">+ Add Class</button><button class="soft" onclick="setView('monthly')">Open Planner</button></div></div>
-    <div class="uni-dashboard-grid dashboard-progress-layout"><div class="uni-main-col"><div class="uni-card dashboard-progress-top"><div class="uni-card-head"><h3>Overall Progress</h3><button onclick="setView('ratings')">Ratings</button></div><div class="progress-meta"><strong>Semester progress</strong><span>${p.pct}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;"></div></div><p class="muted-copy" style="margin-top:10px;">${p.done} complete · ${p.toGo} remaining · ${p.total} counted meetings</p></div><div class="uni-card dashboard-alert-top"><div class="uni-card-head"><h3>Alerts & Conflicts</h3></div><div class="uni-alert-row alerts-under-dashboard">${alertList.join('')}</div></div><div class="uni-card"><div class="uni-card-head"><h3>Course Overview</h3><button onclick="openAddClassModal()">Add class</button></div><div class="uni-course-grid">${courseCards}</div></div><div class="uni-two-col"><div class="uni-card"><div class="uni-card-head"><h3>This Week</h3><button onclick="setView('weekly')">View full week</button></div><div class="uni-week-list">${weekHtml}</div></div><div class="uni-card"><div class="uni-card-head"><h3>Academic Calendar</h3><button onclick="openAcademicCalendar()">View full calendar</button></div><div class="uni-side-list">${academicRows}</div></div></div></div></div></section>`;
+    <div class="uni-dashboard-grid dashboard-progress-layout"><div class="uni-main-col"><div class="uni-card dashboard-progress-top"><div class="uni-card-head"><h3>Overall Progress</h3></div><div class="progress-meta"><strong>Semester progress</strong><span>${p.pct}%</span></div><div class="progress-bar"><div class="progress-fill" style="width:${p.pct}%;"></div></div><p class="muted-copy" style="margin-top:10px;">${p.done} complete · ${p.toGo} remaining · ${p.total} counted meetings</p></div><div class="uni-card dashboard-alert-top"><div class="uni-card-head"><h3>Alerts & Conflicts</h3></div><div class="uni-alert-row alerts-under-dashboard">${alertList.join('')}</div></div><div class="uni-card"><div class="uni-card-head"><h3>Course Overview</h3><button onclick="openAddClassModal()">Add class</button></div><div class="uni-course-grid">${courseCards}</div></div><div class="uni-two-col"><div class="uni-card"><div class="uni-card-head"><h3>This Week</h3><button onclick="setView('weekly')">View full week</button></div><div class="uni-week-list">${weekHtml}</div></div><div class="uni-card"><div class="uni-card-head"><h3>Academic Calendar</h3><button onclick="openAcademicCalendar()">View full calendar</button></div><div class="uni-side-list">${academicRows}</div></div></div></div></div></section>`;
 }
 function monthGridStart(first) {
   const pref = weekStartPreference();
@@ -6346,6 +6619,44 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
 </script>
 
 
+
+<script id="acadence-mobile-navigation">
+(function () {
+  window.openMobileNavigation = function () {
+    const sidebar = document.getElementById('acadenceSidebar');
+    const toggle = document.getElementById('mobileNavToggle');
+    if (!sidebar) return;
+    sidebar.classList.add('mobile-open');
+    document.body.classList.add('mobile-nav-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+  };
+  window.closeMobileNavigation = function () {
+    const sidebar = document.getElementById('acadenceSidebar');
+    const toggle = document.getElementById('mobileNavToggle');
+    if (sidebar) sidebar.classList.remove('mobile-open');
+    document.body.classList.remove('mobile-nav-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+  };
+  window.toggleMobileNavigation = function () {
+    const sidebar = document.getElementById('acadenceSidebar');
+    if (sidebar?.classList.contains('mobile-open')) closeMobileNavigation();
+    else openMobileNavigation();
+  };
+
+  document.addEventListener('click', function (event) {
+    if (window.innerWidth > 1024) return;
+    const target = event.target.closest('#acadenceSidebar button, #acadenceSidebar a');
+    if (target) closeMobileNavigation();
+  });
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeMobileNavigation();
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 1024) closeMobileNavigation();
+  });
+})();
+</script>
+
 <script id="acadence-print-exports">
 (function () {
   function esc(value) {
@@ -6394,7 +6705,7 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
       end = iso(addDays(new Date(parseISO(start).getFullYear(), parseISO(start).getMonth() + 1, 1), -1));
       label = formatMonth(ym);
     } else if (kind === 'weekly') {
-      start = state.selectedWeekStart || mondayOf(semester.start);
+      start = state.selectedWeekStart || startOfPreferredWeek(semester.start);
       end = iso(addDays(parseISO(start), 6));
       label = `${formatDate(start, false)} - ${formatDate(end, false)}`;
     } else {
