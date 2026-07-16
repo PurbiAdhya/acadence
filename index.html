@@ -3066,7 +3066,7 @@
     <div class="side-subnav helpful-tools-nav" aria-label="Other helpful tools">
       <div class="side-label">Other Helpful Tools</div>
       <a class="side-link" href="https://purbiadhya.github.io/spring-hill-degree-planner/" target="_blank" rel="noopener">◎ <span>Degree Planner</span></a>
-      <a class="side-link" href="https://github.com/PurbiAdhya/spring-hill-schedule-maker" target="_blank" rel="noopener">▤ <span>Schedule Maker</span></a>
+      <a class="side-link" href="https://purbiadhya.github.io/spring-hill-schedule-maker/" target="_blank" rel="noopener">▤ <span>Schedule Maker</span></a>
       <a class="side-link" href="https://springhill.instructure.com/" target="_blank" rel="noopener">◫ <span>Canvas</span></a>
       <a class="side-link" href="https://badgerweb.shc.edu/ICS" target="_blank" rel="noopener">◇ <span>Badgerweb</span></a>
     </div>
@@ -6827,15 +6827,39 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
   };
 
   window.exportWeeklyGeneralPdf = function() {
-    const dayMap = generalWeeklyItemsByDay();
-    const rows = [];
-    for (const d of ['M','T','W','R','F']) {
-      const items = (dayMap[d] || []).slice().sort((a,b) => timeToMinutes(a.start) - timeToMinutes(b.start));
-      if (!items.length) rows.push(`<tr><td>${esc(DAY_NAMES[d])}</td><td colspan="3" class="meta">No scheduled items</td></tr>`);
-      items.forEach((item, index) => rows.push(`<tr><td>${index ? '' : esc(DAY_NAMES[d])}</td><td>${esc(`${formatTime(item.start)}-${formatTime(item.end)}`)}</td><td>${esc(item.kind === 'office' ? 'Office hours' : item.title)}</td><td>${esc(item.room || '')}</td></tr>`));
+    const popup = window.open('', '_blank');
+    if (!popup) {
+      alert('Please allow popups for Acadence exports, then try again.');
+      return;
     }
-    const body = `<table><thead><tr><th style="width:14%">Day</th><th style="width:23%">Time</th><th>Class / office hours</th><th style="width:20%">Location</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
-    printDoc('Weekly Faculty Schedule', `${DATA[state.selectedSemester].label} · Monday-Friday · Holidays omitted`, body, true);
+    const title = 'Weekly Faculty Schedule';
+    const subtitle = `${DATA[state.selectedSemester].label} · Monday-Friday · Holidays omitted`;
+    const scheduleHtml = renderGeneralWeeklyScheduleGrid();
+    popup.document.open();
+    popup.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(`Acadence - ${title}`)}</title><style>
+      @page { size: Letter landscape; margin: .3in; }
+      * { box-sizing: border-box; }
+      body { margin: 0; color: #242238; font-family: Arial, Helvetica, sans-serif; background: white; }
+      .page { width: 100%; }
+      header { display:flex; justify-content:space-between; align-items:flex-end; gap:18px; padding-bottom:8px; border-bottom:2px solid #5a4be7; margin-bottom:10px; }
+      .brand { color:#3847b2; font-size:16pt; font-weight:700; letter-spacing:-.02em; }
+      h1 { margin:0; font-size:15pt; font-weight:700; color:#1f2937; }
+      .meta { color:#6b7280; font-size:9pt; margin-top:3px; }
+      .weekly-linear-schedule { display:grid; grid-template-columns:54px repeat(5, minmax(0, 1fr)); gap:6px; align-items:stretch; width:100%; }
+      .weekly-linear-header { font-weight:800; color:#3d1459; text-align:center; padding:2px 2px 5px; border-bottom:1px solid #ded7cc; font-size:10pt; }
+      .weekly-time-rail, .weekly-day-rail { position:relative; height: 618px; border:1px solid #d9dfeb; border-radius:12px; background:#fffefb; overflow:hidden; }
+      .weekly-time-mark { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; font-size:8.5pt; color:#5b6b86; padding:0 0 0 4px; transform:translateY(-50%); line-height:1; }
+      .weekly-time-line { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; transform:translateY(-50%); pointer-events:none; }
+      .weekly-day-block { position:absolute; left:4px; right:4px; border-left:4px solid #6c5cf2; border-radius:10px; padding:4px 5px; background:white; box-shadow:0 1px 4px rgba(31,41,55,.08); overflow:hidden; font-size:8.8pt; line-height:1.13; color:#1f2937; }
+      .weekly-day-block strong { font-size:9pt; }
+      .weekly-day-block.office-block { color:#1f2937; }
+      .weekly-day-block.common-hour-block { background:#f5f1e8 !important; border-left-color:#c6a15b !important; color:#3d1459; }
+      footer { margin-top:8px; border-top:1px solid #e4e7ef; padding-top:5px; color:#85869a; font-size:8pt; }
+      @media print {
+        body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      }
+    </style></head><body><div class="page"><header><div><div class="brand">Acadence</div><div class="meta">Faculty semester planning tool</div></div><div><h1>${esc(title)}</h1><div class="meta">${esc(subtitle)}</div></div></header>${scheduleHtml}<footer>Generated by Acadence</footer></div><script>window.onload=()=>setTimeout(()=>window.print(),180); window.onafterprint=()=>window.close();<\/script></body></html>`);
+    popup.document.close();
   };
 
   window.exportTaskList = function() {
