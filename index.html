@@ -2933,6 +2933,71 @@
   }
 </style>
 
+
+<style id="acadence-dashboard-restoration">
+  .acadence-login-status:empty { display: none !important; }
+
+  body[data-planner-mode="dashboard"] .main-workspace {
+    display: block !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+  }
+  body[data-planner-mode="dashboard"] .left-stack,
+  body[data-planner-mode="dashboard"] .actions-stack,
+  body[data-planner-mode="dashboard"] .calendar-view-card,
+  body[data-planner-mode="dashboard"] #warnings,
+  body[data-planner-mode="dashboard"] #dashboard {
+    display: none !important;
+  }
+  body[data-planner-mode="dashboard"] main.calendar-workspace {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+  body[data-planner-mode="dashboard"] #viewRoot {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+  body[data-planner-mode="dashboard"] #viewRoot > .uni-dashboard {
+    display: grid !important;
+    width: 100% !important;
+  }
+
+  @media (max-width: 760px) {
+    body[data-planner-mode="dashboard"] .app {
+      padding-top: 14px !important;
+    }
+    body[data-planner-mode="dashboard"] .uni-welcome-row {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 12px !important;
+    }
+    body[data-planner-mode="dashboard"] .uni-welcome-actions {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      width: 100% !important;
+    }
+    body[data-planner-mode="dashboard"] .uni-welcome-actions button {
+      width: 100% !important;
+    }
+  }
+
+  @media (max-width: 430px) {
+    body[data-planner-mode="dashboard"] .uni-welcome-actions {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
+
 </head>
 <body class="auth-required">
 
@@ -2942,7 +3007,7 @@
       <h1>Acadence</h1>
       <p class="acadence-login-tagline">Faculty semester planning, organized in one place.</p>
       <button id="acadenceLoginButton" class="acadence-login-button" type="button" onclick="window.acadenceCloud?.signIn?.()">Sign in with Google</button>
-      <div id="acadenceLoginStatus" class="acadence-login-status" role="status">Checking your sign-in status…</div>
+      <div id="acadenceLoginStatus" class="acadence-login-status" role="status"></div>
             <p class="acadence-login-footnote">Sign in securely with your Google account.</p>
     </div>
   </section>
@@ -3367,7 +3432,7 @@ const COURSE_COLORS = ['#8064A2', '#5B6FA6', '#5B9BD5', '#4BACC6', '#70AD47', '#
 const OLD_COURSE_COLORS = ['#7030A0', '#4472C4', '#00B0F0', '#92D050', '#FFC000', '#C00000', '#A64D79', '#b8adb7', '#aeb4c8', '#9fb7c7', '#9bbfc0', '#a5bca8', '#b9bd98', '#c6b58f', '#c1a094', '#bd9c9c', '#b5a5bd', '#b7bdc6', '#4f46e5', '#0f766e', '#be123c', '#b45309', '#047857', '#7e22ce', '#0369a1', '#c2410c', '#bfdbfe', '#bbf7d0', '#fecdd3', '#fde68a', '#ddd6fe', '#bae6fd', '#fed7aa', '#ccfbf1', '#fbcfe8', '#e2e8f0', '#c4b5fd', '#a5b4fc', '#93c5fd', '#7dd3fc', '#5eead4', '#86efac', '#fdba74', '#fca5a5', '#f9a8d4', '#cbd5e1'];
 const BUILT_IN_TYPES = ['Quiz', 'Lab', 'Lecture Plan', 'Exam', 'Homework', 'Note'];
 const NUMBERED_TYPES_EXCEPT = new Set(['Note']);
-const DAY_NAMES = { M:'Mon', T:'Tue', W:'Wed', R:'Thu', F:'Fri' };
+const DAY_NAMES = { U:'Sun', M:'Mon', T:'Tue', W:'Wed', R:'Thu', F:'Fri', S:'Sat' };
 
 const PRE_SEMESTER_CHECKLIST = [
   { title: 'Semester Setup', items: [
@@ -3816,7 +3881,7 @@ function renderDashboardHome() {
     </article>`;
   }).join('') || `<div class="uni-empty">No classes yet. Open Actions to add your first class.</div>`;
 
-  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 4)));
+  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 6)));
   const weekTasks = buildTasksForWeek(weekStart);
   const weekHtml = weekDays.map(d => {
     const meetings = allMeetings(true).filter(m => m.date === d && !m.cancelled && !m.countExcluded).slice(0, 3);
@@ -5112,7 +5177,7 @@ function renderDashboardHome() {
     </article>`;
   }).join('') || `<div class="uni-empty">No classes yet. Use Add class in Course Overview to add your first course.</div>`;
 
-  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 4)));
+  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 6)));
   const weekTasks = buildTasksForWeek(weekStart);
   const weekHtml = weekDays.map(d => {
     const meetings = allMeetings(true).filter(m => m.date === d && !m.cancelled && !m.countExcluded).slice(0, 3);
@@ -5457,7 +5522,7 @@ function renderDashboardHome() {
       <div class="uni-course-actions no-print"><button class="small soft" onclick="editCourse('${c.id}')">Edit class</button></div>
     </article>`;
   }).join('') || `<div class="uni-empty">No classes yet. Use Add class in Course Overview to add your first course.</div>`;
-  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 4)));
+  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 6)));
   const weekTasks = buildTasksForWeek(weekStart);
   const weekHtml = weekDays.map(d => {
     const meetings = allMeetings(true).filter(m => m.date === d && !m.cancelled && !m.countExcluded).slice(0, 3);
@@ -6043,7 +6108,7 @@ function renderDashboardHome() {
       <div class="uni-course-actions no-print"><button class="small soft" onclick="editCourse('${c.id}')">Edit class</button><button class="small danger" onclick="deleteCourse('${c.id}')">Delete class</button></div>
     </article>`;
   }).join('') || `<div class="uni-empty">No classes yet. Use Add class in Course Overview to add your first course.</div>`;
-  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 4)));
+  const weekDays = dateRange(weekStart, iso(addDays(parseISO(weekStart), 6)));
   const weekTasks = buildTasksForWeek(weekStart);
   const weekHtml = weekDays.map(d => {
     const meetings = allMeetings(true).filter(m => m.date === d && !m.cancelled && !m.countExcluded).slice(0, 3);
@@ -6051,7 +6116,8 @@ function renderDashboardHome() {
     const rows = [];
     meetings.forEach(m => { const attached = eventsFor(d, m.course.id).slice(0,2).map(activityAbbrev).join(' · '); rows.push(`<div class="uni-week-item"><span><span class="uni-dot" style="background:${escapeHtml(m.course.color)}"></span> ${escapeHtml(shortCourseLabel(m.course))} ${attached ? '· ' + escapeHtml(attached) : '· Meeting ' + (m.count || '')}</span><small>${m.course.start ? formatTime(m.course.start) : ''}</small></div>`); });
     taskItems.forEach(t => rows.push(`<div class="uni-week-item"><span>☐ ${escapeHtml(t.text)}</span><small>${t.kind === 'grade' ? 'Grade' : 'Task'}</small></div>`));
-    return `<div class="uni-week-day"><div class="uni-week-date"><strong>${DAY_NAMES[dayLetter(d)].slice(0,3).toUpperCase()}</strong><span>${formatDate(d, false)}</span></div><div class="uni-week-items">${rows.join('') || '<span class="muted-copy">No items</span>'}</div></div>`;
+    const dayLabel = new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(parseISO(d)).toUpperCase();
+    return `<div class="uni-week-day"><div class="uni-week-date"><strong>${dayLabel}</strong><span>${formatDate(d, false)}</span></div><div class="uni-week-items">${rows.join('') || '<span class="muted-copy">No items</span>'}</div></div>`;
   }).join('');
   const important = [];
   Object.entries(sem.noClass || {}).forEach(([date, text]) => important.push([date, breakPillLabel(date), text]));
@@ -7117,7 +7183,7 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
     if (!currentUser) {
       window.acadenceProfile = null;
       setStatus('local', 'Sign in with Google to enter Acadence and synchronize your plan.');
-      setLoginScreen('Sign in with Google to continue.');
+      setLoginScreen('');
       return;
     }
 
