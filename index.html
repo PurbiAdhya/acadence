@@ -2996,6 +2996,28 @@
       grid-template-columns: 1fr !important;
     }
   }
+
+
+  /* Standalone weekly schedule and grouped external tools */
+  .helpful-tools-nav {
+    display: grid;
+    gap: 3px;
+    margin-top: 2px;
+  }
+  .helpful-tools-nav .side-link {
+    min-height: 36px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+  }
+  @media (min-width: 761px) and (max-width: 980px) {
+    .helpful-tools-nav {
+      display: grid;
+      align-items: stretch;
+      padding-left: 12px;
+      border-left: 1px solid rgba(255,255,255,.16);
+    }
+    .helpful-tools-nav .side-label { display: block; }
+  }
 </style>
 
 </head>
@@ -3033,6 +3055,7 @@
     </div>
     <button id="nav-dashboard" onclick="setView('dashboard')">⌂ <span>Dashboard</span></button>
     <button id="nav-planner" onclick="setView('monthly')">▣ <span>Planner</span></button>
+    <button id="nav-weeklySchedule" onclick="setView('weeklySchedule')">▦ <span>Weekly Schedule</span></button>
     <button id="nav-tasks" onclick="setView('tasks')">☑ <span>Tasks</span></button>
     <div class="side-subnav" aria-label="Checklist shortcuts">
       <div class="side-label">Checklists</div>
@@ -3040,7 +3063,13 @@
       <button id="nav-syllabusChecklist" class="side-subitem" onclick="setView('syllabusChecklist')">◦ <span>Syllabus</span></button>
     </div>
     <button id="nav-export" onclick="setView('export')">⇩ <span>Export</span></button>
-    <a class="side-link" href="https://purbiadhya.github.io/spring-hill-degree-planner/" target="_blank" rel="noopener">◎ <span>Degree Planner</span></a>
+    <div class="side-subnav helpful-tools-nav" aria-label="Other helpful tools">
+      <div class="side-label">Other Helpful Tools</div>
+      <a class="side-link" href="https://purbiadhya.github.io/spring-hill-degree-planner/" target="_blank" rel="noopener">◎ <span>Degree Planner</span></a>
+      <a class="side-link" href="https://github.com/PurbiAdhya/spring-hill-schedule-maker" target="_blank" rel="noopener">▤ <span>Schedule Maker</span></a>
+      <a class="side-link" href="https://springhill.instructure.com/" target="_blank" rel="noopener">◫ <span>Canvas</span></a>
+      <a class="side-link" href="https://badgerweb.shc.edu/ICS" target="_blank" rel="noopener">◇ <span>Badgerweb</span></a>
+    </div>
     <div class="side-spacer"></div>
     <button id="nav-account" onclick="setView('account')">◌ <span>Account</span></button>
   </nav>
@@ -6025,16 +6054,17 @@ function deleteCourse(courseId) {
   saveState(); render();
 }
 function updateSideNavActive() {
-  const ids = ['dashboard','planner','tasks','preSemester','syllabusChecklist','progress','export','account'];
+  const ids = ['dashboard','planner','weeklySchedule','tasks','preSemester','syllabusChecklist','progress','export','account'];
   ids.forEach(id => { const el = document.getElementById('nav-' + id); if (el) el.classList.remove('active'); });
   const view = state.currentView;
   let active = 'planner';
   if (view === 'dashboard') active = 'dashboard';
+  else if (view === 'weeklySchedule') active = 'weeklySchedule';
   else if (view === 'tasks') active = 'tasks';
   else if (view === 'preSemesterChecklist') active = 'preSemester';
   else if (view === 'syllabusChecklist') active = 'syllabusChecklist';
   else if (view === 'ratings') active = 'progress';
-  else if (view === 'weeklySchedule' || view === 'export') active = 'export';
+  else if (view === 'export') active = 'export';
   else if (view === 'account') active = 'account';
   const el = document.getElementById('nav-' + active);
   if (el) el.classList.add('active');
