@@ -5026,6 +5026,8 @@ function renderRatingsView() {
 function finalDateMap() { const map = {}; const filters = courseFilterIds(); for (const c of semState().courses) { if (filters.length && !filters.includes(c.id)) continue; const rule = selectedFinalRule(c); if (rule) { if (!map[rule.date]) map[rule.date] = []; map[rule.date].push({ course: c, rule }); } } return map; }
 function renderFinalsView() {
   const sem = DATA[state.selectedSemester];
+  const finalIssues = typeof finalConflictMessages === 'function' ? finalConflictMessages() : [];
+  const finalIssueHtml = finalIssues.length ? `<div class="warning-item final-resolution-warning"><strong>Final exam items to resolve</strong><ul>${finalIssues.map(message => `<li>${escapeHtml(message)}</li>`).join('')}</ul><span>Choose an available final time below when multiple options are provided. For fixed-time conflicts, contact the Registrar to arrange an approved alternative.</span></div>` : '';
   const courseRows = semState().courses.map(c => {
     const options = finalExamOptions(c);
     const chosen = selectedFinalRule(c);
@@ -5038,7 +5040,7 @@ function renderFinalsView() {
     else examHtml = '<span class="pill holiday">No automatic match loaded</span>';
     return `<tr><td><strong>${escapeHtml(c.code)}</strong><br><span style="color:var(--muted);">${escapeHtml(c.title || '')}${c.credits ? ' · ' + escapeHtml(c.credits) + ' cr.' : ''}</span></td><td>${escapeHtml(displayPattern(c.pattern))}</td><td>${c.start ? formatTime(c.start) : '—'}</td><td>${examHtml}</td></tr>`;
   }).join('');
-  return `<section><h2>Final Exams</h2>${sem.finalExamRules.length ? '<p style="color:var(--muted);">Showing only final exam matches for your classes. Choose among multiple options when the schedule produces more than one match.</p>' : '<div class="warning-item">Detailed final exam schedule has not been loaded for this semester yet.</div>'}<div class="card"><h3>Your class finals</h3><table><thead><tr><th>Class</th><th>Pattern</th><th>Start</th><th>Final exam</th></tr></thead><tbody>${courseRows || '<tr><td colspan="4" style="color:var(--muted);">Add a class to see final exams.</td></tr>'}</tbody></table></div></section>`;
+  return `<section><h2>Final Exams</h2>${finalIssueHtml}${sem.finalExamRules.length ? '<p style="color:var(--muted);">Showing only final exam matches for your classes. Choose among multiple options when the schedule produces more than one match.</p>' : '<div class="warning-item">Detailed final exam schedule has not been loaded for this semester yet.</div>'}<div class="card"><h3>Your class finals</h3><table><thead><tr><th>Class</th><th>Pattern</th><th>Start</th><th>Final exam</th></tr></thead><tbody>${courseRows || '<tr><td colspan="4" style="color:var(--muted);">Add a class to see final exams.</td></tr>'}</tbody></table></div></section>`;
 }
 
 function generalWeeklyItemsByDay() {
@@ -5914,6 +5916,7 @@ function renderExportView() {
         <div class="export-item-row"><div><strong>Daily plan</strong><small>Current selected day.</small></div><button class="soft" onclick="exportPlannerPdf('daily')">Export as PDF</button></div>
       </div>
       <div class="export-card"><h3>Weekly Faculty Schedule</h3><p>Monday-Friday weekly schedule with office hours. Holidays are intentionally omitted.</p><div class="export-item-row"><div><strong>Weekly schedule</strong><small>Classes and office hours.</small></div><button class="soft pdf-only" onclick="exportWeeklyGeneralPdf()">Export as PDF</button></div><button class="soft" onclick="setView('weeklySchedule')">Edit schedule</button></div>
+      <div class="export-card"><h3>Class Calendar</h3><p>Export each class as a recurring calendar series. In your calendar app, choose “all events in the series” when changing the time, location, reminders, or other details.</p><div class="export-item-row"><div><strong>Recurring classes (.ics)</strong><small>Includes semester end dates and excludes holidays, partial closures, and cancelled meetings.</small></div><button class="soft" onclick="exportClassesIcs()">Export .ics</button></div></div>
       <div class="export-card"><h3>Task List</h3><p>Generated task list for the current selected week.</p><div class="export-item-row"><div><strong>Task list</strong><small>Preparation tasks, grading reminders, and grade deadlines.</small></div><button class="soft" onclick="exportTaskList()">Export as PDF</button></div><button class="soft" onclick="setView('tasks')">View tasks</button></div>
       <div class="export-card"><h3>Checklists</h3><p>Export checklist progress as PDF files.</p><div class="export-item-row"><div><strong>Pre-semester checklist</strong><small>General semester setup checklist.</small></div><button class="soft" onclick="exportChecklist('preSemester')">Export as PDF</button></div><div class="export-item-row"><div><strong>Syllabus checklist</strong><small>SHC syllabus checklist.</small></div><button class="soft" onclick="exportChecklist('syllabus')">Export as PDF</button></div></div>
       <div class="export-card"><h3>Full Plan Data</h3><p>Download or import the JSON plan file for backup or transfer to another browser.</p><div class="export-button-row"><button class="soft" onclick="exportData()">Download JSON plan</button><label class="import-chip" style="color:#18203a;background:#fff; border-color:#dfe3ef;">Import JSON <input id="importFileExport" type="file" accept="application/json" onchange="importData(event)" /></label></div></div>
@@ -6200,8 +6203,11 @@ function renderDashboardHome() {
   (sem.important || []).forEach(([date, text]) => important.push([date, academicPillLabel(text), text]));
   const academicRows = important.filter(([date]) => date >= today || (today < sem.start && date >= sem.start)).sort((a,b) => a[0].localeCompare(b[0])).slice(0, 7).map(([date, short, full], idx) => `<div class="uni-side-row"><span class="date">${formatDate(date, false)}</span><div><strong>${escapeHtml(short)}</strong><small>${escapeHtml(full)}</small></div><span class="uni-status ${idx < 2 ? 'done' : 'soon'}"></span></div>`).join('') || '<div class="uni-empty">No upcoming academic calendar items.</div>';
   const alertList = [];
-  const finalsNeedingChoice = s.courses.filter(c => finalExamOptions(c).length > 1 && !selectedFinalRule(c)).length;
-  if (finalsNeedingChoice) alertList.push(`<div class="uni-alert warn"><span>${finalsNeedingChoice} class${finalsNeedingChoice === 1 ? '' : 'es'} need a final exam choice.</span></div>`);
+  const finalIssues = typeof finalConflictMessages === 'function' ? finalConflictMessages() : [];
+  if (finalIssues.length) {
+    const issueSummary = finalIssues.slice(0, 2).join(' · ') + (finalIssues.length > 2 ? ` · +${finalIssues.length - 2} more` : '');
+    alertList.push(`<div class="uni-alert warn final-conflict-alert"><span><strong>Final exam warning:</strong> ${escapeHtml(issueSummary)}</span><button type="button" class="small soft no-print" onclick="setView('finals')">Resolve in Final Exams</button></div>`);
+  }
   const holidayEvents = s.events.filter(e => isFullNoClass(e.date)).length;
   if (holidayEvents) alertList.push(`<div class="uni-alert warn"><span>${holidayEvents} activit${holidayEvents === 1 ? 'y is' : 'ies are'} scheduled during a break/holiday.</span></div>`);
   if (p.toGo) alertList.push(`<div class="uni-alert ok"><span>${p.toGo} counted class meeting${p.toGo === 1 ? '' : 's'} remaining this semester.</span></div>`);
@@ -6896,7 +6902,7 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
       .weekly-time-rail, .weekly-day-rail { position:relative; height: 618px; overflow:hidden; }
       .weekly-time-rail { border:0; border-radius:0; background:transparent; }
       .weekly-day-rail { border:1px solid #d9dfeb; border-radius:12px; background:#fffefb; }
-      .weekly-time-mark { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; font-size:8.5pt; color:#5b6b86; padding:0 0 0 4px; transform:translateY(-50%); line-height:1; }
+      .weekly-time-mark { position:absolute; left:0; right:0; border-top:0; font-size:8.5pt; color:#5b6b86; padding:0 0 0 4px; transform:translateY(-50%); line-height:1; }
       .weekly-time-line { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; transform:translateY(-50%); pointer-events:none; }
       .weekly-day-block { position:absolute; left:4px; right:4px; border-left:4px solid #6c5cf2; border-radius:10px; padding:4px 5px; background:white; box-shadow:0 1px 4px rgba(31,41,55,.08); overflow:hidden; font-size:8.8pt; line-height:1.13; color:#1f2937; }
       .weekly-day-block strong { font-size:9pt; }
@@ -7301,6 +7307,155 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
     enterApp();
     try { render(); } catch (e) {}
   });
+</script>
+
+
+<style id="acadence-final-conflict-actions">
+  .uni-alert.final-conflict-alert { flex-wrap: wrap; align-items: center; }
+  .uni-alert.final-conflict-alert > span { flex: 1 1 220px; }
+  .uni-alert.final-conflict-alert button { margin-left: auto; white-space: nowrap; }
+  .final-resolution-warning ul { margin: 8px 0; padding-left: 22px; }
+  .final-resolution-warning li { margin: 4px 0; }
+</style>
+<script id="acadence-ics-export">
+(function () {
+  const ICS_TIMEZONE = 'America/Chicago';
+  const ICS_DAY_CODES = { M:'MO', T:'TU', W:'WE', R:'TH', F:'FR' };
+
+  function icsEscape(value) {
+    return String(value ?? '')
+      .replace(/\\/g, '\\\\')
+      .replace(/\r?\n/g, '\\n')
+      .replace(/,/g, '\\,')
+      .replace(/;/g, '\\;');
+  }
+
+  function icsDateTime(dateIso, time) {
+    return `${String(dateIso).replace(/-/g, '')}T${String(time).replace(':', '')}00`;
+  }
+
+  function icsTimestamp() {
+    return new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  }
+
+  function foldIcsLine(line) {
+    const pieces = [];
+    let remaining = String(line);
+    while (remaining.length > 72) {
+      pieces.push(remaining.slice(0, 72));
+      remaining = ' ' + remaining.slice(72);
+    }
+    pieces.push(remaining);
+    return pieces.join('\r\n');
+  }
+
+  function downloadIcs(filename, lines) {
+    const content = lines.map(foldIcsLine).join('\r\n') + '\r\n';
+    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+  }
+
+  function exceptionLines(excludedDates, time) {
+    const dateTimes = excludedDates.map(date => icsDateTime(date, time));
+    const lines = [];
+    for (let i = 0; i < dateTimes.length; i += 5) {
+      lines.push(`EXDATE;TZID=${ICS_TIMEZONE}:${dateTimes.slice(i, i + 5).join(',')}`);
+    }
+    return lines;
+  }
+
+  window.exportClassesIcs = function exportClassesIcs() {
+    const sem = DATA[state.selectedSemester];
+    const courses = semState().courses.filter(course => course.pattern && course.start && course.end);
+    if (!courses.length) {
+      alert('Add at least one class with meeting days, a start time, and an end time before exporting the calendar.');
+      return;
+    }
+
+    const stamp = icsTimestamp();
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Acadence//Faculty Class Schedule//EN',
+      'CALSCALE:GREGORIAN',
+      'METHOD:PUBLISH',
+      `X-WR-CALNAME:${icsEscape(`Acadence - ${sem.label} Classes`)}`,
+      `X-WR-TIMEZONE:${ICS_TIMEZONE}`,
+      'BEGIN:VTIMEZONE',
+      `TZID:${ICS_TIMEZONE}`,
+      `X-LIC-LOCATION:${ICS_TIMEZONE}`,
+      'BEGIN:DAYLIGHT',
+      'TZOFFSETFROM:-0600',
+      'TZOFFSETTO:-0500',
+      'TZNAME:CDT',
+      'DTSTART:19700308T020000',
+      'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU',
+      'END:DAYLIGHT',
+      'BEGIN:STANDARD',
+      'TZOFFSETFROM:-0500',
+      'TZOFFSETTO:-0600',
+      'TZNAME:CST',
+      'DTSTART:19701101T020000',
+      'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU',
+      'END:STANDARD',
+      'END:VTIMEZONE'
+    ];
+
+    let exported = 0;
+    for (const course of courses) {
+      const activeMeetings = generateMeetings(course, false);
+      if (!activeMeetings.length) continue;
+      const firstDate = activeMeetings[0].date;
+      const allSeriesDates = dateRange(firstDate, sem.lastClass).filter(date => courseMeetsDate(course, date));
+      if (!allSeriesDates.length) continue;
+      const activeDates = new Set(activeMeetings.map(meeting => meeting.date));
+      const excludedDates = allSeriesDates.filter(date => !activeDates.has(date));
+      const byDay = patternLetters(course.pattern).map(day => ICS_DAY_CODES[day]).filter(Boolean).join(',');
+      if (!byDay) continue;
+
+      const summary = `${course.code}${course.title ? ` ${course.title}` : ''}`.trim();
+      const description = [
+        sem.label,
+        `Meeting pattern: ${displayPattern(course.pattern)}`,
+        'Recurring class series exported by Acadence. Edit all events in the series in your calendar app to apply a change to every class meeting.'
+      ].join('\n');
+      const stableCourseId = String(course.id || `${course.code}-${course.pattern}-${course.start}`).replace(/[^A-Za-z0-9_.-]/g, '-');
+
+      lines.push(
+        'BEGIN:VEVENT',
+        `UID:${stableCourseId}-${state.selectedSemester}@acadence.local`,
+        `DTSTAMP:${stamp}`,
+        `DTSTART;TZID=${ICS_TIMEZONE}:${icsDateTime(firstDate, course.start)}`,
+        `DTEND;TZID=${ICS_TIMEZONE}:${icsDateTime(firstDate, course.end)}`,
+        `RRULE:FREQ=WEEKLY;COUNT=${allSeriesDates.length};BYDAY=${byDay}`,
+        ...exceptionLines(excludedDates, course.start),
+        `SUMMARY:${icsEscape(summary)}`,
+        `DESCRIPTION:${icsEscape(description)}`,
+        `LOCATION:${icsEscape(course.room || '')}`,
+        'CATEGORIES:Class',
+        'STATUS:CONFIRMED',
+        'TRANSP:OPAQUE',
+        'END:VEVENT'
+      );
+      exported += 1;
+    }
+
+    if (!exported) {
+      alert('No active recurring class meetings were available to export.');
+      return;
+    }
+
+    lines.push('END:VCALENDAR');
+    const safeSemester = String(state.selectedSemester || 'semester').replace(/[^A-Za-z0-9_-]/g, '-');
+    downloadIcs(`acadence-classes-${safeSemester}.ics`, lines);
+  };
+})();
 </script>
 
 </body>
