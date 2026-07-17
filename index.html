@@ -758,6 +758,7 @@ courseModal=function(prefill={}){
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import {getAuth,GoogleAuthProvider,signInWithPopup,signOut,onAuthStateChanged,setPersistence,inMemoryPersistence} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import {getFirestore,doc,getDoc,setDoc,collection,getDocs,writeBatch,serverTimestamp} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {getStorage,ref as storageRef,uploadString,getBytes} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
 
 const firebaseConfig={
  apiKey:"AIzaSyDLvnRnTfaDTN_AJW2AvD_Ao0bQvRz7yM0",
@@ -768,7 +769,7 @@ const firebaseConfig={
  appId:"1:974556600911:web:1b8827f884b752c764283a",
  measurementId:"G-PF0CDZQKNB"
 };
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),provider=new GoogleAuthProvider();
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app),storage=getStorage(app),provider=new GoogleAuthProvider();
 provider.setCustomParameters({prompt:'select_account'});
 const ADMIN_EMAIL='padhya@shc.edu';
 let user=null,cloudReady=false,pending=null,saveTimer=null;
@@ -776,14 +777,18 @@ let user=null,cloudReady=false,pending=null,saveTimer=null;
 const bridge=()=>window.acadenceBridge;
 function profile(u){return {name:u?.displayName||u?.email?.split('@')[0]||'Acadence user',email:u?.email||'',photoURL:u?.photoURL||''}}
 function planRef(){return user?doc(db,'users',user.uid,'apps','acadence-redesign'):null}
+function backupRef(){return user?storageRef(storage,`acadenceBackups/${user.uid}/planner.json`):null}
 function isAdminUser(u=user){return Boolean(u?.emailVerified&&String(u?.email||'').toLowerCase()===ADMIN_EMAIL)}
 function calendarCollection(){return collection(db,'acadenceAcademicCalendars')}
 async function loadAcademicCalendars(){if(!user)return;const snap=await getDocs(calendarCollection()),calendars={};snap.forEach(calendarSnap=>{const data=calendarSnap.data()||{};calendars[calendarSnap.id]={label:data.label||calendarSnap.id,start:data.start,lastClass:data.lastClass,finalsStart:data.finalsStart,finalsEnd:data.finalsEnd,finalGradesDue:data.finalGradesDue,noClass:data.noClass||{},onlineDays:data.onlineDays||{},partialNoClass:data.partialNoClass||{},important:Array.isArray(data.important)?data.important:[],finalExamRules:Array.isArray(data.finalExamRules)?data.finalExamRules:[]}});bridge().applySharedCalendars(calendars);return calendars}
 async function uploadAcademicCalendars(calendars){if(!isAdminUser())throw new Error('Only padhya@shc.edu can publish academic calendars.');const entries=Object.entries(calendars||{});if(!entries.length)throw new Error('No calendars were found in the upload.');const batch=writeBatch(db),now=Date.now();for(const [id,calendar] of entries){batch.set(doc(db,'acadenceAcademicCalendars',id),{...calendar,calendarId:id,schemaVersion:3,updatedAt:serverTimestamp(),updatedAtMs:now,updatedBy:user.email},{merge:false})}await batch.commit();await loadAcademicCalendars();return entries.length}
 function status(state,message,time=null){bridge()?.setSyncStatus?.({state,message,time})}
-async function writeCloud(next){const ref=planRef();if(!ref||!cloudReady)return;const now=Date.now();status('syncing','Saving…');await setDoc(ref,{state:next,profile:profile(user),schemaVersion:3,updatedAt:serverTimestamp(),updatedAtMs:now},{merge:true});status('synced','Saved',now)}
+async function writeStorageCopy(next,now){const ref=backupRef();if(!ref)return false;await uploadString(ref,JSON.stringify({state:next,profile:profile(user),schemaVersion:3,updatedAtMs:now}),'raw',{contentType:'application/json'});return true}
+async function writeCloud(next){const ref=planRef();if(!ref||!cloudReady)return;const now=Date.now();status('syncing','Saving…');let firestoreSaved=false,storageSaved=false;try{await setDoc(ref,{state:next,profile:profile(user),schemaVersion:3,updatedAt:serverTimestamp(),updatedAtMs:now},{merge:true});firestoreSaved=true}catch(error){console.warn('Firestore save failed; trying the secondary cloud copy.',error)}try{storageSaved=await writeStorageCopy(next,now)}catch(error){console.warn('Cloud Storage backup failed.',error)}if(!firestoreSaved&&!storageSaved)throw new Error('Neither cloud destination accepted the save.');status('synced','Saved',now)}
 function queueSave(next){pending=next;if(!user||!cloudReady){status('error',user?'Waiting for cloud…':'Sign in required');return}clearTimeout(saveTimer);status('syncing','Saving…');saveTimer=setTimeout(async()=>{const copy=pending;pending=null;try{await writeCloud(copy)}catch(error){console.error('Acadence cloud save failed',error);pending=copy;status('error','Unable to save')}} ,700)}
-async function loadCloud(){const ref=planRef();if(!ref)return;status('syncing','Loading cloud plan…');const snap=await getDoc(ref);cloudReady=true;if(snap.exists()&&snap.data()?.state){const data=snap.data();bridge().applyCloudState(data.state,Number(data.updatedAtMs||data.updatedAt?.toMillis?.()||Date.now()));status('synced','Loaded',Number(data.updatedAtMs||Date.now()))}else{await writeCloud(bridge().getState());status('synced','Plan created',Date.now())}}
+async function readFirestoreCopy(){const ref=planRef();if(!ref)return null;const snap=await getDoc(ref);if(!snap.exists()||!snap.data()?.state)return null;const data=snap.data();return {state:data.state,updatedAtMs:Number(data.updatedAtMs||data.updatedAt?.toMillis?.()||0),source:'firestore'}}
+async function readStorageCopy(){const ref=backupRef();if(!ref)return null;const bytes=await getBytes(ref,2*1024*1024);const data=JSON.parse(new TextDecoder().decode(bytes));if(!data?.state)return null;return {state:data.state,updatedAtMs:Number(data.updatedAtMs||0),source:'storage'}}
+async function loadCloud(){if(!planRef())return;status('syncing','Loading cloud plan…');const results=await Promise.allSettled([readFirestoreCopy(),readStorageCopy()]);const copies=results.filter(result=>result.status==='fulfilled'&&result.value?.state).map(result=>result.value).sort((a,b)=>b.updatedAtMs-a.updatedAtMs);cloudReady=true;if(copies.length){const newest=copies[0];bridge().applyCloudState(newest.state,newest.updatedAtMs||Date.now());status('synced','Loaded',newest.updatedAtMs||Date.now());if(newest.source==='storage'){writeCloud(newest.state).catch(error=>console.warn('Could not refresh Firestore from the backup copy.',error))}}else{await writeCloud(bridge().getState());status('synced','Plan created',Date.now())}}
 async function signInUser(){if(location.protocol==='file:'){bridge().showLogin('Google sign-in requires Acadence to be published on an authorized HTTPS domain.',true);return}try{bridge().showLogin('Opening Google sign-in…');await signInWithPopup(auth,provider)}catch(error){console.error('Google sign-in failed',error);const cancelled=['auth/popup-closed-by-user','auth/cancelled-popup-request'].includes(error?.code);bridge().showLogin(cancelled?'Sign-in was cancelled.':'Google sign-in could not be completed. Check the Firebase authorized domains and try again.',!cancelled)}}
 async function signOutUser(){try{clearTimeout(saveTimer);if(pending&&user&&cloudReady)await writeCloud(pending);pending=null;await signOut(auth)}catch(error){console.error('Sign-out failed',error);status('error','Sign-out failed')}}
 window.acadenceCloud={queueSave,signIn:signInUser,signOut:signOutUser,uploadAcademicCalendars,refreshAcademicCalendars:loadAcademicCalendars};
