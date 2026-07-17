@@ -3020,6 +3020,52 @@
   }
 </style>
 
+
+  <style id="acadence-ui-cleanup-20260716">
+    /* Weekly schedule: keep the time labels open, without a surrounding rail box. */
+    .weekly-time-rail {
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* Planner selected day: use only the meeting cards as enclosures. */
+    body[data-planner-mode="calendar"] .selected-day-card.planner-selected-day {
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+    .planner-selected-day .selected-day-panel {
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    .planner-selected-day .selected-day-panel > h2 {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* Make the navigation symbols more prominent without enlarging the labels. */
+    .app-sidebar button,
+    .app-sidebar a.side-link {
+      font-size: 20px !important;
+      line-height: 1 !important;
+    }
+    .app-sidebar button span,
+    .app-sidebar a.side-link span {
+      font-size: 13px !important;
+      line-height: 1.25 !important;
+    }
+    .app-sidebar button.side-subitem {
+      font-size: 18px !important;
+    }
+  </style>
 </head>
 <body class="auth-required">
 
@@ -6847,7 +6893,9 @@ try { if (document.readyState !== 'loading') render(); } catch (e) {}
       .meta { color:#6b7280; font-size:9pt; margin-top:3px; }
       .weekly-linear-schedule { display:grid; grid-template-columns:54px repeat(5, minmax(0, 1fr)); gap:6px; align-items:stretch; width:100%; }
       .weekly-linear-header { font-weight:800; color:#3d1459; text-align:center; padding:2px 2px 5px; border-bottom:1px solid #ded7cc; font-size:10pt; }
-      .weekly-time-rail, .weekly-day-rail { position:relative; height: 618px; border:1px solid #d9dfeb; border-radius:12px; background:#fffefb; overflow:hidden; }
+      .weekly-time-rail, .weekly-day-rail { position:relative; height: 618px; overflow:hidden; }
+      .weekly-time-rail { border:0; border-radius:0; background:transparent; }
+      .weekly-day-rail { border:1px solid #d9dfeb; border-radius:12px; background:#fffefb; }
       .weekly-time-mark { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; font-size:8.5pt; color:#5b6b86; padding:0 0 0 4px; transform:translateY(-50%); line-height:1; }
       .weekly-time-line { position:absolute; left:0; right:0; border-top:1px solid #e6edf6; transform:translateY(-50%); pointer-events:none; }
       .weekly-day-block { position:absolute; left:4px; right:4px; border-left:4px solid #6c5cf2; border-radius:10px; padding:4px 5px; background:white; box-shadow:0 1px 4px rgba(31,41,55,.08); overflow:hidden; font-size:8.8pt; line-height:1.13; color:#1f2937; }
