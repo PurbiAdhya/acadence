@@ -2649,5 +2649,211 @@ body.intuitive-before-classes #addButton{display:none!important}
 })();
 </script>
 
+<style id="acadence-syllabus-workflow-refinement-styles">
+/* Larger, easier-to-scan setup navigation. */
+.clean-stepper{grid-template-columns:repeat(7,minmax(118px,1fr));gap:8px}
+.clean-step{min-height:76px;padding:11px 10px}
+.clean-step-number{width:28px;height:28px;font-size:11px}
+.clean-step-copy strong{font-size:13px;line-height:1.2}
+.clean-step-copy small{font-size:10.5px;line-height:1.25;margin-top:4px}
+.clean-setup-card-head h2{font-size:20px}
+.clean-setup-card-head p{font-size:12.5px}
+
+/* Activities sit visually inside their class in month view. */
+.month-course-event{padding:5px 6px;white-space:normal;line-height:1.2}
+.month-course-event .month-course-name{display:block;font-size:9.5px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.month-course-event .month-course-activity{display:block;margin-top:3px;padding-top:3px;border-top:1px solid color-mix(in srgb,var(--course) 24%,#e8e8ef);font-size:9px;font-weight:750;color:#37364a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.month-course-event .month-course-activity:before{content:'• ';color:var(--course)}
+
+/* Bite-sized setup content. */
+.flow-activity-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.flow-activity-card{border:1px solid var(--line);border-left:4px solid var(--course);border-radius:12px;padding:12px;background:#fff}
+.flow-activity-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.flow-activity-card h3{margin:0;font-size:13px}.flow-activity-card small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+.flow-activity-count{min-width:27px;height:27px;border-radius:9px;display:grid;place-items:center;background:color-mix(in srgb,var(--course) 12%,#fff);color:var(--course);font-size:11px;font-weight:900}
+.flow-quick-types{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}.flow-quick-types button{border:1px solid #dedbea;background:#fafafe;border-radius:8px;padding:6px 8px;font-size:10px;font-weight:800;color:#514a75}.flow-quick-types button:hover{border-color:var(--course);background:color-mix(in srgb,var(--course) 7%,#fff)}
+.flow-activity-list{display:grid;gap:6px;margin-top:10px}.flow-activity-row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:8px;background:#f8f8fb}.flow-activity-row strong{font-size:10.5px}.flow-activity-row span{margin-left:auto;color:var(--muted);font-size:9px}
+
+/* Setup checklists: readable and calm. */
+.setup-checklist-card{border:1px solid var(--line);border-radius:13px;overflow:hidden;background:#fff}
+.setup-checklist-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px;background:#fafafe;border-bottom:1px solid var(--line)}
+.setup-checklist-head strong{font-size:15px}.setup-checklist-head span{font-size:11px;color:var(--muted);font-weight:750}
+.setup-checklist{display:grid}.setup-checklist .check-item{min-height:58px;padding:13px 15px;margin:0;border-bottom:1px solid var(--line);align-items:center;font-size:14px;line-height:1.35}
+.setup-checklist .check-item:last-child{border-bottom:0}.setup-checklist .check-item input{width:20px;height:20px;flex:0 0 auto}
+/* Also improve the utility copies of these checklists. */
+.more-panel .check-item{min-height:58px;padding:14px 4px;font-size:14px;line-height:1.4}.more-panel .check-item input{width:20px;height:20px}
+
+/* Important dates per course. */
+.important-dates-shell{display:grid;gap:14px}.important-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:13px 15px;border:1px solid var(--line);border-radius:13px;background:#fff}
+.important-toolbar-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.important-toolbar label{font-size:11px;font-weight:850;color:var(--muted)}.important-toolbar select{width:auto;min-width:220px}
+.important-course-card{padding:0;overflow:hidden}.important-course-head{padding:17px 18px;border-left:6px solid var(--course);background:linear-gradient(110deg,color-mix(in srgb,var(--course) 9%,#fff),#fff 72%)}
+.important-course-head h2{margin:0;font-size:19px}.important-course-head p{margin:4px 0 0;color:var(--muted);font-size:11px}
+.important-date-list{display:grid}.important-date-row{display:grid;grid-template-columns:125px 100px minmax(0,1fr);gap:12px;align-items:center;padding:12px 17px;border-top:1px solid var(--line)}
+.important-date-row time{font-size:11px;font-weight:850;color:#4f427e}.important-date-kind{display:inline-flex;width:max-content;border-radius:999px;padding:4px 8px;background:#f0edff;color:#5138c7;font-size:9px;font-weight:900}.important-date-kind.holiday{background:#fff0df;color:#8a450f}.important-date-kind.activity{background:#eaf8f0;color:#217a4c}.important-date-kind.final{background:#fff0ee;color:#9b2d24}.important-date-row strong{font-size:12px}.important-date-row small{display:block;margin-top:3px;color:var(--muted);font-size:10px}
+
+/* Dedicated print sheets. */
+.acadence-print-sheet{display:none}.print-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.print-day{border:1px solid #cfcfd8;border-radius:9px;overflow:hidden;min-height:300px}.print-day-head{padding:8px;background:#f3f2f7;font-size:11px;font-weight:900;text-align:center}.print-day-body{padding:7px}.print-item{border-left:3px solid var(--course,#6c56d8);padding:6px 7px;margin-bottom:6px;border-radius:5px;background:#f8f8fb}.print-item strong{display:block;font-size:10px}.print-item small{display:block;margin-top:2px;font-size:8.5px;color:#555}.print-item .print-activity{display:block;margin-top:4px;padding-top:4px;border-top:1px solid #ddd;font-size:8.5px;font-weight:700}
+.print-important-table{width:100%;border-collapse:collapse}.print-important-table th,.print-important-table td{border-bottom:1px solid #d9d9df;padding:8px;text-align:left;font-size:10px}.print-important-table th{background:#f3f2f7;font-size:9px;text-transform:uppercase;letter-spacing:.05em}
+@media print{
+  @page{size:landscape;margin:.42in}
+  body.acadence-special-print .app-shell,body.acadence-special-print .bottom-nav,body.acadence-special-print .auth-gate,body.acadence-special-print .toast,body.acadence-special-print .modal-backdrop,body.acadence-special-print .drawer-backdrop,body.acadence-special-print .day-drawer{display:none!important}
+  body.acadence-special-print .acadence-print-sheet{display:block!important;position:static;background:#fff;color:#111;padding:0;font-family:Arial,sans-serif}
+  .acadence-print-title{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;border-bottom:2px solid #222;padding-bottom:9px;margin-bottom:14px}.acadence-print-title h1{margin:0;font-size:21px}.acadence-print-title p{margin:3px 0 0;font-size:10px;color:#555}.acadence-print-title span{font-size:10px;color:#555;text-align:right}
+  .print-week-grid{gap:6px}.print-day{break-inside:avoid;min-height:5.9in}.print-day-head{font-size:10px}.print-item{break-inside:avoid}
+}
+@media(max-width:1180px){.clean-stepper{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:860px){.flow-activity-grid{grid-template-columns:1fr}.important-date-row{grid-template-columns:100px 85px minmax(0,1fr)}}
+@media(max-width:650px){.clean-stepper{grid-template-columns:1fr 1fr}.important-date-row{grid-template-columns:1fr;gap:5px}.important-toolbar select{min-width:0;width:100%}.important-toolbar-left{width:100%}}
+</style>
+<style id="acadence-larger-dashboard-flow-text">
+.clean-dashboard-path{grid-template-columns:repeat(7,minmax(0,1fr))}
+.clean-dashboard-path span{font-size:10.5px;padding:9px 8px}
+.clean-dashboard-cta strong{font-size:16px}.clean-dashboard-cta small{font-size:11px}
+@media(max-width:980px){.clean-dashboard-path{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:620px){.clean-dashboard-path{grid-template-columns:repeat(2,1fr)}}
+</style>
+<script id="acadence-syllabus-workflow-refinement-script">
+(function(){
+  const courses=()=>Array.isArray(state.courses)?state.courses.filter(c=>c.type!=='block'):[];
+  const blocks=()=>Array.isArray(state.courses)?state.courses.filter(c=>c.type==='block'):[];
+  const absences=()=>Array.isArray(state.plannedAbsences)?state.plannedAbsences:[];
+  const activities=()=>Array.isArray(state.activities)?state.activities:[];
+  const FLOW_STEPS=[
+    {id:'classes',label:'Classes',hint:'Courses & finals',icon:'book'},
+    {id:'office',label:'Office hours',hint:'Student availability',icon:'clock'},
+    {id:'absences',label:'Absences',hint:'Known time away',icon:'calendarPlus'},
+    {id:'preview',label:'Weekly preview',hint:'Check the schedule',icon:'calendar'},
+    {id:'activities',label:'Activities',hint:'Exams, quizzes & labs',icon:'spark'},
+    {id:'semesterChecklist',label:'Pre-semester',hint:'Course readiness',icon:'check'},
+    {id:'syllabusChecklist',label:'Syllabus',hint:'Ready to publish',icon:'list'}
+  ];
+  function meta(){
+    state.cleanSetupMeta=state.cleanSetupMeta&&typeof state.cleanSetupMeta==='object'?state.cleanSetupMeta:{};
+    const m=state.cleanSetupMeta[state.selectedSemester]||(state.cleanSetupMeta[state.selectedSemester]={});
+    if(!FLOW_STEPS.some(step=>step.id===m.step))m.step='classes';
+    return m;
+  }
+  function step(){return meta().step||'classes'}
+  function checklist(kind){
+    state.checklists=state.checklists&&typeof state.checklists==='object'?state.checklists:{};
+    state.checklists[kind]=Array.isArray(state.checklists[kind])?state.checklists[kind]:[];
+    return state.checklists[kind];
+  }
+  function done(id){
+    const m=meta();
+    if(id==='classes')return courses().length>0;
+    if(id==='office')return blocks().length>0||Boolean(m.officeSkipped);
+    if(id==='absences')return absences().length>0||Boolean(m.absencesSkipped);
+    if(id==='preview')return Boolean(m.previewSeen);
+    if(id==='activities')return activities().length>0||Boolean(m.activitiesSkipped);
+    if(id==='semesterChecklist')return checklist('semester').every(item=>item.done)||Boolean(m.semesterChecklistSeen);
+    if(id==='syllabusChecklist')return checklist('syllabus').every(item=>item.done)||Boolean(m.syllabusChecklistSeen);
+    return false;
+  }
+  function setStep(id){if(!FLOW_STEPS.some(item=>item.id===id))return;meta().step=id;persistState({render:false});renderSetup();window.scrollTo({top:0,behavior:'smooth'})}
+  function courseRows(){return courses().map(c=>`<div class="clean-list-row" style="--course:${c.color}"><div><strong>${esc(c.code)} · ${esc(c.title)}</strong><small>${(c.days||[]).join('')} · ${fmtTime(c.start)}–${fmtTime(c.end)}${courseLocation(c)?` · ${esc(courseLocation(c))}`:''}</small></div><div class="clean-row-actions"><button class="btn small" data-edit-course-workflow="${c.id}">Edit</button></div></div>`).join('')}
+  function classBody(){const rows=courseRows();return rows?`<div class="clean-list">${rows}</div><div class="clean-primary-add"><button class="btn primary" data-add="course">${icon('plus','sm')}Add another class</button></div>`:`<div class="clean-empty"><div><strong>Add your first class</strong><button class="btn primary" data-add="course">${icon('plus','sm')}Add class</button></div></div>`}
+  function officeBody(){const rows=blocks().map(b=>`<div class="clean-list-row" style="--course:${b.color}"><div><strong>${esc(b.code||'Office hours')}</strong><small>${(b.days||[]).join('')} · ${fmtTime(b.start)}–${fmtTime(b.end)}${courseLocation(b)?` · ${esc(courseLocation(b))}`:''}</small></div><div class="clean-row-actions"><button class="btn small" data-edit-block="${b.id}">Edit</button><button class="btn small danger" data-delete-block="${b.id}">Delete</button></div></div>`).join('');return `${rows?`<div class="clean-list">${rows}</div>`:`<div class="clean-empty"><div><strong>Add office hours</strong><button class="btn primary" data-clean-add-office>${icon('plus','sm')}Add office hours</button></div></div>`}${rows?`<div class="clean-primary-add"><button class="btn primary" data-clean-add-office>${icon('plus','sm')}Add another block</button></div>`:''}`}
+  function absenceBody(){const rows=absences().map(a=>`<div class="clean-list-row" style="--course:#b98339"><div><strong>${esc(a.reason)}</strong><small>${a.startDate===a.endDate?formatDate(a.startDate,{month:'short',day:'numeric',year:'numeric'}):`${formatDate(a.startDate,{month:'short',day:'numeric'})}–${formatDate(a.endDate,{month:'short',day:'numeric',year:'numeric'})}`}</small></div><div class="clean-row-actions"><button class="btn small" data-edit-absence="${a.id}">Edit</button><button class="btn small danger" data-delete-absence="${a.id}">Delete</button></div></div>`).join('');return `${rows?`<div class="clean-list">${rows}</div>`:`<div class="clean-empty"><div><strong>No known absences</strong><button class="btn primary" data-add="absence">${icon('plus','sm')}Add absence</button></div></div>`}${rows?`<div class="clean-primary-add"><button class="btn primary" data-add="absence">${icon('plus','sm')}Add another absence</button></div>`:''}`}
+  function previewBody(){
+    const dayNames={M:'Monday',T:'Tuesday',W:'Wednesday',R:'Thursday',F:'Friday',S:'Saturday'},all=[...courses(),...blocks()],used=new Set(all.flatMap(item=>item.days||[])),days=['M','T','W','R','F',...(used.has('S')?['S']:[])];
+    return `<div class="clean-preview-summary"><div><strong>${courses().length} class${courses().length===1?'':'es'} · ${blocks().length} recurring block${blocks().length===1?'':'s'}</strong></div><button class="btn small" data-print-week>${icon('download','sm')}Print weekly view</button></div><div class="clean-week-preview"><div class="clean-week-grid" style="--days:${days.length}">${days.map(day=>{const items=all.filter(item=>(item.days||[]).includes(day)).sort((a,b)=>timeMinutes(a.start||'23:59')-timeMinutes(b.start||'23:59'));return `<section class="clean-week-day"><div class="clean-week-day-head">${dayNames[day]}</div><div class="clean-week-day-body">${items.map(item=>`<div class="clean-week-item" style="--course:${item.color}"><strong>${esc(item.code)}</strong><small>${fmtTime(item.start)}–${fmtTime(item.end)}</small></div>`).join('')||'<span class="muted tiny">Open</span>'}</div></section>`}).join('')}</div></div>`
+  }
+  function activityBody(){
+    if(!courses().length)return '<div class="clean-empty"><strong>Add a class first.</strong></div>';
+    return `<div class="flow-activity-grid">${courses().map(c=>{const list=activities().filter(a=>String(a.courseId)===String(c.id)).sort((a,b)=>String(a.date).localeCompare(String(b.date)));return `<article class="flow-activity-card" style="--course:${c.color}"><div class="flow-activity-card-head"><div><h3>${esc(c.code)}</h3><small>${esc(c.title)}</small></div><span class="flow-activity-count">${list.length}</span></div><div class="flow-quick-types">${['Exam','Quiz','Homework','Lab','Lecture plan'].map(type=>`<button type="button" data-clean-add-activity="${c.id}" data-clean-activity-type="${type}">+ ${type}</button>`).join('')}</div>${list.length?`<div class="flow-activity-list">${list.slice(0,4).map(a=>`<div class="flow-activity-row" data-edit-activity="${a.id}"><strong>${esc(a.title||a.type)}</strong><span>${formatDate(a.date,{month:'short',day:'numeric'})}</span></div>`).join('')}</div>`:''}</article>`}).join('')}</div>`
+  }
+  function checklistBody(kind,title){const list=checklist(kind),completed=list.filter(item=>item.done).length;return `<section class="setup-checklist-card"><div class="setup-checklist-head"><strong>${title}</strong><span>${completed} of ${list.length} complete</span></div><div class="setup-checklist">${list.map(item=>`<label class="check-item"><input type="checkbox" data-flow-check-kind="${kind}" data-flow-check-id="${item.id}" ${item.done?'checked':''}><span>${esc(item.text)}</span></label>`).join('')}</div></section>`}
+  function header(id){
+    return ({classes:['Add your classes','Meeting patterns generate the semester automatically.'],office:['Add office hours','Continue when the recurring schedule looks right.'],absences:['Add planned absences','Continue when there are no more dates to add.'],preview:['Check the weekly pattern','Classes and office hours in one view.'],activities:['Add known activities','Use the course buttons to add exams, quizzes, homework, labs, or lesson plans.'],semesterChecklist:['Prepare the semester','Complete now or return as course setup continues.'],syllabusChecklist:['Prepare each syllabus','Confirm the pieces faculty commonly include before publishing.']})[id]
+  }
+  function body(id){if(id==='classes')return classBody();if(id==='office')return officeBody();if(id==='absences')return absenceBody();if(id==='preview')return previewBody();if(id==='activities')return activityBody();if(id==='semesterChecklist')return checklistBody('semester','Pre-semester checklist');return checklistBody('syllabus','Syllabus checklist')}
+
+  renderSetup=function(){
+    const current=step(),index=Math.max(0,FLOW_STEPS.findIndex(item=>item.id===current)),info=header(current),hasCourses=courses().length>0;
+    document.getElementById('view-setup').innerHTML=`<div class="clean-setup-page"><div class="clean-setup-top"><div><div class="eyebrow">${esc(selectedSemesterLabel())}</div><h1>Semester setup</h1><p>One step at a time.</p></div><div class="clean-setup-actions"><button class="btn" data-open-academic>${icon('calendar','sm')}Academic calendar</button><button class="btn" data-clean-setup-exit>${icon('x','sm')}Save and exit</button></div></div><div class="clean-stepper">${FLOW_STEPS.map((item,i)=>`<button class="clean-step ${item.id===current?'current':''} ${done(item.id)?'done':''}" data-flow-step="${item.id}" ${!hasCourses&&i>0?'disabled':''}><span class="clean-step-number">${done(item.id)?'✓':i+1}</span><span class="clean-step-copy"><strong>${item.label}</strong><small>${item.hint}</small></span></button>`).join('')}</div><article class="card clean-setup-card"><header class="clean-setup-card-head"><span class="clean-setup-icon">${icon(FLOW_STEPS[index].icon,'lg')}</span><div><h2>${info[0]}</h2><p>${info[1]}</p></div></header><div class="clean-setup-body">${body(current)}</div><footer class="clean-setup-footer"><div class="clean-setup-footer-left">${index>0?`<button class="btn" data-flow-back>${icon('chevronLeft','sm')}Back</button>`:''}</div><div class="clean-setup-footer-right">${current==='syllabusChecklist'?`<button class="btn primary" data-flow-finish>${icon('check','sm')}Finish setup</button>`:`<button class="btn primary" data-flow-next ${current==='classes'&&!hasCourses?'disabled':''}>Continue${icon('chevronRight','sm')}</button>`}</div></footer></article></div>`;
+    hydrateIcons(document.getElementById('view-setup'));
+  };
+
+  /* Month cells: class and its activities are one visual unit. */
+  renderMonth=function(){
+    const cells=monthRange(),ym=state.month;
+    return `<div class="calendar-scroll"><div class="month-grid">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d=>`<div class="weekday">${d}</div>`).join('')}${cells.map(date=>{
+      const meetingList=meetingsOn(date).filter(m=>!state.courseFilter||String(m.id)===String(state.courseFilter));
+      const acts=eventsOn(date).filter(a=>!state.courseFilter||String(a.courseId)===String(state.courseFilter));
+      const used=new Set(),items=[];
+      for(const entry of academicEntriesForDate(date))items.push({html:`<div class="cal-event ${entry.type==='holiday'?'holiday':entry.type==='online'?'online':'academic'}" style="--course:${entry.type==='holiday'?'#c26d20':entry.type==='online'?'#287b9c':'#6c56d8'}" title="${esc(entry.text)}">${esc(entry.text)}</div>`});
+      for(const meeting of meetingList){const linked=acts.filter(a=>String(a.courseId)===String(meeting.id));linked.forEach(a=>used.add(String(a.id)));items.push({html:`<div class="cal-event month-course-event" style="--course:${meeting.color}" title="${esc(meeting.code)}"><span class="month-course-name">${esc(meeting.code)}</span>${linked.map(a=>`<span class="month-course-activity" data-edit-activity="${a.id}" title="${esc(a.title||a.type)}">${esc(a.title||a.type)}</span>`).join('')}</div>`})}
+      for(const a of acts.filter(a=>!used.has(String(a.id))))items.push({html:`<div class="cal-event activity-link ${a.type==='Exam'?'exam':''}" style="--course:${course(a.courseId)?.color||'#b42318'}" data-edit-activity="${a.id}" title="${esc(a.title||a.type)}">${esc(a.title||a.type)}</div>`});
+      for(const task of tasksOn(date).filter(t=>!t.done&&(!state.courseFilter||String(t.courseId)===String(state.courseFilter))))items.push({html:`<div class="cal-event task" style="--course:#df8f2e" title="${esc(task.title)}">${esc(task.title)}</div>`});
+      const classes=['day-cell',date.slice(0,7)!==ym?'out':'',date===state.selectedDate?'selected':'',date===todayActual?'today':'',noClassReason(date)?'academic-no-class':'',onlineReason(date)?'academic-online':''].filter(Boolean).join(' ');
+      return `<div class="${classes}" data-date="${date}"><div class="date-num">${parse(date).getDate()}</div>${items.slice(0,5).map(item=>item.html).join('')}${items.length>5?`<div class="cal-more">+${items.length-5} more</div>`:''}</div>`
+    }).join('')}</div></div>`
+  };
+
+  function importantDates(c){
+    if(!c)return[];const sem=semester(),rows=[];
+    rows.push({date:sem.start,kind:'Course',title:'Classes begin',detail:`${(c.days||[]).join('')} · ${fmtTime(c.start)}–${fmtTime(c.end)}`});
+    for(const [date,text] of Object.entries(sem.noClass||{}))if(date>=sem.start&&date<=sem.lastClass&&(c.days||[]).includes(dayLetter(date)))rows.push({date,kind:'No class',title:text,detail:'Regular class meeting is not counted.'});
+    for(const [date,text] of Object.entries(sem.onlineDays||{}))if((c.days||[]).includes(dayLetter(date)))rows.push({date,kind:'Online',title:text,detail:'Class meeting is counted online.'});
+    for(const [date,text] of sem.important||[])rows.push({date,kind:'Academic',title:text,detail:'College deadline or milestone.'});
+    for(const a of absences())for(let date=a.startDate;date<=a.endDate;date=addDays(date,1))if(date>=sem.start&&date<=sem.lastClass&&(c.days||[]).includes(dayLetter(date)))rows.push({date,kind:'No class',title:`Planned absence: ${a.reason}`,detail:'Instructor absence affects this course.'});
+    for(const a of activities().filter(a=>String(a.courseId)===String(c.id)))rows.push({date:a.date,kind:'Activity',title:a.title||a.type,detail:a.type||'Course activity'});
+    rows.push({date:sem.lastClass,kind:'Course',title:'Last day of classes',detail:`Last scheduled teaching day for ${c.code}.`});
+    if(c.finalDate)rows.push({date:c.finalDate,kind:'Final',title:'Final examination',detail:`${c.finalStart?fmtTime(c.finalStart):''}${c.finalEnd?`–${fmtTime(c.finalEnd)}`:''}${c.finalRoom?` · ${c.finalRoom}`:''}`});
+    const seen=new Set();return rows.filter(row=>row.date).sort((a,b)=>a.date.localeCompare(b.date)||a.kind.localeCompare(b.kind)).filter(row=>{const key=`${row.date}|${row.kind}|${row.title}`;if(seen.has(key))return false;seen.add(key);return true})
+  }
+  function importantKindClass(kind){return kind==='No class'?'holiday':kind==='Activity'?'activity':kind==='Final'?'final':''}
+  function renderImportant(){
+    const root=document.getElementById('view-semester'),list=courses(),selected=course(state.courseFilter)||list[0];if(selected&&!state.courseFilter)state.courseFilter=selected.id;const rows=importantDates(selected);
+    root.innerHTML=`${pageHead('Planner','Important dates','A syllabus-ready schedule for one class.',`<button class="btn" data-print-important>${icon('download','sm')}Print</button><button class="btn primary" data-clean-add-activity="${selected?.id||''}" data-clean-activity-type="Exam">${icon('plus','sm')}Add activity</button>`)}<div class="clean-workspace-banner"><div><strong>Important dates</strong><small>Academic dates, course activities, absences, and the final exam.</small></div><div class="clean-workspace-switch"><button data-clean-workspace="plan">Planner</button><button data-clean-workspace="workload">Workload views</button><button class="active" data-calendar-mode="important">Important dates</button></div></div><div class="important-dates-shell"><div class="important-toolbar"><div class="important-toolbar-left"><label for="importantCourseFilter">Course</label><select id="importantCourseFilter">${list.map(c=>`<option value="${c.id}" ${String(c.id)===String(selected?.id)?'selected':''}>${esc(c.code)} — ${esc(c.title)}</option>`).join('')}</select></div><button class="btn small" data-print-important>${icon('download','sm')}Print for syllabus</button></div>${selected?`<article class="card important-course-card" style="--course:${selected.color}"><div class="important-course-head"><h2>${esc(selected.code)} · ${esc(selected.title)}</h2><p>${esc(selectedSemesterLabel())} · ${(selected.days||[]).join('')} · ${fmtTime(selected.start)}–${fmtTime(selected.end)}</p></div><div class="important-date-list">${rows.map(row=>`<div class="important-date-row"><time>${formatDate(row.date,{weekday:'short',month:'short',day:'numeric'})}</time><span class="important-date-kind ${importantKindClass(row.kind)}">${esc(row.kind)}</span><div><strong>${esc(row.title)}</strong><small>${esc(row.detail||'')}</small></div></div>`).join('')||'<div class="empty">No important dates have been added.</div>'}</div></article>`:'<div class="empty">Add a course to create an important-dates view.</div>'}</div>`;
+    hydrateIcons(root)
+  }
+
+  const previousRenderSemester=renderSemester;
+  renderSemester=function(){
+    if(state.plannerMode==='important'){renderImportant();return}
+    previousRenderSemester();const root=document.getElementById('view-semester');if(!root)return;
+    const switcher=root.querySelector('.clean-workspace-switch');if(switcher&&!switcher.querySelector('[data-calendar-mode="important"]'))switcher.insertAdjacentHTML('beforeend','<button data-calendar-mode="important">Important dates</button>');
+    if(state.cleanWorkspace==='workload'){
+      const segmented=root.querySelector('.segmented');if(segmented&&!segmented.querySelector('[data-calendar-mode="important"]'))segmented.insertAdjacentHTML('beforeend','<button class="segment" data-calendar-mode="important">Important dates</button>');
+      if(state.plannerMode==='week'){
+        const toolbar=root.querySelector('.calendar-toolbar');if(toolbar&&!toolbar.querySelector('[data-print-week]'))toolbar.insertAdjacentHTML('beforeend',`<button class="btn small" data-print-week>${icon('download','sm')}Print week</button>`)
+      }
+    }
+    hydrateIcons(root)
+  };
+
+  function weekStart(){const start=parse(state.selectedDate||semester().start),first=state.settings?.weekStartsOn==='sunday'?0:1;start.setDate(start.getDate()-((start.getDay()-first+7)%7));return iso(start)}
+  function printSheet(title,subtitle,content){document.getElementById('acadencePrintSheet')?.remove();const sheet=document.createElement('section');sheet.id='acadencePrintSheet';sheet.className='acadence-print-sheet';sheet.innerHTML=`<div class="acadence-print-title"><div><h1>${esc(title)}</h1><p>${esc(subtitle)}</p></div><span>${esc(selectedSemesterLabel())}<br>Printed ${new Date().toLocaleDateString('en-US')}</span></div>${content}`;document.body.appendChild(sheet);document.body.classList.add('acadence-special-print');const cleanup=()=>{document.body.classList.remove('acadence-special-print');sheet.remove()};window.addEventListener('afterprint',cleanup,{once:true});setTimeout(()=>window.print(),40);setTimeout(()=>{if(document.body.classList.contains('acadence-special-print'))cleanup()},4000)}
+  function printWeek(){
+    const start=weekStart(),dates=Array.from({length:7},(_,i)=>addDays(start,i));
+    const content=`<div class="print-week-grid">${dates.map(date=>{const meetingList=meetingsOn(date,true).filter(m=>!state.courseFilter||String(m.id)===String(state.courseFilter)),dayActs=eventsOn(date).filter(a=>!state.courseFilter||String(a.courseId)===String(state.courseFilter)),used=new Set();const items=[];for(const m of meetingList){const linked=dayActs.filter(a=>String(a.courseId)===String(m.id));linked.forEach(a=>used.add(String(a.id)));items.push(`<div class="print-item" style="--course:${m.color}"><strong>${esc(fmtTime(m.start))} · ${esc(m.code)}</strong><small>${esc(m.title)}${courseLocation(m)?` · ${esc(courseLocation(m))}`:''}</small>${linked.map(a=>`<span class="print-activity">${esc(a.title||a.type)}</span>`).join('')}</div>`)}for(const a of dayActs.filter(a=>!used.has(String(a.id))))items.push(`<div class="print-item" style="--course:${course(a.courseId)?.color||'#b42318'}"><strong>${esc(a.title||a.type)}</strong><small>${esc(course(a.courseId)?.code||'Course activity')} · ${esc(a.type||'Activity')}</small></div>`);return `<section class="print-day"><div class="print-day-head">${formatDate(date,{weekday:'long',month:'short',day:'numeric'})}</div><div class="print-day-body">${items.join('')||'<small>Open</small>'}</div></section>`}).join('')}</div>`;
+    printSheet('Weekly faculty schedule',`Week of ${formatDate(start,{month:'long',day:'numeric',year:'numeric'})}`,content)
+  }
+  function printImportant(){const c=course(state.courseFilter)||courses()[0];if(!c)return;const rows=importantDates(c),content=`<table class="print-important-table"><thead><tr><th>Date</th><th>Type</th><th>Important date</th><th>Details</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${formatDate(row.date,{weekday:'short',month:'short',day:'numeric'})}</td><td>${esc(row.kind)}</td><td><strong>${esc(row.title)}</strong></td><td>${esc(row.detail||'')}</td></tr>`).join('')}</tbody></table>`;printSheet(`${c.code} course schedule`,`${c.title} · ${selectedSemesterLabel()}`,content)}
+
+  function dashboardStatus(){const m=meta(),flags=Object.fromEntries(FLOW_STEPS.map(item=>[item.id,done(item.id)]));return{m,flags,complete:Boolean(state.setupCompleted?.[state.selectedSemester])&&done('syllabusChecklist')}}
+  function dashboardNext(status){for(const item of FLOW_STEPS)if(!status.flags[item.id])return{step:item.id,kicker:item.id==='classes'?'Start here':'Next step',title:({classes:'Set up the classes you teach',office:'Add your office hours',absences:'Add any known absences',preview:'Check your weekly schedule',activities:'Add known teaching activities',semesterChecklist:'Complete the pre-semester checklist',syllabusChecklist:'Prepare your syllabi'})[item.id],button:({classes:'Set up classes',office:'Add office hours',absences:'Review absences',preview:'Preview schedule',activities:'Add activities',semesterChecklist:'Open checklist',syllabusChecklist:'Prepare syllabi'})[item.id],hint:({classes:'This unlocks the planner.',office:'Continue to skip.',absences:'Continue if there are none.',preview:'Classes and office hours together.',activities:'Exams, quizzes, homework, and labs.',semesterChecklist:'Keep course setup on track.',syllabusChecklist:'Finish with course schedules and key dates.'})[item.id],icon:item.icon};if(!status.complete)return{step:'syllabusChecklist',kicker:'Ready',title:'Finish semester setup',button:'Finish setup',hint:'Open your course planner.',icon:'check'};return{route:'plan',kicker:'Today',title:'Plan the work ahead',button:'Open planner',hint:'Add activities to course meetings.',icon:'list'}}
+  const previousRenderToday=renderToday;
+  renderToday=function(){previousRenderToday();const root=document.getElementById('view-today');if(!root)return;const status=dashboardStatus(),next=dashboardNext(status),cta=root.querySelector('.clean-dashboard-cta'),title=root.querySelector('.clean-dashboard-next h2'),kicker=root.querySelector('.clean-dashboard-kicker'),paragraph=root.querySelector('.clean-dashboard-next p');let path=root.querySelector('.clean-dashboard-path');if(!path&&!status.complete){const left=root.querySelector('.clean-dashboard-next>div');if(left){left.insertAdjacentHTML('beforeend','<div class="clean-dashboard-path"></div>');path=left.querySelector('.clean-dashboard-path')}}if(path)path.innerHTML=FLOW_STEPS.map(item=>`<span class="${status.flags[item.id]?'done':next.step===item.id?'current':''}">${item.label}</span>`).join('');if(title)title.textContent=next.title;if(kicker)kicker.textContent=next.kicker;if(paragraph)paragraph.textContent=status.complete?'Plan courses regularly, then use Workload views to check the day, week, month, or semester.':'Follow the highlighted step. You can leave and return at any time.';if(cta){cta.removeAttribute('data-clean-dashboard-step');cta.removeAttribute('data-clean-route');if(next.route)cta.dataset.cleanRoute=next.route;else cta.dataset.cleanDashboardStep=next.step;const strong=cta.querySelector('strong'),small=cta.querySelector('small');if(strong)strong.textContent=next.button;if(small)small.textContent=next.hint}hydrateIcons(root)};
+
+  document.addEventListener('click',function(e){
+    const target=e.target.closest('[data-flow-step]');if(target){e.preventDefault();e.stopImmediatePropagation();if(target.disabled)return;setStep(target.dataset.flowStep);return}
+    if(e.target.closest('[data-flow-back]')){e.preventDefault();e.stopImmediatePropagation();const i=FLOW_STEPS.findIndex(item=>item.id===step());if(i>0)setStep(FLOW_STEPS[i-1].id);return}
+    if(e.target.closest('[data-flow-next]')){e.preventDefault();e.stopImmediatePropagation();const current=step(),m=meta();if(current==='classes'&&!courses().length)return;if(current==='office'&&!blocks().length)m.officeSkipped=true;if(current==='absences'&&!absences().length)m.absencesSkipped=true;if(current==='preview')m.previewSeen=true;if(current==='activities'&&!activities().length)m.activitiesSkipped=true;if(current==='semesterChecklist')m.semesterChecklistSeen=true;const i=FLOW_STEPS.findIndex(item=>item.id===current);m.step=FLOW_STEPS[Math.min(i+1,FLOW_STEPS.length-1)].id;persistState({render:false});renderSetup();window.scrollTo({top:0,behavior:'smooth'});return}
+    if(e.target.closest('[data-flow-finish]')){e.preventDefault();e.stopImmediatePropagation();const m=meta();m.syllabusChecklistSeen=true;state.setupCompleted=state.setupCompleted&&typeof state.setupCompleted==='object'?state.setupCompleted:{};state.setupCompleted[state.selectedSemester]=true;state.currentView='semester';state.cleanWorkspace='plan';state.plannerMode='daycount';persistState({render:false});renderAll();toast('Semester setup complete.');return}
+    if(e.target.closest('[data-print-week]')){e.preventDefault();e.stopImmediatePropagation();printWeek();return}
+    if(e.target.closest('[data-print-important]')){e.preventDefault();e.stopImmediatePropagation();printImportant();return}
+  },true);
+  document.addEventListener('change',function(e){
+    if(e.target.matches('[data-flow-check-kind]')){e.preventDefault();e.stopImmediatePropagation();const list=checklist(e.target.dataset.flowCheckKind),item=list.find(x=>String(x.id)===String(e.target.dataset.flowCheckId));if(item)item.done=e.target.checked;persistState({render:false});renderSetup();return}
+    if(e.target.id==='importantCourseFilter'){e.preventDefault();e.stopImmediatePropagation();state.courseFilter=e.target.value;persistState({render:false});renderSemester();return}
+  },true);
+
+  renderAll();
+})();
+</script>
+
 </body>
 </html>
