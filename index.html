@@ -3497,13 +3497,13 @@ body.activity-dragging{user-select:none}
   /* Make the setup activity step clearly prioritize automatic scheduling. */
   function enhanceSetupActivityStep(){
     const root=document.getElementById('view-setup');if(!root)return;
-    const assessmentButtons=[...root.querySelectorAll('[data-clean-add-activity][data-clean-activity-type]')];
-    if(!assessmentButtons.length)return;
-    assessmentButtons.forEach(button=>{
+    const activityButtons=[...root.querySelectorAll('[data-clean-add-activity][data-clean-activity-type]')];
+    if(!activityButtons.length)return;
+    activityButtons.forEach(button=>{
       const type=button.dataset.cleanActivityType;
-      if(majorAutoTypes.has(type))button.textContent=`Auto-schedule ${pluralActivity(type)}`;
+      button.textContent=`+ ${type}`;
     });
-    const host=assessmentButtons[0]?.closest('.clean-setup-body,.flow-activity-grid,.clean-course-activity-grid');
+    const host=activityButtons[0]?.closest('.clean-setup-body,.flow-activity-grid,.clean-course-activity-grid');
     if(host&&!host.querySelector('.activity-setup-auto-note')){
       host.insertAdjacentHTML('afterbegin','<div class="activity-setup-auto-note"><strong>Schedule the assessments you already know.</strong>Choose exams, quizzes, or labs and Acadence will spread the number you choose across counted class meetings. You can drag any activity to a different meeting later.</div>');
     }
