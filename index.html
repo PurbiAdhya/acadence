@@ -1726,5 +1726,354 @@ body{font-size:16px;line-height:1.48}
 })();
 </script>
 
+<style id="acadence-clear-dashboard-patch">
+/* Clear dashboard: one obvious next action, followed by a compact semester overview. */
+#view-today .page-head{margin-bottom:15px}
+#view-today .page-head .page-actions:empty{display:none}
+.dashboard-next-card{
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(270px,390px);
+  gap:24px;
+  align-items:center;
+  padding:24px 25px;
+  border:1px solid #d5cdfc;
+  border-radius:20px;
+  background:linear-gradient(128deg,#f0edff 0%,#faf9ff 48%,#fff 100%);
+  box-shadow:0 8px 28px rgba(47,36,108,.08);
+}
+.dashboard-next-card:after{
+  content:"";
+  position:absolute;
+  width:290px;
+  height:290px;
+  right:-105px;
+  top:-165px;
+  border-radius:50%;
+  background:rgba(108,86,216,.08);
+  pointer-events:none;
+}
+.dashboard-next-copy,.dashboard-next-action{position:relative;z-index:1}
+.dashboard-next-label{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-bottom:8px;
+  color:var(--primary-2);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.dashboard-next-copy h2{margin:0;font-size:25px;line-height:1.14;letter-spacing:-.55px}
+.dashboard-next-copy>p{max-width:700px;margin:8px 0 0;color:var(--muted);font-size:12.5px;line-height:1.55}
+.dashboard-next-context{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:16px}
+.dashboard-next-context strong{font-size:10.5px}
+.dashboard-next-context span{color:var(--muted);font-size:9.5px}
+.dashboard-setup-track{width:min(430px,100%);height:7px;margin-top:8px;overflow:hidden;border-radius:999px;background:#e2def2}
+.dashboard-setup-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#8d7bef,#5b43cf);transition:width .25s ease}
+.dashboard-next-button{
+  width:100%;
+  min-height:92px;
+  padding:17px 18px;
+  border:0;
+  border-radius:17px;
+  display:grid;
+  grid-template-columns:42px minmax(0,1fr) auto;
+  align-items:center;
+  gap:13px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-2));
+  color:#fff;
+  text-align:left;
+  box-shadow:0 13px 28px rgba(81,56,199,.27);
+  transition:transform .18s ease,filter .18s ease,box-shadow .18s ease;
+}
+.dashboard-next-button:hover{transform:translateY(-2px);filter:brightness(.99);box-shadow:0 16px 34px rgba(81,56,199,.32)}
+.dashboard-next-button-icon{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.16)}
+.dashboard-next-button-icon .icon{width:22px;height:22px}
+.dashboard-next-button-copy{min-width:0}
+.dashboard-next-button-copy strong{display:block;font-size:15px;line-height:1.2}
+.dashboard-next-button-copy small{display:block;margin-top:5px;color:rgba(255,255,255,.78);font-size:9.5px;line-height:1.35}
+.dashboard-next-button-arrow{font-size:25px;font-weight:400;opacity:.8}
+.dashboard-secondary-link{width:100%;margin-top:9px;border:0;background:transparent;color:#5d4f9e;font-size:10px;font-weight:800;text-align:center;padding:6px}
+.dashboard-secondary-link:hover{text-decoration:underline;text-underline-offset:3px}
+.dashboard-overview-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 1px 10px}
+.dashboard-overview-heading h2{margin:0;font-size:14px;letter-spacing:-.2px}
+.dashboard-overview-heading p{margin:3px 0 0;color:var(--muted);font-size:9.8px}
+.dashboard-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.dashboard-summary-card{
+  min-height:230px;
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:#fff;
+  box-shadow:0 3px 13px rgba(34,29,75,.055);
+  display:flex;
+  flex-direction:column;
+}
+.dashboard-summary-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:11px}
+.dashboard-summary-title{display:flex;align-items:flex-start;gap:9px}
+.dashboard-summary-icon{width:32px;height:32px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;background:var(--soft);color:var(--primary-2)}
+.dashboard-summary-icon .icon{width:17px;height:17px}
+.dashboard-summary-head h3{margin:0;font-size:12.5px}
+.dashboard-summary-head p{margin:3px 0 0;color:var(--muted);font-size:9px}
+.dashboard-summary-count{min-width:29px;height:29px;padding:0 8px;border-radius:999px;display:grid;place-items:center;background:#f3f1fb;color:#504581;font-size:9px;font-weight:900}
+.dashboard-summary-body{min-height:0;flex:1}
+.dashboard-summary-footer{display:flex;align-items:center;justify-content:flex-end;margin-top:10px;padding-top:9px;border-top:1px solid var(--line)}
+.dashboard-card-link{border:0;background:transparent;color:var(--primary-2);font-size:9.5px;font-weight:850;padding:4px 1px}
+.dashboard-card-link:hover{text-decoration:underline;text-underline-offset:3px}
+.dashboard-compact-empty{height:100%;min-height:112px;border:1px dashed #d7d3e5;border-radius:11px;display:grid;place-items:center;padding:14px;color:var(--muted);font-size:9.5px;text-align:center;background:#fbfbfe}
+.dashboard-course-list,.dashboard-schedule-list,.dashboard-task-list{display:grid;gap:6px}
+.dashboard-course-row,.dashboard-schedule-row,.dashboard-task-row{
+  width:100%;
+  min-width:0;
+  padding:8px 9px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:var(--text);
+  text-align:left;
+}
+button.dashboard-course-row:hover{border-color:#beb5ec;background:#faf9ff}
+.dashboard-course-accent{width:4px;height:31px;flex:0 0 auto;border-radius:999px;background:var(--course)}
+.dashboard-course-row>div,.dashboard-schedule-copy,.dashboard-task-copy{min-width:0;flex:1}
+.dashboard-course-row strong,.dashboard-schedule-row strong,.dashboard-task-row strong{display:block;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dashboard-course-row small,.dashboard-schedule-row small,.dashboard-task-row small{display:block;margin-top:2px;color:var(--muted);font-size:8.7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dashboard-row-chevron{color:#9a95b1;font-size:16px}
+.dashboard-schedule-time{width:53px;flex:0 0 auto;color:var(--primary-2);font-size:9px;font-weight:900}
+.dashboard-schedule-activity{display:inline-flex;max-width:150px;margin-top:4px;padding:2px 6px;border-radius:999px;background:color-mix(in srgb,var(--course) 12%,#fff);color:color-mix(in srgb,var(--course) 80%,#24243a);font-size:8px;font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dashboard-task-check{width:18px;height:18px;flex:0 0 auto;border:2px solid #c4c1d3;border-radius:6px}
+.dashboard-task-date{flex:0 0 auto;color:#7a748d;font-size:8.2px;font-weight:800}
+.dashboard-workload-summary{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.dashboard-workload-summary strong{display:block;font-size:22px;line-height:1}
+.dashboard-workload-summary small{display:block;margin-top:4px;color:var(--muted);font-size:8.8px}
+.dashboard-workload-bars{display:grid;gap:6px}
+.dashboard-workload-row{display:grid;grid-template-columns:28px minmax(0,1fr) 35px;align-items:center;gap:7px}
+.dashboard-workload-day{font-size:8.8px;font-weight:850;color:#66677b}
+.dashboard-workload-track{height:7px;overflow:hidden;border-radius:999px;background:#efeff4}
+.dashboard-workload-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,#8d7bef,#624bd2)}
+.dashboard-workload-fill.over{background:linear-gradient(90deg,#e7a565,#cb5b50)}
+.dashboard-workload-time{text-align:right;color:var(--muted);font-size:8.2px;font-weight:800}
+.dashboard-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.dashboard-mini-metric{padding:7px;border-radius:9px;background:#f8f8fb;text-align:center}
+.dashboard-mini-metric strong{display:block;font-size:13px}
+.dashboard-mini-metric small{display:block;margin-top:2px;color:var(--muted);font-size:7.7px}
+@media(max-width:980px){.dashboard-next-card{grid-template-columns:1fr}.dashboard-next-action{max-width:520px}.dashboard-overview-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){
+  .dashboard-next-card{padding:18px 16px;gap:18px}
+  .dashboard-next-copy h2{font-size:21px}
+  .dashboard-next-button{min-height:82px}
+  .dashboard-overview-grid{grid-template-columns:1fr}
+  .dashboard-summary-card{min-height:210px}
+}
+</style>
+<script id="acadence-clear-dashboard-patch-script">
+(function(){
+  const dashboardCourses=()=>Array.isArray(state.courses)?state.courses.filter(course=>course.type!=='block'):[];
+  const dashboardBlocks=()=>Array.isArray(state.courses)?state.courses.filter(course=>course.type==='block'):[];
+  const dashboardReviews=()=>state.setupWorkflowReviews?.[state.selectedSemester]||{};
+  const setupFinished=()=>Boolean(state.setupCompleted?.[state.selectedSemester]);
+  const localAddDays=(date,days)=>{const value=parse(date);value.setDate(value.getDate()+days);return iso(value)};
+  const shortDay=date=>parse(date).toLocaleDateString('en-US',{weekday:'short'});
+
+  function setupStatus(){
+    const courses=dashboardCourses(),reviews=dashboardReviews();
+    const classesDone=courses.length>0&&Boolean(reviews.finalSignature);
+    const officeDone=dashboardBlocks().length>0||Boolean(reviews.officeSkipped);
+    const absencesDone=(state.plannedAbsences||[]).length>0||Boolean(reviews.absencesSkipped);
+    const activitiesDone=(state.activities||[]).length>0||Boolean(reviews.activitiesSkipped);
+    const done=setupFinished()?4:[classesDone,officeDone,absencesDone,activitiesDone].filter(Boolean).length;
+    return{courses,reviews,classesDone,officeDone,absencesDone,activitiesDone,done};
+  }
+
+  function nextDashboardAction(){
+    const status=setupStatus();
+    if(!status.courses.length)return{
+      key:'classes',step:'classes',icon:'book',title:'Set up the classes you teach',
+      description:'Add course days, times, and rooms. Acadence will build the meeting calendar, day counts, and final-exam matches for you.',
+      button:'Set up classes',hint:'Start here — this unlocks the planner.'
+    };
+    if(!status.classesDone)return{
+      key:'classes-review',step:'classes',icon:'check',title:'Review your classes and final exams',
+      description:'Confirm the class information and the automatically matched final-exam periods before moving on.',
+      button:'Review class setup',hint:'Complete the first setup area.'
+    };
+    if(!status.officeDone)return{
+      key:'office',step:'office',icon:'clock',title:'Add office hours',
+      description:'Add recurring student-availability blocks, or mark this step as not needed right now.',
+      button:'Set office hours',hint:'Next optional setup activity.'
+    };
+    if(!status.absencesDone)return{
+      key:'absences',step:'absences',icon:'calendar',title:'Review planned absences',
+      description:'Add any known travel, vacation, or leave dates so affected class meetings are removed automatically.',
+      button:'Review absences',hint:'Next optional setup activity.'
+    };
+    if(!status.activitiesDone)return{
+      key:'activities',step:'activities',icon:'calendarPlus',title:'Add known teaching activities',
+      description:'Place exams, quizzes, labs, and recurring activities into the actual class meetings where they belong.',
+      button:'Add course activities',hint:'Final setup activity.'
+    };
+    if(!setupFinished())return{
+      key:'finish',step:'activities',icon:'check',title:'Finish semester setup',
+      description:'Your basic structure is ready. Finish setup to open the course meeting planner and start planning through the semester.',
+      button:'Finish setup',hint:'One last confirmation.'
+    };
+    const openTasks=(state.tasks||[]).filter(task=>!task.done),unscheduled=openTasks.filter(task=>!task.plannedDate);
+    if(unscheduled.length)return{
+      key:'tasks',icon:'check',title:`Schedule ${unscheduled.length} unscheduled ${unscheduled.length===1?'task':'tasks'}`,
+      description:'Give this work a realistic place in the week so the workload view stays useful.',
+      button:'Schedule tasks',hint:'Keep the weekly plan accurate.'
+    };
+    return{
+      key:'planner',icon:'list',title:'Plan the next class meeting',
+      description:'Open Day count to place teaching activities inside the class meetings where they will happen.',
+      button:'Open course planner',hint:'Your semester setup is complete.'
+    };
+  }
+
+  function findScheduleDate(){
+    const sem=semester(),hasToday=(meetingsOn(todayActual,true)||[]).length>0;
+    if(hasToday)return todayActual;
+    let cursor=todayActual<sem.start?sem.start:todayActual;
+    if(cursor>sem.lastClass)cursor=sem.start;
+    for(let i=0;i<190&&cursor<=sem.lastClass;i++,cursor=localAddDays(cursor,1)){
+      if((meetingsOn(cursor,true)||[]).length)return cursor;
+    }
+    return todayActual;
+  }
+
+  function courseOverview(courses){
+    if(!courses.length)return '<div class="dashboard-compact-empty">Your courses will appear here after the first setup step.</div>';
+    return `<div class="dashboard-course-list">${courses.slice(0,4).map(courseItem=>{
+      const activities=(state.activities||[]).filter(activity=>String(activity.courseId)===String(courseItem.id)).length;
+      return `<button type="button" class="dashboard-course-row" style="--course:${courseItem.color||'#6c56d8'}" data-open-course-dashboard="${courseItem.id}"><span class="dashboard-course-accent"></span><div><strong>${esc(courseItem.code)} · ${esc(courseItem.title)}</strong><small>${(courseItem.days||[]).join('')} · ${fmtTime(courseItem.start)}–${fmtTime(courseItem.end)}${courseLocation(courseItem)?` · ${esc(courseLocation(courseItem))}`:''} · ${activities} ${activities===1?'activity':'activities'}</small></div><span class="dashboard-row-chevron">›</span></button>`;
+    }).join('')}</div>`;
+  }
+
+  function scheduleOverview(courses){
+    if(!courses.length)return {date:todayActual,label:'Schedule',html:'<div class="dashboard-compact-empty">Set up classes to generate your teaching schedule.</div>',count:0};
+    const date=findScheduleDate(),items=(meetingsOn(date,true)||[]).sort((a,b)=>timeMinutes(a.start||'23:59')-timeMinutes(b.start||'23:59'));
+    const dayActivities=typeof eventsOn==='function'?(eventsOn(date)||[]):[];
+    const html=items.length?`<div class="dashboard-schedule-list">${items.slice(0,4).map(item=>{
+      const activity=dayActivities.find(entry=>String(entry.courseId)===String(item.id));
+      return `<div class="dashboard-schedule-row" style="--course:${item.color||'#6c56d8'}"><span class="dashboard-schedule-time">${esc(fmtTime(item.start))}</span><div class="dashboard-schedule-copy"><strong>${esc(item.code)} · ${esc(item.title)}</strong><small>${esc(`${fmtTime(item.start)}–${fmtTime(item.end)}${courseLocation(item)?` · ${courseLocation(item)}`:''}`)}</small>${activity?`<span class="dashboard-schedule-activity">${esc(activity.title||activity.type||'Activity')}</span>`:''}</div></div>`;
+    }).join('')}</div>`:'<div class="dashboard-compact-empty">No scheduled blocks on this date.</div>';
+    return{date,label:date===todayActual?'Today':formatDate(date,{weekday:'short',month:'short',day:'numeric'}),html,count:items.length};
+  }
+
+  function workloadOverview(){
+    const data=workloadData(todayActual),limit=Number(state.settings?.dailyWorkloadMinutes||180),max=Math.max(limit,...data.map(item=>item.min),1),total=data.reduce((sum,item)=>sum+item.min,0);
+    return `<div class="dashboard-workload-summary"><div><strong>${minutesLabel(total)}</strong><small>faculty work planned this week</small></div><span class="tag auto">${(state.tasks||[]).filter(task=>!task.done&&task.plannedDate).length} scheduled</span></div><div class="dashboard-workload-bars">${data.map(item=>`<div class="dashboard-workload-row"><span class="dashboard-workload-day">${shortDay(item.date)}</span><div class="dashboard-workload-track"><div class="dashboard-workload-fill ${item.min>limit?'over':''}" style="width:${Math.min(100,item.min/max*100)}%"></div></div><span class="dashboard-workload-time">${minutesLabel(item.min)}</span></div>`).join('')}</div>`;
+  }
+
+  function taskOverview(courses){
+    const open=(state.tasks||[]).filter(task=>!task.done).sort((a,b)=>String(a.plannedDate||a.dueDate||'9999').localeCompare(String(b.plannedDate||b.dueDate||'9999'))),unscheduled=open.filter(task=>!task.plannedDate),high=open.filter(task=>task.priority==='high');
+    const courseMap=Object.fromEntries(courses.map(courseItem=>[String(courseItem.id),courseItem.code]));
+    const metrics=`<div class="dashboard-metric-row"><div class="dashboard-mini-metric"><strong>${open.length}</strong><small>Open</small></div><div class="dashboard-mini-metric"><strong>${unscheduled.length}</strong><small>Unscheduled</small></div><div class="dashboard-mini-metric"><strong>${high.length}</strong><small>High priority</small></div></div>`;
+    if(!open.length)return `${metrics}<div class="dashboard-compact-empty">No open faculty tasks.</div>`;
+    return `${metrics}<div class="dashboard-task-list">${open.slice(0,3).map(task=>{
+      const date=task.plannedDate||task.dueDate;
+      return `<div class="dashboard-task-row"><span class="dashboard-task-check"></span><div class="dashboard-task-copy"><strong>${esc(task.title)}</strong><small>${esc(courseMap[String(task.courseId)]||task.category||'Faculty work')} · ${minutesLabel(task.minutes||0)}</small></div><span class="dashboard-task-date">${date?formatDate(date,{month:'short',day:'numeric'}):'Unscheduled'}</span></div>`;
+    }).join('')}</div>`;
+  }
+
+  renderToday=function(){
+    const root=document.getElementById('view-today');
+    if(!root)return;
+    const status=setupStatus(),next=nextDashboardAction(),courses=status.courses,schedule=scheduleOverview(courses),setupPct=Math.round(status.done/4*100);
+    root.innerHTML=`${pageHead('Home','Dashboard','Your next step is always first. Everything else is a compact semester overview.','')}
+      <section class="dashboard-next-card">
+        <div class="dashboard-next-copy">
+          <div class="dashboard-next-label">${icon('spark','sm')}Next step</div>
+          <h2>${esc(next.title)}</h2>
+          <p>${esc(next.description)}</p>
+          <div class="dashboard-next-context"><strong>${setupFinished()?'Semester ready':`Semester setup · ${status.done} of 4 areas ready`}</strong><span>${esc(selectedSemesterLabel())}</span></div>
+          <div class="dashboard-setup-track" aria-label="Semester setup progress"><div class="dashboard-setup-fill" style="width:${setupFinished()?100:setupPct}%"></div></div>
+        </div>
+        <div class="dashboard-next-action">
+          <button type="button" class="dashboard-next-button" data-dashboard-next="${next.key}" data-dashboard-step="${next.step||''}">
+            <span class="dashboard-next-button-icon">${icon(next.icon||'chevronRight')}</span>
+            <span class="dashboard-next-button-copy"><strong>${esc(next.button)}</strong><small>${esc(next.hint)}</small></span>
+            <span class="dashboard-next-button-arrow">›</span>
+          </button>
+          <button type="button" class="dashboard-secondary-link" data-open-academic>View academic calendar</button>
+        </div>
+      </section>
+      <div class="dashboard-overview-heading"><div><h2>At a glance</h2><p>Courses, schedule, workload, and tasks in one place.</p></div></div>
+      <section class="dashboard-overview-grid">
+        <article class="dashboard-summary-card">
+          <div class="dashboard-summary-head"><div class="dashboard-summary-title"><span class="dashboard-summary-icon">${icon('book','sm')}</span><div><h3>Courses</h3><p>${courses.length?`${courses.length} set up for ${esc(selectedSemesterLabel())}`:'Complete the first step to begin'}</p></div></div><span class="dashboard-summary-count">${courses.length}</span></div>
+          <div class="dashboard-summary-body">${courseOverview(courses)}</div>
+          <div class="dashboard-summary-footer">${courses.length?'<button class="dashboard-card-link" data-view="courses">Manage courses</button>':''}</div>
+        </article>
+        <article class="dashboard-summary-card">
+          <div class="dashboard-summary-head"><div class="dashboard-summary-title"><span class="dashboard-summary-icon">${icon('calendar','sm')}</span><div><h3>${schedule.date===todayActual?'Today’s schedule':'Next teaching day'}</h3><p>${esc(schedule.label)}</p></div></div><span class="dashboard-summary-count">${schedule.count}</span></div>
+          <div class="dashboard-summary-body">${schedule.html}</div>
+          <div class="dashboard-summary-footer"><button class="dashboard-card-link" data-view="semester">Open planner</button></div>
+        </article>
+        <article class="dashboard-summary-card">
+          <div class="dashboard-summary-head"><div class="dashboard-summary-title"><span class="dashboard-summary-icon">${icon('bar','sm')}</span><div><h3>This week’s workload</h3><p>Preparation, grading, LMS, and admin work</p></div></div></div>
+          <div class="dashboard-summary-body">${workloadOverview()}</div>
+          <div class="dashboard-summary-footer"><button class="dashboard-card-link" data-view="tasks">Open workload</button></div>
+        </article>
+        <article class="dashboard-summary-card">
+          <div class="dashboard-summary-head"><div class="dashboard-summary-title"><span class="dashboard-summary-icon">${icon('check','sm')}</span><div><h3>Tasks</h3><p>The next faculty work that needs attention</p></div></div></div>
+          <div class="dashboard-summary-body">${taskOverview(courses)}</div>
+          <div class="dashboard-summary-footer"><button class="dashboard-card-link" data-view="tasks">View all tasks</button></div>
+        </article>
+      </section>`;
+    hydrateIcons(root);
+  };
+
+  function syncGlobalAddButton(){
+    const button=document.getElementById('addButton'),hasCourses=dashboardCourses().length>0;
+    if(button){button.classList.toggle('hidden',!hasCourses);button.setAttribute('aria-hidden',hasCourses?'false':'true')}
+    if(!hasCourses)document.getElementById('addMenu')?.classList.remove('open');
+  }
+
+  const previousRenderAll=renderAll;
+  renderAll=function(){previousRenderAll();syncGlobalAddButton()};
+
+  document.addEventListener('click',function(event){
+    const nextButton=event.target.closest('[data-dashboard-next]');
+    if(nextButton){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const action=nextButton.dataset.dashboardNext,step=nextButton.dataset.dashboardStep;
+      if(['classes','classes-review','office','absences','activities','finish'].includes(action)){
+        state.setupFourStepPosition=state.setupFourStepPosition&&typeof state.setupFourStepPosition==='object'?state.setupFourStepPosition:{};
+        state.setupFourStepPosition[state.selectedSemester]=step||'classes';
+        state.currentView='setup';
+      }else if(action==='tasks'){
+        state.currentView='tasks';
+      }else{
+        state.currentView='semester';
+        state.plannerMode='daycount';
+        if(!state.dayCountCourseId&&dashboardCourses()[0])state.dayCountCourseId=dashboardCourses()[0].id;
+      }
+      persistState({render:false});
+      renderAll();
+      return;
+    }
+    const courseButton=event.target.closest('[data-open-course-dashboard]');
+    if(courseButton){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      state.dayCountCourseId=courseButton.dataset.openCourseDashboard;
+      state.currentView='semester';
+      state.plannerMode='daycount';
+      persistState({render:false});
+      renderAll();
+    }
+  },true);
+
+  renderAll();
+})();
+</script>
+
 </body>
 </html>
