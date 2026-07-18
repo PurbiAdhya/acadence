@@ -2075,5 +2075,220 @@ button.dashboard-course-row:hover{border-color:#beb5ec;background:#faf9ff}
 })();
 </script>
 
+<style id="acadence-intuitive-workflow-styles">
+/* Intuitive dashboard and progressive navigation */
+#view-today .page-head{margin-bottom:14px}
+.intuitive-next{
+  position:relative;
+  overflow:hidden;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(290px,390px);
+  gap:24px;
+  align-items:center;
+  padding:24px;
+  border:1px solid #d9d2ff;
+  border-radius:20px;
+  background:linear-gradient(125deg,#f4f1ff 0%,#fff 68%);
+  box-shadow:0 8px 25px rgba(44,35,102,.08);
+}
+.intuitive-next:after{content:"";position:absolute;width:310px;height:310px;border-radius:50%;right:-120px;top:-190px;background:rgba(108,86,216,.075);pointer-events:none}
+.intuitive-next-copy,.intuitive-next-action{position:relative;z-index:1}
+.intuitive-next-kicker{display:inline-flex;align-items:center;gap:6px;color:var(--primary-2);font-size:10px;font-weight:900;letter-spacing:.12em;text-transform:uppercase}
+.intuitive-next h2{margin:8px 0 0;font-size:27px;line-height:1.12;letter-spacing:-.6px}
+.intuitive-next p{max-width:690px;margin:9px 0 0;color:var(--muted);font-size:12.5px;line-height:1.55}
+.intuitive-next-button{width:100%;min-height:94px;border:0;border-radius:17px;padding:17px 18px;display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:13px;background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#fff;text-align:left;box-shadow:0 13px 30px rgba(81,56,199,.28);transition:.18s}
+.intuitive-next-button:hover{transform:translateY(-2px);box-shadow:0 17px 36px rgba(81,56,199,.34)}
+.intuitive-next-button-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.16)}
+.intuitive-next-button-icon .icon{width:22px;height:22px}
+.intuitive-next-button strong{display:block;font-size:15px}
+.intuitive-next-button small{display:block;margin-top:5px;color:rgba(255,255,255,.8);font-size:9.6px;line-height:1.35}
+.intuitive-next-arrow{font-size:25px;opacity:.82}
+.intuitive-quiet-link{width:100%;margin-top:8px;border:0;background:transparent;color:#5e50a1;font-size:9.7px;font-weight:850;padding:6px;text-align:center}
+.intuitive-quiet-link:hover{text-decoration:underline;text-underline-offset:3px}
+.intuitive-path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:17px;max-width:720px}
+.intuitive-path-step{min-width:0;border:1px solid #dedbea;border-radius:11px;padding:8px 9px;background:rgba(255,255,255,.72);display:flex;align-items:center;gap:7px;text-align:left;color:#747387}
+button.intuitive-path-step{cursor:pointer}
+button.intuitive-path-step:hover{border-color:#bdb5ec;background:#fff}
+.intuitive-path-step.current{border-color:#a99cef;background:#fff;color:#493b9c;box-shadow:0 3px 10px rgba(68,52,154,.08)}
+.intuitive-path-step.done{border-color:#b9dfc9;color:#217a4c;background:#f4fbf7}
+.intuitive-path-step.locked{opacity:.56;cursor:default}
+.intuitive-path-number{width:22px;height:22px;flex:0 0 auto;border-radius:7px;display:grid;place-items:center;background:#efedf7;font-size:8.8px;font-weight:950}
+.intuitive-path-step.current .intuitive-path-number{background:var(--soft);color:var(--primary-2)}
+.intuitive-path-step.done .intuitive-path-number{background:var(--success-soft);color:var(--success)}
+.intuitive-path-copy{min-width:0}
+.intuitive-path-copy strong{display:block;font-size:8.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intuitive-path-copy small{display:block;margin-top:2px;font-size:7.5px;color:inherit;opacity:.82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intuitive-unlocked-note{margin-top:15px;padding:11px 13px;border:1px dashed #d6d2e6;border-radius:12px;background:#fbfbfe;color:var(--muted);font-size:10px;line-height:1.45;display:flex;align-items:center;gap:9px}
+.intuitive-unlocked-note .icon{flex:0 0 auto;color:var(--primary-2)}
+.intuitive-section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:22px 2px 10px}
+.intuitive-section-head h2{margin:0;font-size:14.5px;letter-spacing:-.2px}
+.intuitive-section-head p{margin:3px 0 0;color:var(--muted);font-size:9.8px}
+.intuitive-snapshot{border:1px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 4px 16px rgba(34,29,75,.055);overflow:hidden}
+.intuitive-snapshot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.intuitive-panel{min-width:0;padding:15px 16px;display:flex;flex-direction:column;min-height:218px}
+.intuitive-panel:nth-child(odd){border-right:1px solid var(--line)}
+.intuitive-panel:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.intuitive-panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.intuitive-panel-title{display:flex;align-items:flex-start;gap:9px;min-width:0}
+.intuitive-panel-icon{width:31px;height:31px;flex:0 0 auto;border-radius:10px;display:grid;place-items:center;background:var(--soft);color:var(--primary-2)}
+.intuitive-panel-icon .icon{width:16px;height:16px}
+.intuitive-panel h3{margin:0;font-size:12px}
+.intuitive-panel-head p{margin:3px 0 0;color:var(--muted);font-size:8.8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.intuitive-panel-count{min-width:27px;height:27px;padding:0 7px;border-radius:999px;display:grid;place-items:center;background:#f3f1fb;color:#514681;font-size:8.8px;font-weight:900}
+.intuitive-panel-body{min-height:0;flex:1}
+.intuitive-panel-footer{display:flex;justify-content:flex-end;margin-top:9px;padding-top:8px;border-top:1px solid var(--line)}
+.intuitive-panel-link{border:0;background:transparent;color:var(--primary-2);font-size:9.3px;font-weight:850;padding:3px 0}
+.intuitive-panel-link:hover{text-decoration:underline;text-underline-offset:3px}
+.intuitive-empty{min-height:110px;border:1px dashed #d8d5e5;border-radius:11px;background:#fbfbfe;padding:14px;display:grid;place-items:center;text-align:center;color:var(--muted);font-size:9.3px;line-height:1.45}
+.intuitive-nav-locked{opacity:.5;cursor:not-allowed!important}
+.intuitive-nav-locked:hover{background:transparent!important;color:#c8c9da!important}
+.intuitive-nav-note{margin:8px 10px 5px;padding:9px 10px;border:1px solid rgba(255,255,255,.09);border-radius:10px;background:rgba(255,255,255,.045);color:#aaaabd;font-size:9px;line-height:1.4}
+.intuitive-nav-note strong{display:block;color:#fff;font-size:9.5px;margin-bottom:2px}
+body.intuitive-before-classes .quick-search{display:none}
+body.intuitive-before-classes #addButton{display:none!important}
+@media(max-width:980px){.intuitive-next{grid-template-columns:1fr}.intuitive-next-action{max-width:520px}.intuitive-path{max-width:none}}
+@media(max-width:760px){.intuitive-next{padding:18px 16px;gap:18px}.intuitive-next h2{font-size:22px}.intuitive-next-button{min-height:84px}.intuitive-path{grid-template-columns:1fr 1fr}.intuitive-snapshot-grid{grid-template-columns:1fr}.intuitive-panel{min-height:200px;border-right:0!important;border-bottom:1px solid var(--line)}.intuitive-panel:last-child{border-bottom:0}.intuitive-panel:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+</style>
+<script id="acadence-intuitive-workflow-script">
+(function(){
+  const intuitiveCourses=()=>Array.isArray(state.courses)?state.courses.filter(course=>course.type!=='block'):[];
+  const intuitiveBlocks=()=>Array.isArray(state.courses)?state.courses.filter(course=>course.type==='block'):[];
+  const intuitiveReviews=()=>state.setupWorkflowReviews?.[state.selectedSemester]||{};
+  const intuitiveSetupFinished=()=>Boolean(state.setupCompleted?.[state.selectedSemester]);
+  const intuitiveAddDays=(value,days)=>{const date=parse(value);date.setDate(date.getDate()+days);return iso(date)};
+
+  function intuitiveStatus(){
+    const courses=intuitiveCourses(),reviews=intuitiveReviews();
+    const flags={
+      classes:courses.length>0&&Boolean(reviews.finalSignature),
+      office:intuitiveBlocks().length>0||Boolean(reviews.officeSkipped),
+      absences:(state.plannedAbsences||[]).length>0||Boolean(reviews.absencesSkipped),
+      activities:(state.activities||[]).length>0||Boolean(reviews.activitiesSkipped)
+    };
+    return{courses,reviews,flags,done:intuitiveSetupFinished()?4:Object.values(flags).filter(Boolean).length};
+  }
+
+  function intuitiveNext(){
+    const status=intuitiveStatus();
+    if(!status.courses.length)return{key:'classes',step:'classes',icon:'book',kicker:'Start here',title:'Set up the classes you teach',description:'Add each class once. Acadence will generate its meeting dates, day counts, and likely final-exam period automatically.',button:'Set up classes',hint:'This unlocks the rest of the planner.'};
+    if(!status.flags.classes)return{key:'classes-review',step:'classes',icon:'check',kicker:'Continue setup',title:'Confirm your classes and final exams',description:'Review the information Acadence generated, then confirm the first setup step.',button:'Review class setup',hint:'Finish step 1 of 4.'};
+    if(!status.flags.office)return{key:'office',step:'office',icon:'clock',kicker:'Continue setup',title:'Add office hours',description:'Add the recurring times when students can meet with you. You can also skip this step for now.',button:'Set office hours',hint:'Step 2 of 4.'};
+    if(!status.flags.absences)return{key:'absences',step:'absences',icon:'calendar',kicker:'Continue setup',title:'Add known absences',description:'Enter travel, leave, or other known dates so Acadence can adjust affected meetings.',button:'Review absences',hint:'Step 3 of 4.'};
+    if(!status.flags.activities)return{key:'activities',step:'activities',icon:'calendarPlus',kicker:'Continue setup',title:'Add the teaching activities you already know',description:'Place exams, quizzes, labs, and recurring activities into the class meetings where they belong.',button:'Add activities',hint:'Step 4 of 4.'};
+    if(!intuitiveSetupFinished())return{key:'finish',step:'activities',icon:'check',kicker:'Almost ready',title:'Finish semester setup',description:'The semester structure is ready. Finish setup to open your course meeting planner.',button:'Finish setup',hint:'One final confirmation.'};
+    const open=(state.tasks||[]).filter(task=>!task.done),unscheduled=open.filter(task=>!task.plannedDate);
+    if(unscheduled.length)return{key:'tasks',icon:'check',kicker:'Your next action',title:`Schedule ${unscheduled.length} unscheduled ${unscheduled.length===1?'task':'tasks'}`,description:'Place the work on realistic days so the workload view reflects what you can actually complete.',button:'Schedule tasks',hint:'Keep this week realistic.'};
+    const activities=(state.activities||[]).filter(activity=>activity.date>=todayActual).sort((a,b)=>String(a.date).localeCompare(String(b.date)));
+    if(!activities.length)return{key:'planner',icon:'calendarPlus',kicker:'Your next action',title:'Plan your first upcoming class activity',description:'Open the course planner and add the next lecture topic, quiz, lab, exam, or other teaching activity.',button:'Open course planner',hint:'Plan directly inside the meeting sequence.'};
+    return{key:'planner',icon:'list',kicker:'Your next action',title:'Review the next class meeting',description:'Your setup is complete and your work is scheduled. Open the course planner to continue planning where you left off.',button:'Open course planner',hint:'Continue teaching from the meeting sequence.'};
+  }
+
+  function intuitivePath(status){
+    const steps=[
+      ['classes','Classes','Days, times & finals'],
+      ['office','Office hours','Student availability'],
+      ['absences','Absences','Known dates away'],
+      ['activities','Activities','Exams, quizzes & labs']
+    ];
+    const firstIncomplete=steps.findIndex(([id])=>!status.flags[id]);
+    return `<div class="intuitive-path" aria-label="Semester setup steps">${steps.map(([id,label,hint],index)=>{
+      const done=status.flags[id]||intuitiveSetupFinished(),current=!intuitiveSetupFinished()&&index===(firstIncomplete<0?3:firstIncomplete),locked=!done&&!current;
+      const tag=locked?'div':'button';
+      const attrs=locked?'':`type="button" data-dashboard-next="${id==='classes'?'classes-review':id}" data-dashboard-step="${id}"`;
+      return `<${tag} class="intuitive-path-step ${done?'done':''} ${current?'current':''} ${locked?'locked':''}" ${attrs}><span class="intuitive-path-number">${done?'✓':index+1}</span><span class="intuitive-path-copy"><strong>${label}</strong><small>${done?'Done':current?'You are here':hint}</small></span></${tag}>`;
+    }).join('')}</div>`;
+  }
+
+  function intuitiveScheduleDate(){
+    const sem=semester();
+    if((meetingsOn(todayActual,true)||[]).length)return todayActual;
+    let cursor=todayActual<sem.start?sem.start:todayActual;
+    if(cursor>sem.lastClass)cursor=sem.start;
+    for(let i=0;i<190&&cursor<=sem.lastClass;i++,cursor=intuitiveAddDays(cursor,1))if((meetingsOn(cursor,true)||[]).length)return cursor;
+    return todayActual;
+  }
+
+  function intuitiveCoursePanel(courses){
+    if(!courses.length)return '<div class="intuitive-empty">Courses will appear automatically after the first setup step.</div>';
+    return `<div class="dashboard-course-list">${courses.slice(0,3).map(course=>{
+      const activities=(state.activities||[]).filter(activity=>String(activity.courseId)===String(course.id)).length;
+      return `<button type="button" class="dashboard-course-row" style="--course:${course.color||'#6c56d8'}" data-open-course-dashboard="${course.id}"><span class="dashboard-course-accent"></span><div><strong>${esc(course.code)} · ${esc(course.title)}</strong><small>${(course.days||[]).join('')} · ${fmtTime(course.start)}–${fmtTime(course.end)} · ${activities} ${activities===1?'activity':'activities'}</small></div><span class="dashboard-row-chevron">›</span></button>`;
+    }).join('')}</div>`;
+  }
+
+  function intuitiveSchedulePanel(courses){
+    if(!courses.length)return{date:todayActual,count:0,label:'Available after setup',html:'<div class="intuitive-empty">Your teaching schedule will be generated from the class information you enter.</div>'};
+    const date=intuitiveScheduleDate(),items=(meetingsOn(date,true)||[]).sort((a,b)=>timeMinutes(a.start||'23:59')-timeMinutes(b.start||'23:59')),dayActivities=typeof eventsOn==='function'?(eventsOn(date)||[]):[];
+    const html=items.length?`<div class="dashboard-schedule-list">${items.slice(0,3).map(item=>{
+      const activity=dayActivities.find(entry=>String(entry.courseId)===String(item.id));
+      return `<div class="dashboard-schedule-row" style="--course:${item.color||'#6c56d8'}"><span class="dashboard-schedule-time">${esc(fmtTime(item.start))}</span><div class="dashboard-schedule-copy"><strong>${esc(item.code)} · ${esc(item.title)}</strong><small>${esc(`${fmtTime(item.start)}–${fmtTime(item.end)}${courseLocation(item)?` · ${courseLocation(item)}`:''}`)}</small>${activity?`<span class="dashboard-schedule-activity">${esc(activity.title||activity.type||'Activity')}</span>`:''}</div></div>`;
+    }).join('')}</div>`:'<div class="intuitive-empty">No scheduled blocks on this date.</div>';
+    return{date,count:items.length,label:date===todayActual?'Today':formatDate(date,{weekday:'short',month:'short',day:'numeric'}),html};
+  }
+
+  function intuitiveWorkloadPanel(){
+    const data=workloadData(todayActual),limit=Number(state.settings?.dailyWorkloadMinutes||180),max=Math.max(limit,...data.map(item=>item.min),1),total=data.reduce((sum,item)=>sum+item.min,0);
+    return `<div class="dashboard-workload-summary"><div><strong>${minutesLabel(total)}</strong><small>planned faculty work this week</small></div><span class="tag auto">${(state.tasks||[]).filter(task=>!task.done&&task.plannedDate).length} scheduled</span></div><div class="dashboard-workload-bars">${data.map(item=>`<div class="dashboard-workload-row"><span class="dashboard-workload-day">${parse(item.date).toLocaleDateString('en-US',{weekday:'short'})}</span><div class="dashboard-workload-track"><div class="dashboard-workload-fill ${item.min>limit?'over':''}" style="width:${Math.min(100,item.min/max*100)}%"></div></div><span class="dashboard-workload-time">${minutesLabel(item.min)}</span></div>`).join('')}</div>`;
+  }
+
+  function intuitiveTaskPanel(courses){
+    const open=(state.tasks||[]).filter(task=>!task.done).sort((a,b)=>String(a.plannedDate||a.dueDate||'9999').localeCompare(String(b.plannedDate||b.dueDate||'9999'))),unscheduled=open.filter(task=>!task.plannedDate),high=open.filter(task=>task.priority==='high'),courseMap=Object.fromEntries(courses.map(course=>[String(course.id),course.code]));
+    const metrics=`<div class="dashboard-metric-row"><div class="dashboard-mini-metric"><strong>${open.length}</strong><small>Open</small></div><div class="dashboard-mini-metric"><strong>${unscheduled.length}</strong><small>Unscheduled</small></div><div class="dashboard-mini-metric"><strong>${high.length}</strong><small>High priority</small></div></div>`;
+    if(!open.length)return `${metrics}<div class="intuitive-empty">No open faculty tasks.</div>`;
+    return `${metrics}<div class="dashboard-task-list">${open.slice(0,2).map(task=>{const date=task.plannedDate||task.dueDate;return `<div class="dashboard-task-row"><span class="dashboard-task-check"></span><div class="dashboard-task-copy"><strong>${esc(task.title)}</strong><small>${esc(courseMap[String(task.courseId)]||task.category||'Faculty work')} · ${minutesLabel(task.minutes||0)}</small></div><span class="dashboard-task-date">${date?formatDate(date,{month:'short',day:'numeric'}):'Unscheduled'}</span></div>`}).join('')}</div>`;
+  }
+
+  renderNav=function(){
+    const hasCourses=intuitiveCourses().length>0;
+    if(!hasCourses&&!['today','setup','settings'].includes(state.currentView))state.currentView='today';
+    const active=state.currentView==='daycount'?'courses':state.currentView;
+    const before=[['today','home','Home'],['setup','settings','Semester setup']];
+    const after=[['today','home','Home'],['setup','settings','Semester setup'],['semester','calendar','Course planner'],['courses','book','Courses'],['tasks','check','Tasks'],['reflection','spark','Reflection'],['more','grid','More']];
+    const items=hasCourses?after:before;
+    const side=items.map(([id,ic,label])=>`<button class="nav-btn ${active===id?'active':''}" data-view="${id}">${icon(ic)}<span>${label}</span>${id==='tasks'&&state.tasks.filter(task=>!task.done&&task.dueDate<=todayActual).length?`<span class="badge">${state.tasks.filter(task=>!task.done&&task.dueDate<=todayActual).length}</span>`:''}</button>`).join('');
+    document.getElementById('sideNav').innerHTML=side+(hasCourses?'':`<div class="intuitive-nav-note"><strong>The planner opens after class setup.</strong>Start with Semester setup; Acadence will guide you from there.</div>`);
+    const mobile=hasCourses?[after[0],after[2],after[3],after[4],after[5]]:before;
+    const bottom=document.getElementById('bottomNav');
+    bottom.innerHTML=mobile.map(([id,ic,label])=>`<button class="bottom-btn ${active===id?'active':''}" data-view="${id}">${icon(ic)}<span>${label}</span></button>`).join('');
+    bottom.style.gridTemplateColumns=`repeat(${mobile.length},1fr)`;
+    document.getElementById('settingsNavButton')?.classList.toggle('active',active==='settings');
+  };
+
+  renderToday=function(){
+    const root=document.getElementById('view-today');
+    if(!root)return;
+    const status=intuitiveStatus(),next=intuitiveNext(),courses=status.courses,schedule=intuitiveSchedulePanel(courses),setupReady=intuitiveSetupFinished()&&courses.length>0;
+    const setupContext=setupReady?`<div class="intuitive-unlocked-note">${icon('check','sm')}<span><strong>Semester setup is complete.</strong> The dashboard now focuses on the next useful action rather than showing every possible action at once.</span></div>`:intuitivePath(status);
+    const snapshot=courses.length?`
+      <div class="intuitive-section-head"><div><h2>Semester at a glance</h2><p>The four things you need most, together in one compact view.</p></div></div>
+      <section class="intuitive-snapshot"><div class="intuitive-snapshot-grid">
+        <article class="intuitive-panel"><div class="intuitive-panel-head"><div class="intuitive-panel-title"><span class="intuitive-panel-icon">${icon('book','sm')}</span><div><h3>Courses</h3><p>${courses.length} set up for ${esc(selectedSemesterLabel())}</p></div></div><span class="intuitive-panel-count">${courses.length}</span></div><div class="intuitive-panel-body">${intuitiveCoursePanel(courses)}</div><div class="intuitive-panel-footer"><button class="intuitive-panel-link" data-view="courses">Manage courses</button></div></article>
+        <article class="intuitive-panel"><div class="intuitive-panel-head"><div class="intuitive-panel-title"><span class="intuitive-panel-icon">${icon('calendar','sm')}</span><div><h3>${schedule.date===todayActual?'Today’s schedule':'Next teaching day'}</h3><p>${esc(schedule.label)}</p></div></div><span class="intuitive-panel-count">${schedule.count}</span></div><div class="intuitive-panel-body">${schedule.html}</div><div class="intuitive-panel-footer"><button class="intuitive-panel-link" data-view="semester">Open course planner</button></div></article>
+        <article class="intuitive-panel"><div class="intuitive-panel-head"><div class="intuitive-panel-title"><span class="intuitive-panel-icon">${icon('bar','sm')}</span><div><h3>This week’s workload</h3><p>Preparation, grading, LMS, and admin</p></div></div></div><div class="intuitive-panel-body">${intuitiveWorkloadPanel()}</div><div class="intuitive-panel-footer"><button class="intuitive-panel-link" data-view="tasks">Review workload</button></div></article>
+        <article class="intuitive-panel"><div class="intuitive-panel-head"><div class="intuitive-panel-title"><span class="intuitive-panel-icon">${icon('check','sm')}</span><div><h3>Tasks</h3><p>The faculty work that needs attention next</p></div></div></div><div class="intuitive-panel-body">${intuitiveTaskPanel(courses)}</div><div class="intuitive-panel-footer"><button class="intuitive-panel-link" data-view="tasks">View all tasks</button></div></article>
+      </div></section>`:`<div class="intuitive-unlocked-note">${icon('spark','sm')}<span>Courses, schedule, workload, and tasks will appear here automatically after you add your first class. Nothing else needs your attention yet.</span></div>`;
+    root.innerHTML=`${pageHead('Home','Dashboard','One clear next step, followed by the semester information you use most.','')}
+      <section class="intuitive-next">
+        <div class="intuitive-next-copy"><div class="intuitive-next-kicker">${icon(setupReady?'spark':'chevronRight','sm')}${esc(next.kicker)}</div><h2>${esc(next.title)}</h2><p>${esc(next.description)}</p>${setupContext}</div>
+        <div class="intuitive-next-action"><button type="button" class="intuitive-next-button" data-dashboard-next="${next.key}" data-dashboard-step="${next.step||''}"><span class="intuitive-next-button-icon">${icon(next.icon||'chevronRight')}</span><span><strong>${esc(next.button)}</strong><small>${esc(next.hint)}</small></span><span class="intuitive-next-arrow">›</span></button>${!setupReady?'<button type="button" class="intuitive-quiet-link" data-open-academic>Review academic calendar</button>':''}</div>
+      </section>${snapshot}`;
+    hydrateIcons(root);
+  };
+
+  function syncIntuitiveChrome(){
+    const hasCourses=intuitiveCourses().length>0;
+    document.body.classList.toggle('intuitive-before-classes',!hasCourses);
+    const addButton=document.getElementById('addButton');
+    if(addButton){addButton.classList.toggle('hidden',!hasCourses);addButton.setAttribute('aria-hidden',hasCourses?'false':'true')}
+    document.querySelector('.quick-search')?.classList.toggle('hidden',!hasCourses);
+    if(!hasCourses)document.getElementById('addMenu')?.classList.remove('open');
+  }
+
+  const previousIntuitiveRenderAll=renderAll;
+  renderAll=function(){previousIntuitiveRenderAll();syncIntuitiveChrome()};
+  renderAll();
+})();
+</script>
+
 </body>
 </html>
