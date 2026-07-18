@@ -1438,5 +1438,293 @@ body{font-size:16px;line-height:1.48}
 })();
 </script>
 
+
+<style id="acadence-requested-ui-fixes">
+/* Keep the search icon in its own lane so it never collides with the placeholder. */
+.quick-search input{
+  padding-left:46px!important;
+}
+.quick-search .icon{
+  left:14px!important;
+  top:50%!important;
+  width:19px!important;
+  height:19px!important;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+
+/* Make weekly teaching activities obvious inside their course meeting. */
+.week-layout{grid-template-columns:repeat(7,minmax(155px,1fr))!important}
+.week-meeting-activities{
+  display:grid;
+  gap:5px;
+  margin-top:8px;
+  padding-top:7px;
+  border-top:1px solid color-mix(in srgb,var(--course) 22%,#eceaf3);
+}
+.week-meeting-activity{
+  width:100%;
+  min-height:0!important;
+  padding:6px 7px!important;
+  border:1px solid color-mix(in srgb,var(--course) 24%,#fff);
+  border-radius:8px;
+  background:color-mix(in srgb,var(--course) 11%,#fff);
+  color:color-mix(in srgb,var(--course) 78%,#24243a);
+  text-align:left;
+  font-size:11px!important;
+  font-weight:800;
+  line-height:1.25;
+}
+.week-meeting-activity:hover{
+  background:color-mix(in srgb,var(--course) 18%,#fff);
+}
+.week-meeting-activity small{
+  display:block;
+  margin-top:2px;
+  color:inherit;
+  opacity:.76;
+  font-size:9.5px!important;
+}
+.week-block.activity-standalone{
+  background:#fbfaff;
+}
+
+/* A denser day-count planner with a more distinct month column. */
+.planner-daycount-shell .daycount-hero{
+  padding:13px 16px 12px;
+}
+.planner-daycount-shell .daycount-course-mark{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  font-size:11.5px;
+}
+.planner-daycount-shell .daycount-course-copy h2{
+  font-size:16px!important;
+}
+.planner-daycount-shell .daycount-course-copy p{
+  margin-top:2px;
+}
+.planner-daycount-shell .daycount-progress-track{
+  height:6px;
+  margin-top:8px;
+}
+.planner-daycount-toolbar{
+  padding:10px 14px!important;
+  gap:8px;
+}
+.planner-daycount-toolbar .form-field{
+  min-width:260px;
+}
+.planner-daycount-shell .daycount-summary-grid{
+  padding:10px 14px 0;
+  gap:6px;
+}
+.planner-daycount-shell .daycount-summary-card{
+  padding:7px 9px;
+  border-radius:10px;
+}
+.planner-daycount-shell .daycount-summary-card strong{
+  font-size:18px!important;
+}
+.planner-daycount-shell .daycount-summary-card small{
+  margin-top:1px;
+  font-size:9.5px!important;
+}
+.planner-daycount-table{
+  padding:11px 14px 14px!important;
+}
+.daycount-table.planner-table th,
+.daycount-table.planner-table td{
+  height:58px!important;
+  padding:5px!important;
+}
+.daycount-table.planner-table thead th{
+  height:40px!important;
+}
+.daycount-table.planner-table .month-cell{
+  width:94px;
+  min-width:94px;
+  padding:8px 9px!important;
+  background:linear-gradient(135deg,#eeeaff,#f8f6ff)!important;
+  color:#4d3e8a!important;
+  border-right:2px solid #d5cef3!important;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-size:11px!important;
+  font-weight:900!important;
+  vertical-align:middle!important;
+}
+.daycount-table.planner-table tbody tr:hover .month-cell{
+  background:linear-gradient(135deg,#e6e0ff,#f3efff)!important;
+}
+.daycount-cell-stack{
+  min-height:45px!important;
+  gap:3px!important;
+}
+.daycount-token{
+  min-width:35px;
+  height:30px;
+  border-radius:9px;
+  font-size:11px;
+}
+.meeting-activity-list{
+  gap:2px!important;
+}
+.meeting-activity-chip{
+  padding:3px 5px!important;
+  border-radius:6px!important;
+  font-size:9.5px!important;
+}
+.meeting-empty-label,
+.meeting-activity-more{
+  font-size:8.8px!important;
+}
+.daycount-legend{
+  margin-top:9px!important;
+  padding:8px 10px!important;
+  gap:6px 10px!important;
+}
+/* The old grid layout stacked the meeting number and superscript vertically. */
+.daycount-legend > span{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  white-space:nowrap;
+}
+.daycount-legend .legend-token{
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:1px;
+  flex:0 0 auto;
+  line-height:1;
+  white-space:nowrap;
+}
+.daycount-legend .legend-token sup{
+  position:static!important;
+  display:inline-block!important;
+  margin:0!important;
+  font-size:7px!important;
+  line-height:1!important;
+  transform:translateY(-.38em);
+}
+
+@media(max-width:760px){
+  .planner-daycount-shell .daycount-hero{padding:12px 13px 11px}
+  .planner-daycount-toolbar{padding:9px 11px!important}
+  .planner-daycount-shell .daycount-summary-grid{padding:9px 11px 0}
+  .planner-daycount-table{padding:9px 10px 11px!important}
+}
+</style>
+
+<script id="acadence-requested-ui-fixes-script">
+(function(){
+  /* Weekly view: keep each activity visibly attached to its class meeting. */
+  renderWeek=function(){
+    const start=parse(state.selectedDate);
+    const first=state.settings?.weekStartsOn==='sunday'?0:1;
+    start.setDate(start.getDate()-((start.getDay()-first+7)%7));
+    const matchesFilter=id=>!state.courseFilter||String(id)===String(state.courseFilter);
+
+    return `<div class="week-layout">${Array.from({length:7},(_,i)=>{
+      const d=new Date(start);
+      d.setDate(start.getDate()+i);
+      const date=iso(d);
+      const dayActivities=eventsOn(date).filter(a=>matchesFilter(a.courseId));
+      const attachedActivityIds=new Set();
+      const items=[];
+
+      meetingsOn(date,true).filter(m=>matchesFilter(m.id)).forEach(m=>{
+        const meetingActivities=m.type==='block'?[]:dayActivities
+          .filter(a=>String(a.courseId)===String(m.id))
+          .sort((a,b)=>String(a.title||a.type||'').localeCompare(String(b.title||b.type||'')));
+        meetingActivities.forEach(a=>attachedActivityIds.add(String(a.id)));
+        const activityMarkup=meetingActivities.length
+          ? `<div class="week-meeting-activities">${meetingActivities.map(a=>`<button type="button" class="week-meeting-activity" style="--course:${m.color}" data-edit-activity="${a.id}" title="${esc(a.title||a.type||'Teaching activity')}">${esc(a.title||a.type||'Teaching activity')}<small>${esc(a.type||'Activity')}</small></button>`).join('')}</div>`
+          : '';
+        items.push({
+          sortTime:m.start||'23:40',
+          rank:0,
+          html:`<div class="week-block meeting ${m.meetingStatus?.status!=='counted'?'cancelled':''}" style="--course:${m.color}"><span class="week-block-time">${esc(fmtTime(m.start))}</span><strong>${esc(m.code)}</strong><small>${esc(`${fmtTime(m.start)}–${fmtTime(m.end)}${courseLocation(m)?` · ${courseLocation(m)}`:''}${m.meetingStatus?.status!=='counted'?` · ${m.meetingStatus.reason||'Cancelled'}`:''}`)}</small>${activityMarkup}</div>`
+        });
+      });
+
+      dayActivities.filter(a=>!attachedActivityIds.has(String(a.id))).forEach(a=>{
+        const c=course(a.courseId),at=a.start||c?.start||'23:50';
+        items.push({
+          sortTime:at,
+          rank:1,
+          html:`<div class="week-block activity activity-standalone" style="--course:${c?.color||'#6c56d8'}"><span class="week-block-time">${esc(at==='23:50'?'Course activity':fmtTime(at))}</span><strong>${esc(a.title||a.type||'Teaching activity')}</strong><small>${esc(`${c?.code?`${c.code} · `:''}${a.type||'Activity'}`)}</small><button type="button" class="text-button" data-edit-activity="${a.id}">Edit</button></div>`
+        });
+      });
+
+      tasksOn(date).filter(t=>!t.done&&matchesFilter(t.courseId)).forEach(t=>{
+        const at=t.plannedTime||'23:59';
+        items.push({
+          sortTime:at,
+          rank:2,
+          html:`<div class="week-block task" style="--course:#d79a38"><span class="week-block-time">${esc(t.plannedTime?fmtTime(t.plannedTime):'Flexible')}</span><strong>${esc(t.title)}</strong><small>${esc(`Faculty task · ${minutesLabel(t.minutes)}`)}</small></div>`
+        });
+      });
+
+      items.sort((a,b)=>timeMinutes(a.sortTime)-timeMinutes(b.sortTime)||a.rank-b.rank);
+      return `<div class="week-column" data-date="${date}"><div class="week-column-head ${date===todayActual?'today':''}"><span>${formatDate(date,{weekday:'short',month:'short',day:'numeric'})}</span><span>${items.length+attachedActivityIds.size}</span></div><div class="week-column-body">${items.map(item=>item.html).join('')||'<div class="empty">Open</div>'}</div></div>`;
+    }).join('')}</div>`;
+  };
+
+  /* Keep setup to four setup steps, then take the user to Day count. */
+  const renderSetupWithPlannerStep=renderSetup;
+  renderSetup=function(){
+    state.setupPlannerPreview=state.setupPlannerPreview&&typeof state.setupPlannerPreview==='object'?state.setupPlannerPreview:{};
+    state.setupPlannerPreview[state.selectedSemester]=false;
+    renderSetupWithPlannerStep();
+    const root=document.getElementById('view-setup');
+    if(!root)return;
+
+    root.querySelector('[data-setup-planner-jump]')?.remove();
+    const current=state.setupFourStepPosition?.[state.selectedSemester]||'classes';
+    const order=['classes','office','absences','activities'];
+    const index=Math.max(0,order.indexOf(current));
+    const strong=root.querySelector('.guided-progress-head strong');
+    const span=root.querySelector('.guided-progress-head span');
+    const fill=root.querySelector('.guided-progress-fill');
+    if(strong)strong.textContent=`Step ${index+1} of 4`;
+    if(span)span.textContent=`${Math.round((index+1)/4*100)}% through setup`;
+    if(fill)fill.style.width=`${Math.round((index+1)/4*100)}%`;
+
+    const finish=root.querySelector('[data-setup-planner-next]');
+    if(finish){
+      finish.removeAttribute('data-setup-planner-next');
+      finish.setAttribute('data-finish-setup-open-daycount','');
+      finish.innerHTML=`${icon('check','sm')}Finish setup and open Day count`;
+    }
+    hydrateIcons(root);
+  };
+
+  document.addEventListener('click',function(event){
+    const button=event.target.closest('[data-finish-setup-open-daycount]');
+    if(!button)return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    state.setupCompleted=state.setupCompleted&&typeof state.setupCompleted==='object'?state.setupCompleted:{};
+    state.setupCompleted[state.selectedSemester]=true;
+    state.setupPlannerPreview=state.setupPlannerPreview&&typeof state.setupPlannerPreview==='object'?state.setupPlannerPreview:{};
+    state.setupPlannerPreview[state.selectedSemester]=false;
+    state.currentView='semester';
+    state.plannerMode='daycount';
+    if(!state.dayCountCourseId){
+      const firstCourse=state.courses.find(c=>c.type!=='block');
+      if(firstCourse)state.dayCountCourseId=firstCourse.id;
+    }
+    persistState({render:false});
+    renderAll();
+    toast('Semester setup complete. Day count is ready.');
+  },true);
+
+  renderAll();
+})();
+</script>
+
 </body>
 </html>
