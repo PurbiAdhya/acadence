@@ -215,6 +215,153 @@ body.auth-required .auth-gate{display:flex}body.auth-required .app-shell,body.au
 @media print{.app-department-footer,.auth-builder{display:none!important}}
 </style>
 
+
+<style id="acadence-compact-course-readable-home-patch">
+/* Compact Add/Edit Course dialog */
+.modal:has(#courseForm){
+  width:min(790px,calc(100vw - 28px));
+  max-height:calc(100vh - 24px);
+  border-radius:18px;
+}
+.modal:has(#courseForm) .modal-head{padding:14px 18px 12px}
+.modal:has(#courseForm) .modal-head h2{font-size:18px;line-height:1.2}
+.modal:has(#courseForm) .modal-head p{max-width:620px;margin-top:4px;font-size:11px;line-height:1.4}
+.modal:has(#courseForm) .modal-head .icon-btn{width:32px;height:32px;border-radius:9px}
+.modal:has(#courseForm) .modal-body{padding:13px 18px 14px}
+.modal:has(#courseForm) .modal-foot{position:sticky;bottom:0;z-index:4;padding:10px 18px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px)}
+
+#courseForm .form-grid{
+  grid-template-columns:minmax(120px,.9fr) minmax(145px,1.05fr) minmax(145px,1fr) minmax(145px,1fr);
+  gap:9px 10px;
+  align-items:end;
+}
+#courseForm .form-field label{font-size:10.5px;margin-bottom:4px}
+#courseForm input,#courseForm select{min-height:38px;padding:7px 9px;font-size:11.5px;border-radius:9px}
+#courseForm .form-grid>.form-field:nth-child(1){grid-column:1;grid-row:1}
+#courseForm .form-grid>.form-field:nth-child(2){grid-column:2 / span 2;grid-row:1}
+#courseForm .form-grid>.form-field:nth-child(3){grid-column:4;grid-row:1}
+#courseForm .form-grid>.form-field:nth-child(4){grid-column:1;grid-row:2}
+#courseForm .form-grid>.form-field:nth-child(8){grid-column:2;grid-row:2}
+#courseForm .form-grid>.form-field:nth-child(11){grid-column:3 / span 2;grid-row:2}
+#courseForm .form-grid>.form-field:nth-child(5){grid-column:1 / span 2;grid-row:3}
+#courseForm .form-grid>.form-field:nth-child(6){grid-column:3;grid-row:3}
+#courseForm .form-grid>.form-field:nth-child(7){grid-column:4;grid-row:3}
+#courseForm .form-grid>.form-field:nth-child(9){grid-column:1 / -1;grid-row:4}
+#courseForm .form-grid>.form-field:nth-child(10){grid-column:1 / -1;grid-row:5}
+#courseForm #courseSuggestionSummary{grid-column:1 / -1;grid-row:6}
+
+/* Plain, compact meeting-day checkboxes instead of large circles. */
+#courseForm .form-grid>.form-field:nth-child(5)>div{gap:12px!important;min-height:38px;align-items:center}
+#courseForm .filter-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-width:auto;
+  padding:3px 2px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:#55566c;
+  font-size:11px;
+  font-weight:750;
+}
+#courseForm .filter-chip:hover{background:transparent;color:var(--primary-2)}
+#courseForm .filter-chip:has(input:checked){background:transparent;color:var(--primary-2)}
+#courseForm .filter-chip input{
+  width:15px;
+  height:15px;
+  min-height:0;
+  margin:0!important;
+  padding:0;
+  accent-color:var(--primary);
+}
+
+/* One restrained row of small color swatches. */
+#courseForm .color-palette{grid-template-columns:repeat(10,minmax(24px,1fr));gap:7px;margin-top:1px;max-width:520px}
+#courseForm .color-swatch{height:25px;border-radius:7px}
+#courseForm .color-choice input:checked + .color-swatch{box-shadow:0 0 0 2px #fff,0 0 0 4px var(--primary)}
+#courseForm .color-choice input:checked + .color-swatch:after{width:15px;height:15px;font-size:9px}
+#courseForm .color-palette-note{margin-top:5px;font-size:8.8px}
+#courseForm .final-exam-selection{padding:8px 10px;border-radius:10px}
+#courseForm .final-exam-selection-button{gap:9px}
+#courseForm .final-exam-selection-icon{width:31px;height:31px;border-radius:9px;font-size:15px}
+#courseForm .final-exam-selection-copy strong{font-size:10.8px}
+#courseForm .final-exam-selection-copy small{font-size:8.8px;margin-top:2px}
+#courseForm .final-exam-selection-arrow{font-size:16px}
+#courseForm .course-suggestion-summary{padding:7px 9px;font-size:9px;line-height:1.35}
+
+/* Make the Home dashboard readable at a glance without making it crowded. */
+#view-today .page-head{margin-bottom:16px}
+#view-today .page-head .eyebrow{font-size:12px}
+#view-today .page-head h1{font-size:32px;line-height:1.12}
+#view-today .page-head p{font-size:14px;line-height:1.45}
+#view-today .intuitive-next-kicker{font-size:11.5px}
+#view-today .intuitive-next h2{font-size:30px}
+#view-today .intuitive-next p{font-size:14px;line-height:1.55}
+#view-today .intuitive-next-button strong{font-size:16px}
+#view-today .intuitive-next-button small{font-size:11px}
+#view-today .intuitive-quiet-link{font-size:11px}
+#view-today .intuitive-path-step{padding:9px 10px}
+#view-today .intuitive-path-number{width:24px;height:24px;font-size:10px}
+#view-today .intuitive-path-copy strong{font-size:10.5px}
+#view-today .intuitive-path-copy small{font-size:9px}
+#view-today .intuitive-unlocked-note{font-size:11.5px;line-height:1.5}
+#view-today .intuitive-section-head h2{font-size:18px}
+#view-today .intuitive-section-head p{font-size:11.5px}
+#view-today .intuitive-panel h3{font-size:14px}
+#view-today .intuitive-panel-head p{font-size:10.5px}
+#view-today .intuitive-panel-count{font-size:10px}
+#view-today .intuitive-panel-link{font-size:10.8px}
+#view-today .intuitive-empty{font-size:10.8px}
+#view-today .dashboard-course-row strong,
+#view-today .dashboard-schedule-row strong,
+#view-today .dashboard-task-row strong{font-size:11.8px}
+#view-today .dashboard-course-row small,
+#view-today .dashboard-schedule-row small,
+#view-today .dashboard-task-row small{font-size:9.8px}
+#view-today .dashboard-schedule-time{font-size:10px}
+#view-today .dashboard-schedule-activity{font-size:9px}
+#view-today .dashboard-task-date{font-size:9.2px}
+#view-today .dashboard-workload-summary small{font-size:9.8px}
+#view-today .dashboard-workload-day{font-size:9.8px}
+#view-today .dashboard-workload-time{font-size:9.2px}
+#view-today .dashboard-mini-metric small{font-size:8.8px}
+
+@media(max-width:760px){
+  .modal:has(#courseForm){width:min(620px,calc(100vw - 14px));max-height:calc(100vh - 14px)}
+  #courseForm .form-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  #courseForm .form-grid>.form-field:nth-child(1),
+  #courseForm .form-grid>.form-field:nth-child(2),
+  #courseForm .form-grid>.form-field:nth-child(3),
+  #courseForm .form-grid>.form-field:nth-child(4),
+  #courseForm .form-grid>.form-field:nth-child(5),
+  #courseForm .form-grid>.form-field:nth-child(6),
+  #courseForm .form-grid>.form-field:nth-child(7),
+  #courseForm .form-grid>.form-field:nth-child(8),
+  #courseForm .form-grid>.form-field:nth-child(9),
+  #courseForm .form-grid>.form-field:nth-child(10),
+  #courseForm .form-grid>.form-field:nth-child(11),
+  #courseForm #courseSuggestionSummary{grid-row:auto}
+  #courseForm .form-grid>.form-field:nth-child(1){grid-column:1}
+  #courseForm .form-grid>.form-field:nth-child(2){grid-column:2}
+  #courseForm .form-grid>.form-field:nth-child(3){grid-column:1}
+  #courseForm .form-grid>.form-field:nth-child(4){grid-column:2}
+  #courseForm .form-grid>.form-field:nth-child(5){grid-column:1 / -1}
+  #courseForm .form-grid>.form-field:nth-child(6){grid-column:1}
+  #courseForm .form-grid>.form-field:nth-child(7){grid-column:2}
+  #courseForm .form-grid>.form-field:nth-child(8){grid-column:1}
+  #courseForm .form-grid>.form-field:nth-child(11){grid-column:2}
+  #courseForm .form-grid>.form-field:nth-child(9),
+  #courseForm .form-grid>.form-field:nth-child(10),
+  #courseForm #courseSuggestionSummary{grid-column:1 / -1}
+  #courseForm .color-palette{grid-template-columns:repeat(5,1fr);max-width:none}
+  #view-today .page-head h1{font-size:28px}
+  #view-today .page-head p{font-size:13px}
+  #view-today .intuitive-next h2{font-size:25px}
+  #view-today .intuitive-next p{font-size:13px}
+}
+</style>
+
 </head>
 <body class="auth-required">
 <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
