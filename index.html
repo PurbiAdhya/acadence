@@ -2964,5 +2964,101 @@ body.important-dates-open{overflow:hidden}
 })();
 </script>
 
+
+
+<style id="acadence-daycount-course-scoped-drawer-styles">
+.day-drawer .drawer-course-context{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin-top:7px;
+  padding:6px 9px;
+  border:1px solid color-mix(in srgb,var(--drawer-course,#6c56d8) 28%,#e4e5ef);
+  border-radius:999px;
+  background:color-mix(in srgb,var(--drawer-course,#6c56d8) 9%,#fff);
+  color:color-mix(in srgb,var(--drawer-course,#6c56d8) 76%,#24243a);
+  font-size:11px;
+  font-weight:800;
+}
+.day-drawer .drawer-course-context-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--drawer-course,#6c56d8);
+  flex:0 0 auto;
+}
+</style>
+<script id="acadence-daycount-course-scoped-drawer-patch">
+(function(){
+  const renderAllCoursesDrawer=renderDrawer;
+
+  renderDrawer=function(date,courseId=''){
+    if(!courseId){renderAllCoursesDrawer(date);return}
+    const selectedCourse=course(courseId);
+    if(!selectedCourse){renderAllCoursesDrawer(date);return}
+
+    state.selectedDate=date;
+    persistState({render:false});
+
+    const meetings=meetingsOn(date,true).filter(item=>String(item.id)===String(courseId));
+    const acts=eventsOn(date).filter(item=>String(item.courseId)===String(courseId));
+    const tasks=tasksOn(date).filter(item=>String(item.courseId)===String(courseId));
+    const academic=academicEntriesForDate(date);
+    const openTasks=tasks.filter(item=>!item.done);
+    const drawer=document.getElementById('dayDrawer');
+
+    drawer.style.setProperty('--drawer-course',selectedCourse.color||'#6c56d8');
+    drawer.innerHTML=`<div class="drawer-head"><div><h2>${formatDate(date)}</h2><p>${meetings.length} class meeting${meetings.length===1?'':'s'} · ${openTasks.length} open task${openTasks.length===1?'':'s'}</p><span class="drawer-course-context"><span class="drawer-course-context-dot"></span>${esc(selectedCourse.code)} · ${esc(selectedCourse.title)}</span></div><button class="icon-btn" data-close-drawer>${icon('x')}</button></div><div class="drawer-body">${academic.length?`<section class="drawer-section"><h3>Academic calendar and absences</h3>${academic.map(a=>`<div class="warning-box"><div><strong>${a.type==='online'?'Online day':'Schedule adjustment'}</strong>${esc(a.text)}</div></div>`).join('')}</section>`:''}<section class="drawer-section"><h3>Class meeting</h3>${meetings.map(m=>{const status=m.meetingStatus||{status:'counted'};return `<div class="drawer-item"><div class="drawer-item-top"><strong>${esc(m.code)} · ${esc(m.title)}</strong><span class="tag ${status.status==='counted'?'':'cancelled'}">${status.status==='counted'?(status.online?'Online':'Counted'):'Cancelled'}</span></div><small>${fmtTime(m.start)}–${fmtTime(m.end)} · ${esc(courseLocation(m))}${status.status!=='counted'?` · ${esc(status.reason||'Cancelled')}`:''}</small><div class="drawer-actions">${status.status==='counted'&&!status.makeup?`<button class="btn small danger" data-daycount-toggle-class="${m.id}|${date}|${courseId}">Cancel class</button>`:status.status==='instructor-cancelled'?`<button class="btn small" data-daycount-toggle-class="${m.id}|${date}|${courseId}">Restore class</button>`:''}</div><div class="form-field meeting-note"><label>Meeting note</label><textarea data-meeting-note="${m.id}|${date}" placeholder="Lesson topic, room change, unfinished material…">${esc(state.meetingNotes[cancellationKey(m.id,date)]||'')}</textarea></div></div>`}).join('')||'<div class="empty">This course does not meet on this date.</div>'}</section><section class="drawer-section"><h3>Course activities</h3>${acts.map(a=>`<div class="drawer-item"><div class="drawer-item-top"><strong>${esc(a.title)}</strong><button class="text-button" data-edit-activity="${a.id}">Edit</button></div><small>${esc(a.type)} · ${esc(selectedCourse.code)}</small></div>`).join('')||'<div class="empty">No activities for this course on this date.</div>'}</section><section class="drawer-section"><h3>Course tasks</h3><div class="task-list">${tasks.map(taskRow).join('')||'<div class="empty">No tasks for this course on this date.</div>'}</div></section></div><div class="drawer-foot"><button class="btn" data-daycount-add-activity="${date}|${courseId}">${icon('calendarPlus','sm')}Activity</button><button class="btn primary" data-daycount-add-task="${date}|${courseId}">${icon('plus','sm')}Task</button></div>`;
+
+    document.getElementById('drawerBackdrop').classList.add('open');
+    drawer.classList.add('open');
+    hydrateIcons(drawer);
+  };
+
+  document.addEventListener('click',function(e){
+    const token=e.target.closest('.daycount-token[data-date]');
+    if(token){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const courseId=state.dayCountCourseId||state.courseFilter||'';
+      renderDrawer(token.dataset.date,courseId);
+      return;
+    }
+
+    const toggle=e.target.closest('[data-daycount-toggle-class]');
+    if(toggle){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const [courseId,date,drawerCourseId]=toggle.dataset.daycountToggleClass.split('|');
+      const key=cancellationKey(courseId,date);
+      if(state.cancelledMeetings[key])delete state.cancelledMeetings[key];
+      else state.cancelledMeetings[key]='Cancelled by instructor';
+      persistState({render:false});
+      renderAll();
+      renderDrawer(date,drawerCourseId||courseId);
+      return;
+    }
+
+    const addActivity=e.target.closest('[data-daycount-add-activity]');
+    if(addActivity){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const [date,courseId]=addActivity.dataset.daycountAddActivity.split('|');
+      openModal('activity',{date,courseId});
+      return;
+    }
+
+    const addTask=e.target.closest('[data-daycount-add-task]');
+    if(addTask){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      const [date,courseId]=addTask.dataset.daycountAddTask.split('|');
+      openModal('task',{plannedDate:date,dueDate:date,courseId});
+      return;
+    }
+  },true);
+})();
+</script>
+
 </body>
 </html>
