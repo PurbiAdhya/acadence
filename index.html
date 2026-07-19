@@ -4196,5 +4196,212 @@ strong,b,.btn,.nav-btn,.segment,.tag,.clean-step-copy strong,.v5-dashboard-card-
 }
 </style>
 
+<style id="acadence-critical-cleanup-v10">
+/* Critical cleanup: bigger text, quieter weight, clearer setup position. */
+body{font-size:17px!important;font-weight:400!important;line-height:1.5}
+strong,b,h1,h2,h3,h4,.btn,.nav-btn,.tag,.segment,.v5-modal-step,.v5-course-tab,.v5-quick-activity,.v5-dashboard-card-kicker,.v5-course-progress-top strong{font-weight:500!important}
+small,.tiny,.muted{font-weight:400!important}
+.btn{font-size:15.5px!important;min-height:46px!important;border-radius:12px!important}
+.btn.small{font-size:14px!important;min-height:38px!important}
+input,select,textarea{font-size:16px!important;min-height:47px!important}
+.form-field label{font-size:15px!important;font-weight:500!important;color:#3d3e51!important}
+.clean-setup-actions .btn,.v6-setup-head-actions .btn{font-size:15px!important}
+.v5-semester-setup-page{max-width:1120px;margin:0 auto}
+.v5-setup-page-head{margin-bottom:16px!important}
+.v5-setup-page-head h1{font-size:34px!important;font-weight:500!important;letter-spacing:-.45px!important}
+.v5-setup-page-head p{font-size:16px!important;color:#5f6074!important;margin-top:6px!important;max-width:660px}
+.v5-course-progress-shell{padding:18px 20px!important;border-radius:16px!important}
+.v5-course-progress-top strong{font-size:17px!important;color:#1f2034!important}
+.v5-course-progress-top span{font-size:14px!important;color:#66677b!important}
+.v5-course-progress-track{height:8px!important}
+.v5-course-tabs{gap:8px!important;margin-top:13px!important}
+.v5-course-tab{font-size:15px!important;min-height:39px!important;padding:8px 12px!important;border-radius:999px!important}
+.v10-setup-map{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:14px 0 15px}
+.v10-setup-map-step{min-height:52px;border:1px solid var(--line);border-radius:13px;background:#fff;display:flex;align-items:center;gap:9px;padding:10px 11px;color:#6f7082;font-size:14px}
+.v10-setup-map-step span{width:23px;height:23px;border-radius:8px;background:#f0eff6;display:grid;place-items:center;font-size:13px;flex:0 0 auto}
+.v10-setup-map-step.done{background:#f5fbf7;border-color:#c7e4d1;color:#356949}
+.v10-setup-map-step.current{background:#f6f3ff;border-color:#bdb1f2;color:#4b35b5;box-shadow:0 3px 11px rgba(67,49,150,.07)}
+.v10-setup-map-step.current span{background:var(--primary);color:#fff}
+.v10-now-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;padding:12px 14px;border:1px solid #ded9f0;border-radius:13px;background:#fff;color:#45465b;font-size:16px}
+.v10-now-row .v10-now-label{color:#6f7082;font-size:14px}
+.v10-now-row .v10-now-main{font-weight:500;color:#25263a}
+.v5-bite-card{border-radius:18px!important}
+.v5-bite-card-head{padding:24px 26px 18px!important}
+.v5-bite-card-head h2{font-size:30px!important;font-weight:500!important;letter-spacing:-.35px!important}
+.v5-bite-card-head p{display:none!important}
+.v5-bite-card-body{font-size:16px!important;padding:22px 26px!important}
+.v5-bite-card-foot{padding:17px 26px!important;font-size:15px!important}
+.v5-bite-step-icon{width:48px!important;height:48px!important;border-radius:14px!important}
+.v5-activity-buttons{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))!important;gap:10px!important}
+.v5-quick-activity{justify-content:flex-start!important;font-size:16px!important;min-height:52px!important;padding:13px 15px!important;background:#fff!important;color:#202133!important}
+.v5-activity-list{margin-top:14px!important;gap:8px!important}
+.v5-activity-row{font-size:15.5px!important;min-height:48px!important;padding:12px 13px!important;border-radius:11px!important}
+.v5-activity-row strong{font-size:16px!important;font-weight:500!important}
+.v5-activity-row span{font-size:14px!important}
+.v5-empty-choice{font-size:16px!important;padding:18px!important;border-radius:13px!important}
+.v5-guide-block strong,.v5-guide-check span,.check-item span{font-size:16px!important;font-weight:400!important}
+.setup-checklist-head strong{font-size:17px!important;font-weight:500!important}
+.setup-checklist-head span{font-size:14px!important}
+.v5-week-preview-day h3{font-size:17px!important;font-weight:500!important}
+.v5-week-preview-item strong,.clean-list-row strong{font-size:16px!important;font-weight:500!important}
+.v5-week-preview-item small,.clean-list-row small{font-size:14px!important}
+.v5-profile-summary span{font-size:14px!important;font-weight:400!important}
+.v5-dashboard-setup-action strong{font-size:17px!important;font-weight:500!important}
+.v5-dashboard-setup-action small{font-size:14px!important}
+.v5-setup-dashboard-card h2{font-size:25px!important;font-weight:500!important}
+.v5-setup-dashboard-card p{font-size:15.5px!important}
+/* Activity modal: no re-choosing type when a typed +Exam/+Quiz/etc. button opened it. */
+.modal.v10-skip-type-step .modal-head h2{font-size:27px!important;font-weight:500!important}
+.modal.v10-skip-type-step .modal-head p{display:none!important}
+.modal.v10-skip-type-step [data-v5-activity-panel="1"],
+.modal.v10-skip-type-step [data-v5-activity-jump="1"]{display:none!important}
+.modal.v10-skip-type-step .v5-modal-progress-row{grid-template-columns:repeat(2,1fr)!important}
+.modal.v10-skip-type-step .v5-modal-progress-track span{width:50%!important}
+.modal.v10-skip-type-step [data-v5-activity-jump="2"] span{background:var(--primary)!important;color:#fff!important}
+.v10-prefilled-activity{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:15px;padding:12px 13px;border:1px solid #ded8f2;border-radius:12px;background:#faf9ff;font-size:15px;color:#42435a}
+.v10-prefilled-activity span{display:inline-flex;align-items:center;border-radius:999px;background:#fff;border:1px solid #ddd9ed;padding:5px 9px;color:#4d3d9f;font-size:14px}
+.v5-activity-modal .v5-modal-panel h3{font-size:24px!important;font-weight:500!important;margin-bottom:12px!important}
+.v5-activity-modal .v5-modal-panel>p{display:none!important}
+.v5-type-button,.v5-occurrence-choice,.v5-pattern-button,.v5-reminder-choice{font-size:15px!important;font-weight:400!important}
+.v5-occurrence-choice strong{font-size:16px!important;font-weight:500!important}
+.v5-occurrence-choice small{font-size:14px!important}
+.v5-activity-preview strong{font-size:15px!important;font-weight:500!important}
+.v5-preview-dates span{font-size:14px!important}
+/* Color should remain visible, not hidden inside a collapsed disclosure. */
+.v6-optional-details.v10-open-color{border:0!important;background:transparent!important;padding:0!important;margin-top:14px!important}
+.v6-optional-details.v10-open-color summary{display:none!important}
+.v6-optional-details.v10-open-color:before{content:attr(data-color-label);display:block;margin-bottom:8px;color:#3d3e51;font-size:15px;font-weight:500}
+.v5-color-row{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+.v5-color-choice span{width:42px!important;height:32px!important;border-radius:10px!important}
+@media(max-width:760px){
+  .v10-setup-map{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .v5-setup-page-head h1{font-size:30px!important}
+  .v5-bite-card-head h2{font-size:26px!important}
+  .v5-activity-buttons{grid-template-columns:1fr!important}
+}
+</style>
+<script id="acadence-critical-cleanup-v10-script">
+(function(){
+  function escLocal(value){return String(value??'').replace(/[&<>"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]})}
+  function teachingCoursesV10(){return Array.isArray(state?.courses)?state.courses.filter(c=>c.type!=='block'):[]}
+  function activeFlowV10(){
+    const f=(state?.biteSizedSemesterSetup&&state.biteSizedSemesterSetup[state.selectedSemester])||{};
+    const courses=teachingCoursesV10();
+    let stage=f.stage||(!courses.length?'course':'activities');
+    if(!['course','activities','next','semesterDetails','syllabus','presemester','complete'].includes(stage))stage='course';
+    const active=courses.find(c=>String(c.id)===String(f.activeCourseId))||courses[0]||null;
+    return {f,stage,active,courses};
+  }
+  function stepKeyV10(stage,detail){
+    if(stage==='course')return'courses';
+    if(stage==='activities'||stage==='next')return'activities';
+    if(stage==='semesterDetails')return detail==='preview'?'weekly':'details';
+    if(stage==='syllabus')return'syllabi';
+    if(stage==='presemester'||stage==='complete')return'presemester';
+    return'courses';
+  }
+  function currentLabelV10(stage,detail){
+    if(stage==='course')return'Course information';
+    if(stage==='activities')return'Add activity';
+    if(stage==='next')return'Add another course or continue';
+    if(stage==='semesterDetails')return detail==='office'?'Office hours':detail==='absences'?'Planned absences':'Weekly preview';
+    if(stage==='syllabus')return'Syllabi';
+    if(stage==='presemester')return'Pre-semester checklist';
+    if(stage==='complete')return'Ready';
+    return'Setup';
+  }
+  function doneKeysV10(stage,detail){
+    const order=['courses','activities','details','weekly','syllabi','presemester'];
+    const current=stepKeyV10(stage,detail);
+    const index=Math.max(0,order.indexOf(current));
+    const set=new Set(order.slice(0,index));
+    if(stage==='complete')order.forEach(x=>set.add(x));
+    if(stage==='semesterDetails'&&detail==='preview')set.add('details');
+    return set;
+  }
+  function polishSetupV10(){
+    const root=document.getElementById('view-setup');if(!root)return;
+    root.querySelectorAll('.v10-setup-map,.v10-now-row').forEach(n=>n.remove());
+    const flow=activeFlowV10(),current=stepKeyV10(flow.stage,flow.f.detailStep),done=doneKeysV10(flow.stage,flow.f.detailStep);
+    const labels=[['courses','Courses'],['activities','Activities'],['details','Office/Absences'],['weekly','Weekly preview'],['syllabi','Syllabi'],['presemester','Pre-semester']];
+    const map=`<div class="v10-setup-map" aria-label="Setup progress">${labels.map(([key,label],i)=>`<div class="v10-setup-map-step ${key===current?'current':''} ${done.has(key)?'done':''}"><span>${done.has(key)?'✓':i+1}</span>${label}</div>`).join('')}</div>`;
+    const title=currentLabelV10(flow.stage,flow.f.detailStep),courseText=flow.active?flow.active.code:'';
+    const now=`<div class="v10-now-row"><span class="v10-now-label">Now</span><span class="v10-now-main">${escLocal(title)}</span>${courseText?`<span>${escLocal(courseText)}</span>`:''}</div>`;
+    const progress=root.querySelector('.v5-course-progress-shell');
+    if(progress)progress.insertAdjacentHTML('afterend',map+now);
+    const activityHead=root.querySelector('.v5-bite-card-head h2');
+    if(activityHead&&/^Known activities for/i.test(activityHead.textContent.trim()))activityHead.textContent='Add activity';
+    root.querySelectorAll('.v5-bite-card-head p').forEach(p=>p.remove());
+    root.querySelectorAll('.v5-quick-activity').forEach(button=>{
+      const label=button.textContent.replace(/^\+\s*/,'').trim();
+      if(label)button.setAttribute('aria-label',`Add ${label} activity`);
+    });
+  }
+  function showColorChoicesV10(root=document){
+    root.querySelectorAll('details.v6-optional-details').forEach(details=>{
+      details.open=true;details.classList.add('v10-open-color');
+      const summary=details.querySelector('summary');
+      if(summary&&!details.dataset.colorLabel)details.dataset.colorLabel=summary.textContent.trim()||'Color';
+    });
+  }
+  function setActivityPanelV10(form,step){
+    form.dataset.v5ActivityStep=String(step);
+    form.querySelectorAll('[data-v5-activity-panel]').forEach(panel=>panel.classList.toggle('active',Number(panel.dataset.v5ActivityPanel)===step));
+    form.querySelectorAll('[data-v5-activity-jump]').forEach(button=>{
+      const n=Number(button.dataset.v5ActivityJump);
+      button.classList.toggle('current',n===step);
+      button.classList.toggle('complete',n<step);
+    });
+    const back=form.querySelector('[data-v5-activity-back]'),next=form.querySelector('[data-v5-activity-next]'),save=form.querySelector('[data-v5-activity-save]');
+    if(back)back.hidden=step<=2;
+    if(next)next.hidden=step===3;
+    if(save)save.hidden=step!==3;
+  }
+  function polishActivityModalV10(force=false){
+    const modal=document.getElementById('modal'),form=modal?.querySelector('#activityForm[data-v5-activity-form]');
+    if(!modal||!form)return;
+    const skip=form.dataset.v10SkipType==='true';
+    if(!skip)return;
+    modal.classList.add('v10-skip-type-step');
+    const type=form.elements.type?.value||'Activity';
+    const option=form.elements.courseId?.selectedOptions?.[0];
+    const courseText=option?option.textContent.split('—')[0].trim():'';
+    const h=modal.querySelector('.modal-head h2');if(h)h.textContent=`Add ${type.toLowerCase()==='lecture plan'?'lecture plan':type}`;
+    modal.querySelector('.modal-head p')?.remove();
+    const panel1=form.querySelector('[data-v5-activity-panel="1"]'),panel2=form.querySelector('[data-v5-activity-panel="2"]');
+    if(panel1&&panel2&&!panel2.querySelector('[data-v10-prefilled-activity]')){
+      panel2.insertAdjacentHTML('afterbegin',`<div class="v10-prefilled-activity" data-v10-prefilled-activity><span>${escLocal(courseText||'Course')}</span><span>${escLocal(type)}</span></div>`);
+      const titleField=panel1.querySelector('[data-v5-activity-title-label]')?.closest('.form-field');
+      const firstField=panel2.querySelector('.form-field');
+      if(titleField&&firstField)firstField.insertAdjacentElement('afterend',titleField);
+      const p=panel2.querySelector('p'); if(p)p.remove();
+      const h3=panel2.querySelector('h3'); if(h3)h3.textContent='Choose when it happens';
+    }
+    if(force||form.dataset.v5ActivityStep==='1')setActivityPanelV10(form,2);
+    if(form.dataset.v5ActivityStep==='2'){
+      const back=form.querySelector('[data-v5-activity-back]');if(back)back.hidden=true;
+    }
+  }
+  const previousOpenModalV10=openModal;
+  openModal=function(type,prefill={}){
+    previousOpenModalV10(type,prefill);
+    const modal=document.getElementById('modal');
+    showColorChoicesV10(modal||document);
+    if(type==='activity'){
+      const form=modal?.querySelector('#activityForm[data-v5-activity-form]');
+      if(form&&!prefill.id&&prefill.type&&prefill._v5SetupFlow){form.dataset.v10SkipType='true';polishActivityModalV10(true)}
+    }
+  };
+  const previousRenderSetupV10=renderSetup;
+  renderSetup=function(){previousRenderSetupV10();polishSetupV10();showColorChoicesV10(document.getElementById('view-setup')||document)};
+  window.addEventListener('click',function(e){
+    const form=document.querySelector('#activityForm[data-v10-skip-type="true"]');
+    if(form&&e.target.closest('[data-v5-activity-jump="1"]')){e.preventDefault();e.stopImmediatePropagation();setActivityPanelV10(form,2);return}
+    setTimeout(()=>{polishActivityModalV10(false);polishSetupV10()},0);
+  },true);
+  window.addEventListener('change',function(){setTimeout(()=>{polishActivityModalV10(false);showColorChoicesV10(document)},0)},true);
+  try{renderSetup()}catch(error){console.warn('Cleanup setup render skipped',error)}
+})();
+</script>
 </body>
 </html>
