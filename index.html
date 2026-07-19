@@ -4403,5 +4403,151 @@ input,select,textarea{font-size:16px!important;min-height:47px!important}
   try{renderSetup()}catch(error){console.warn('Cleanup setup render skipped',error)}
 })();
 </script>
+<style id="acadence-minimal-turbotax-flow-v11">
+/* v11: quieter Canvas-like surfaces, TurboTax-like guidance, larger readable type. */
+:root{
+  --bg:#f7f8fb;--surface:#ffffff;--surface-2:#fbfcff;--text:#171827;--muted:#65677a;
+  --line:#e3e5ee;--line-strong:#cfd3df;--primary:#5c48c9;--primary-2:#4631b6;--soft:#f3f0ff;
+  --shadow-sm:0 1px 6px rgba(26,27,44,.045);--shadow:0 8px 24px rgba(26,27,44,.075);
+}
+html{font-size:16px}body{font-size:16px;line-height:1.5;background:var(--bg)}
+body,button,input,select,textarea{font-weight:400!important}
+strong,b,.btn,.nav-btn,.tag,.segment,.v5-dashboard-card-kicker,.v5-bite-step-icon,.v10-now-label,.v11-flow-chip,.v11-now-label{font-weight:500!important}
+h1,h2,h3,h4,.page-head h1,.card-head h2,.modal-head h2,.v5-bite-card-head h2,.v5-modal-panel h3{font-weight:500!important;letter-spacing:-.02em!important}
+.card,.modal,.v5-bite-card,.v5-setup-dashboard-card,.v5-course-progress-shell{box-shadow:var(--shadow-sm)!important;border-color:var(--line)!important;background:#fff!important}
+.btn{min-height:44px;border-radius:12px;font-size:15px!important;padding:10px 15px!important}.btn.small{min-height:38px;font-size:14px!important;padding:8px 12px!important}.btn.primary{box-shadow:none!important;background:var(--primary)!important}.btn.ghost{background:transparent!important;color:var(--muted)!important}
+input,select,textarea{min-height:46px;font-size:16px!important;border-radius:12px}.form-field label,.reflection-form label{font-size:15px!important;font-weight:500!important;color:#44465a!important;margin-bottom:7px!important}
+.sidebar{background:#17172c!important}.nav-btn{font-size:15px!important;padding:11px 12px!important}.nav-label{font-size:11px!important;font-weight:500!important}.brand strong{font-size:22px!important;font-weight:500!important}.profile-mini strong{font-size:14px!important;font-weight:500!important}.profile-mini small{font-size:12px!important}
+.topbar{height:72px}.semester-select{font-size:15px!important;font-weight:500!important}.sync-chip{font-size:13px!important}
+.content{padding-top:30px}.page-head h1{font-size:34px!important}.page-head p{font-size:16px!important;line-height:1.45}.eyebrow{font-size:12px!important;font-weight:500!important;letter-spacing:.08em!important;color:var(--primary-2)!important}
+
+/* Setup page: the progress map is the guide; hide duplicate progress/disclaimer copy. */
+.v5-semester-setup-page{max-width:1120px!important}.v5-setup-page-head{margin-bottom:12px!important}.v5-setup-page-head h1{font-size:38px!important}.v5-setup-page-head p,.v5-course-progress-shell,.v5-course-tabs,.v10-setup-map,.v10-now-row{display:none!important}.v5-setup-page-head [data-open-academic]{display:none!important}.v5-setup-page-head .btn{font-size:15px!important}
+.v11-flow-map{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;margin:16px 0 18px}.v11-flow-step{min-height:62px;border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px 11px;display:flex;align-items:center;gap:9px;color:#6a6c7b;font-size:15px}.v11-flow-step.done{background:#f4fbf7;border-color:#c8e6d2;color:#23694a}.v11-flow-step.current{background:#f6f3ff;border-color:#b8adef;color:#3f32a1;box-shadow:0 0 0 3px rgba(92,72,201,.08)}.v11-flow-step span{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto;background:#f1f2f6;color:inherit;font-size:14px}.v11-flow-step.done span{background:#def4e7}.v11-flow-step.current span{background:#e7e1ff}.v11-now{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:14px 16px;border:1px solid var(--line);border-radius:16px;background:#fff}.v11-now-label{color:var(--muted);font-size:15px}.v11-now-main{font-size:20px;color:var(--text)}.v11-flow-chip{border:1px solid #ddd9ef;border-radius:999px;padding:5px 10px;background:#fbfaff;color:#4d3d9f;font-size:15px}
+
+.v5-bite-card{border-radius:20px!important;overflow:hidden}.v5-bite-card-head{padding:28px 30px 20px!important;background:#fff!important;border-bottom:1px solid var(--line)!important}.v5-bite-card-head h2{font-size:34px!important;line-height:1.16!important}.v5-bite-card-head p{display:none!important}.v5-bite-card-body{padding:28px 30px!important;font-size:17px!important}.v5-bite-card-foot{padding:20px 30px!important;background:#fff!important;font-size:16px!important}.v5-bite-step-icon{width:52px!important;height:52px!important;border-radius:16px!important;background:#f5f2ff!important;color:var(--primary-2)!important}
+.v5-course-summary{padding:18px!important;border-radius:16px!important}.v5-course-summary strong,.clean-list-row strong,.v5-activity-row strong,.setup-checklist-head strong{font-size:17px!important;font-weight:500!important}.v5-course-summary small,.clean-list-row small,.v5-activity-row span,.setup-checklist-head span{font-size:15px!important;color:var(--muted)!important}.v5-course-summary-mark{font-weight:500!important}
+.v5-empty-choice{font-size:16px!important;border-radius:16px!important;padding:24px!important;background:#fbfcff!important;color:var(--muted)!important}.v5-empty-choice strong{font-size:18px!important;font-weight:500!important;color:var(--text)!important}.v5-activity-buttons{display:flex!important;gap:10px!important;flex-wrap:wrap!important}.v5-quick-activity{font-size:16px!important;min-height:48px!important}.v11-add-activity{min-width:170px!important}.v5-activity-list{gap:10px!important}.v5-activity-row{padding:14px 15px!important;border-radius:14px!important;background:#fff!important}
+.v5-next-course-actions{gap:14px!important}.v5-next-choice{border-radius:16px!important;padding:22px!important}.v5-next-choice strong{font-size:19px!important;font-weight:500!important}.v5-next-choice small{font-size:15px!important;line-height:1.45!important}.v5-next-choice small,.v5-quiet-note,.v5-profile-intro,.v6-profile-benefit,.v5-modal-panel>p,.modal-head p,.auth-note,.cloud-storage-note{display:none!important}
+.v5-semester-detail-nav{grid-template-columns:repeat(3,1fr)!important;gap:10px!important}.v5-semester-detail-nav button{font-size:16px!important;font-weight:400!important;min-height:50px;border-radius:14px!important}.v5-week-preview-day h3{font-size:16px!important;font-weight:500!important}.v5-week-preview-item{padding:12px!important}.v5-week-preview-item strong{font-size:16px!important;font-weight:500!important}.v5-week-preview-item small{font-size:14px!important}.setup-checklist-card{border-radius:16px!important}.check-item,.v5-guide-check{font-size:17px!important;font-weight:400!important;padding:14px 0!important}.check-item input,.v5-guide-check input{width:22px!important;height:22px!important;min-height:0!important}.v5-guide-block{padding:16px!important;border-radius:16px!important}.v5-guide-block strong{font-size:17px!important;font-weight:500!important}.v5-guide-number{font-weight:500!important}
+
+/* Modals: bigger, cleaner, fewer explanatory paragraphs. */
+.modal{border-radius:22px!important}.modal-head{padding:24px 26px!important}.modal-head h2{font-size:30px!important}.modal-body{padding:24px 26px!important}.modal-foot{padding:18px 26px!important}.v5-modal-progress{padding:16px 26px!important}.v5-modal-step{font-size:14px!important;font-weight:400!important}.v5-modal-step span{width:32px!important;height:32px!important;font-weight:500!important}.v5-modal-panel h3{font-size:27px!important;margin-bottom:18px!important}.v5-day-choice span{font-size:16px!important;font-weight:400!important;min-height:52px!important}.v6-time-suggestion-block>label{font-size:16px!important;font-weight:500!important}.v6-time-slot{font-size:16px!important;font-weight:400!important;min-height:52px!important}.v5-type-button,.v5-occurrence-choice,.v5-pattern-button,.v5-reminder-choice{font-size:16px!important;font-weight:400!important}.v5-type-button strong,.v5-occurrence-choice strong{font-size:17px!important;font-weight:500!important}.v5-type-button small,.v5-occurrence-choice small,.v5-preview-dates span,.v5-activity-preview{font-size:15px!important}.v10-prefilled-activity{font-size:16px!important}.v10-prefilled-activity span{font-size:15px!important}.v5-color-row{display:flex!important;gap:11px!important;flex-wrap:wrap!important}.v5-color-choice span{width:46px!important;height:36px!important;border-radius:11px!important}.v6-optional-details.v10-open-color:before{font-size:16px!important;font-weight:500!important}
+
+/* Dashboard: reduce loud setup copy; keep next action prominent. */
+.v5-setup-dashboard-card{border-radius:20px!important;padding:22px!important}.v5-dashboard-card-inner{gap:20px!important}.v5-dashboard-card-kicker{font-size:12px!important}.v5-setup-dashboard-card h2{font-size:27px!important;font-weight:500!important}.v5-setup-dashboard-card p{display:none!important}.v5-dashboard-setup-action{box-shadow:none!important;border-radius:16px!important}.v5-dashboard-setup-action strong{font-size:16px!important;font-weight:500!important}.v5-dashboard-setup-action small{font-size:14px!important}.v5-profile-summary span{font-size:14px!important;font-weight:400!important}
+
+@media(max-width:1050px){.v11-flow-map{grid-template-columns:repeat(4,minmax(0,1fr))}.v11-flow-step{min-height:58px}.v5-dashboard-card-inner{grid-template-columns:1fr!important}}
+@media(max-width:760px){body{font-size:16px}.content{padding:20px 15px 92px}.v5-setup-page-head{display:block}.v5-setup-page-head h1{font-size:32px!important}.v11-flow-map{grid-template-columns:repeat(2,minmax(0,1fr))}.v11-now-main{font-size:18px}.v5-bite-card-head,.v5-bite-card-body,.v5-bite-card-foot{padding-left:18px!important;padding-right:18px!important}.v5-bite-card-head h2{font-size:28px!important}.v5-next-course-actions{grid-template-columns:1fr!important}.v5-semester-detail-nav{grid-template-columns:1fr!important}.modal-head h2{font-size:26px!important}.v5-modal-panel h3{font-size:23px!important}}
+@media(max-width:430px){.v11-flow-map{grid-template-columns:1fr}.v11-flow-step{min-height:54px}.page-head h1{font-size:30px!important}.v5-bite-step-icon{display:none!important}}
+</style>
+<script id="acadence-minimal-turbotax-flow-v11-script">
+(function(){
+  function safe(value){return String(value??'').replace(/[&<>\"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[ch]||ch})}
+  function semId(){return state?.selectedSemester||''}
+  function courses(){return Array.isArray(state?.courses)?state.courses.filter(function(c){return c&&c.type!=='block'}):[]}
+  function blocks(){return Array.isArray(state?.courses)?state.courses.filter(function(c){return c&&c.type==='block'}):[]}
+  function flow(){
+    var map=(state?.biteSizedSemesterSetup&&state.biteSizedSemesterSetup[semId()])||{};
+    var list=courses();
+    var active=list.find(function(c){return String(c.id)===String(map.activeCourseId)})||list[0]||null;
+    var stage=map.stage||(!list.length?'course':'activities');
+    if(!['course','activities','next','semesterDetails','syllabus','presemester','complete'].includes(stage))stage='course';
+    return {raw:map,stage:stage,detail:map.detailStep||'office',active:active,list:list};
+  }
+  function keyFor(stage,detail){
+    if(stage==='course'||stage==='next')return'courses';
+    if(stage==='activities')return'activities';
+    if(stage==='semesterDetails'&&detail==='office')return'office';
+    if(stage==='semesterDetails'&&detail==='absences')return'absences';
+    if(stage==='semesterDetails'&&detail==='preview')return'preview';
+    if(stage==='syllabus')return'syllabi';
+    if(stage==='presemester'||stage==='complete')return'canvas';
+    return'courses';
+  }
+  function nowTitle(stage,detail){
+    if(stage==='course')return'Add course information';
+    if(stage==='activities')return'Add activity';
+    if(stage==='next')return'Add another course, or continue';
+    if(stage==='semesterDetails'&&detail==='office')return'Add office hours';
+    if(stage==='semesterDetails'&&detail==='absences')return'Add planned absences';
+    if(stage==='semesterDetails'&&detail==='preview')return'Review weekly preview';
+    if(stage==='syllabus')return'Prepare syllabi';
+    if(stage==='presemester')return'Canvas checklist';
+    if(stage==='complete')return'Semester ready';
+    return'Semester setup';
+  }
+  function dateForCourse(course){
+    if(!course)return (typeof semester==='function'?semester().start:'');
+    try{
+      var sem=semester(),start=(typeof todayActual!=='undefined'&&todayActual>sem.start)?todayActual:sem.start;
+      for(var d=start;d<=sem.lastClass;d=addDays(d,1)){
+        var items=typeof meetingsOn==='function'?meetingsOn(d,true):[];
+        var found=items.find(function(m){return String(m.id)===String(course.id)&&(!m.meetingStatus||m.meetingStatus.status==='counted')});
+        if(found)return d;
+      }
+      return sem.start;
+    }catch(e){return ''}
+  }
+  function rebuildProgress(){
+    var root=document.getElementById('view-setup');if(!root)return;
+    root.querySelectorAll('.v11-flow-map,.v11-now').forEach(function(n){n.remove()});
+    var f=flow(),current=keyFor(f.stage,f.detail);
+    var order=[['courses','Courses'],['activities','Activities'],['office','Office hours'],['absences','Absences'],['preview','Weekly preview'],['syllabi','Syllabi'],['canvas','Canvas']];
+    var idx=Math.max(0,order.findIndex(function(x){return x[0]===current}));
+    var done=new Set(order.slice(0,idx).map(function(x){return x[0]}));
+    if(f.stage==='complete')order.forEach(function(x){done.add(x[0])});
+    var map='<div class="v11-flow-map" aria-label="Setup progress">'+order.map(function(item,i){var key=item[0],label=item[1];return '<div class="v11-flow-step '+(key===current?'current ':'')+(done.has(key)?'done':'')+'"><span>'+(done.has(key)?'✓':i+1)+'</span>'+safe(label)+'</div>'}).join('')+'</div>';
+    var now='<div class="v11-now"><span class="v11-now-label">Now</span><span class="v11-now-main">'+safe(nowTitle(f.stage,f.detail))+'</span>'+(f.active?'<span class="v11-flow-chip">'+safe(f.active.code||'Course')+'</span>':'')+'</div>';
+    var head=root.querySelector('.v5-setup-page-head')||root.firstElementChild;
+    if(head)head.insertAdjacentHTML('afterend',map+now);
+  }
+  function simplifySetupText(){
+    var root=document.getElementById('view-setup');if(!root)return;
+    root.querySelectorAll('.v5-bite-card-head p,.v5-setup-page-head p,.v5-quiet-note,.v10-setup-map,.v10-now-row').forEach(function(n){n.remove()});
+    var title=root.querySelector('.v5-bite-card-head h2');
+    if(title&&/^Known activities/i.test(title.textContent.trim()))title.textContent='Add activity';
+    root.querySelectorAll('.v5-empty-choice').forEach(function(node){
+      var text=node.textContent.trim();
+      if(/No known activities/i.test(text))node.textContent='Nothing added yet.';
+      if(/No office hours/i.test(text))node.textContent='No office hours added.';
+      if(/No planned absences/i.test(text))node.textContent='No planned absences.';
+    });
+    var setupButtons=root.querySelector('.v5-activity-buttons');
+    if(setupButtons&&!setupButtons.dataset.v11Simplified){
+      var f=flow(),cid=f.active?.id||'';
+      setupButtons.dataset.v11Simplified='true';
+      setupButtons.innerHTML='<button type="button" class="btn primary v11-add-activity" data-v11-add-activity="'+safe(cid)+'">+ Activity</button>';
+    }
+    root.querySelectorAll('.v5-next-choice small,.v5-dashboard-setup-card p,.v5-profile-intro,.v6-profile-benefit').forEach(function(n){n.remove()});
+  }
+  function afterRender(){simplifySetupText();rebuildProgress()}
+  var previousRenderSetup=renderSetup;
+  renderSetup=function(){previousRenderSetup();afterRender();};
+  var previousRenderToday=renderToday;
+  renderToday=function(){previousRenderToday();document.querySelectorAll('#view-today .v5-setup-dashboard-card p,#view-today .clean-dashboard-next p').forEach(function(n){n.remove()})};
+  var previousOpenModal=openModal;
+  openModal=function(type,prefill){previousOpenModal(type,prefill||{});var modal=document.getElementById('modal');if(!modal)return;modal.querySelectorAll('.modal-head p,.v5-modal-panel>p,.v6-profile-benefit,.v5-profile-intro').forEach(function(n){n.remove()});modal.querySelectorAll('details.v6-optional-details').forEach(function(d){d.open=true;d.classList.add('v10-open-color')})};
+  window.addEventListener('click',function(e){
+    var button=e.target.closest('[data-v11-add-activity]');
+    if(button){
+      e.preventDefault();e.stopImmediatePropagation();
+      var f=flow();var cid=button.dataset.v11AddActivity||f.active?.id||'';var course=f.list.find(function(c){return String(c.id)===String(cid)})||f.active;
+      if(!course)return;
+      var raw=(state.biteSizedSemesterSetup&&state.biteSizedSemesterSetup[semId()])||{};
+      raw.activitiesSkipped=raw.activitiesSkipped&&typeof raw.activitiesSkipped==='object'?raw.activitiesSkipped:{};
+      raw.activitiesSkipped[course.id]=false;
+      persistState({render:false});
+      openModal('activity',{courseId:course.id,date:dateForCourse(course),_v5SetupFlow:true});
+      return;
+    }
+    setTimeout(afterRender,0);
+  },true);
+  window.addEventListener('change',function(){setTimeout(afterRender,0)},true);
+  try{afterRender()}catch(e){console.warn('v11 setup polish skipped',e)}
+})();
+</script>
+
+
 </body>
 </html>
