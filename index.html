@@ -1023,6 +1023,122 @@ strong,b,.btn,.nav-btn,.segment,.tag,.clean-step-copy strong,.v5-dashboard-card-
 }
 </style>
 
+
+
+<style id="acadence-location-font-v5">
+/* Location screen polish + slightly calmer sizing. */
+.app-shell .modal{width:min(700px,calc(100vw - 32px))!important;border-radius:22px!important}
+.app-shell .modal-head{padding:24px 30px!important}
+.app-shell .modal-head h2{font-size:29px!important;line-height:1.15!important;font-weight:500!important}
+.app-shell .modal-body{padding:24px 30px!important}
+.app-shell .modal-foot{padding:18px 30px!important}
+.app-shell .v5-modal-progress{padding:16px 30px 14px!important}
+.app-shell .v5-modal-step{font-size:14px!important;line-height:1.25!important;font-weight:400!important}
+.app-shell .v5-modal-step span{width:32px!important;height:32px!important;font-size:14px!important;font-weight:500!important;margin-bottom:6px!important}
+.app-shell .v5-modal-progress-track{height:5px!important}
+.app-shell .v5-modal-panel h3{font-size:25px!important;line-height:1.2!important;margin:0 0 18px!important;font-weight:500!important}
+.app-shell .v5-course-modal label,.app-shell .v5-activity-modal label,.app-shell .v5-profile-modal label{font-size:15px!important;line-height:1.3!important;font-weight:500!important;margin-bottom:8px!important}
+.app-shell .v5-course-modal input,.app-shell .v5-course-modal select,.app-shell .v5-course-modal textarea,.app-shell .v5-activity-modal input,.app-shell .v5-activity-modal select,.app-shell .v5-activity-modal textarea,.app-shell .v5-profile-modal input{font-size:16px!important;line-height:1.3!important;min-height:48px!important}
+.app-shell .v5-day-choice span,.app-shell .v6-time-slot,.app-shell .v5-type-choice,.app-shell .v5-occurrence-choice,.app-shell .v5-pattern-button,.app-shell .v5-reminder-choice{font-size:15px!important;line-height:1.35!important;font-weight:400!important}
+.app-shell .v5-day-choice span,.app-shell .v6-time-slot{min-height:52px!important}
+.app-shell .v5-type-button strong,.app-shell .v5-occurrence-choice strong{font-size:16px!important;font-weight:500!important}
+.app-shell .v5-type-button small,.app-shell .v5-occurrence-choice small,.app-shell .v5-preview-dates span,.app-shell .v5-activity-preview{font-size:15px!important}
+.app-shell .btn{font-size:15px!important;min-height:46px!important;font-weight:500!important}
+
+/* The location step should read top-to-bottom, not as a right-hand color sidebar. */
+.app-shell .v5-course-modal .v14-location-panel.active{display:flex!important;flex-direction:column!important;gap:22px!important}
+.app-shell .v5-course-modal .v14-location-fields{display:grid!important;grid-template-columns:150px minmax(0,1fr)!important;gap:14px!important;max-width:560px!important;align-items:end!important}
+.app-shell .v5-course-modal .v14-color-field{max-width:560px!important;margin-top:0!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-row{display:grid!important;grid-template-columns:repeat(8,44px)!important;gap:12px!important;align-items:center!important;justify-content:start!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice{width:44px!important;height:36px!important;display:block!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice span{width:44px!important;height:36px!important;border-radius:11px!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice input:checked+span{box-shadow:0 0 0 3px var(--primary)!important}
+
+@media(max-width:760px){
+  .app-shell .modal{width:100%!important;border-radius:0!important}
+  .app-shell .modal-head h2{font-size:27px!important}
+  .app-shell .v5-modal-panel h3{font-size:23px!important}
+  .app-shell .v5-course-modal .v14-location-fields{grid-template-columns:1fr!important;max-width:none!important}
+  .app-shell .v5-course-modal .v14-color-field{max-width:none!important}
+  .app-shell .v5-course-modal .v14-color-field .v5-color-row{grid-template-columns:repeat(4,44px)!important}
+}
+</style>
+
+
+
+<style id="acadence-workflow-polish-v6">
+/* v6: smaller than the last pass, still readable; calm Canvas-like weight. */
+html{font-size:16px!important}
+body,.app-shell{font-size:16px!important;line-height:1.45!important}
+body,button,input,select,textarea,.app-shell *{font-weight:400!important}
+.app-shell :where(strong,b){font-weight:500!important}
+.app-shell .page-head h1,.app-shell .v5-setup-page-head h1{font-size:34px!important;line-height:1.12!important;font-weight:500!important}
+.app-shell h1{font-size:34px!important;font-weight:500!important}
+.app-shell h2{font-size:26px!important;font-weight:500!important}
+.app-shell h3{font-size:21px!important;font-weight:500!important}
+.app-shell :where(p,small,label,button,input,select,textarea,summary,a,li,td,th,span){line-height:1.4!important}
+.app-shell .btn{font-size:15px!important;min-height:44px!important;padding:10px 15px!important;border-radius:13px!important;font-weight:500!important}
+.app-shell .btn.small{font-size:14px!important;min-height:38px!important;padding:7px 11px!important}
+.app-shell .nav-btn{font-size:15px!important;min-height:46px!important}.app-shell .brand strong{font-size:22px!important}
+.app-shell .v11-flow-map{gap:8px!important;margin:14px 0 18px!important}.app-shell .v11-flow-step{font-size:14px!important;min-height:58px!important;padding:10px!important;border-radius:14px!important}.app-shell .v11-flow-step span{font-size:13px!important;width:30px!important;height:30px!important}.app-shell .v11-now{padding:13px 15px!important;border-radius:16px!important}.app-shell .v11-now-main{font-size:20px!important}.app-shell .v11-now-label,.app-shell .v11-flow-chip{font-size:14px!important}
+.app-shell .v5-bite-card-head{padding:24px 28px 16px!important}.app-shell .v5-bite-card-head h2{font-size:30px!important;line-height:1.14!important;font-weight:500!important}.app-shell .v5-bite-card-body{padding:24px 28px!important;font-size:16px!important}.app-shell .v5-bite-card-foot{padding:18px 28px!important}
+.app-shell .v5-course-summary strong,.app-shell .clean-list-row strong,.app-shell .v5-activity-row strong,.app-shell .setup-checklist-head strong,.app-shell .absence-row strong,.app-shell .planner-class-meeting h3,.app-shell .planner-class-activity strong{font-size:16px!important;font-weight:500!important}
+.app-shell .v5-empty-choice{font-size:16px!important;padding:22px!important}.app-shell .v5-empty-choice strong{font-size:18px!important;font-weight:500!important}
+.app-shell .course-suggestion-summary{font-size:15px!important;padding:11px 13px!important;border-radius:12px!important}
+/* Course modal: compact, but not tiny. */
+.app-shell .modal{width:min(690px,calc(100vw - 32px))!important;border-radius:22px!important}
+.app-shell .modal-head{padding:22px 28px!important}.app-shell .modal-head h2{font-size:28px!important;line-height:1.15!important;font-weight:500!important}
+.app-shell .modal-body{padding:22px 28px!important}.app-shell .modal-foot{padding:17px 28px!important}
+.app-shell .v5-modal-progress{padding:14px 28px 13px!important}.app-shell .v5-modal-step{font-size:13px!important;line-height:1.25!important;font-weight:400!important}.app-shell .v5-modal-step span{width:30px!important;height:30px!important;font-size:13px!important;font-weight:500!important}.app-shell .v5-modal-progress-track{height:5px!important}
+.app-shell .v5-modal-panel h3{font-size:24px!important;line-height:1.2!important;margin:0 0 16px!important;font-weight:500!important}
+.app-shell .form-field label,.app-shell .v5-course-modal label,.app-shell .v5-activity-modal label,.app-shell .v5-profile-modal label{font-size:14.5px!important;line-height:1.3!important;font-weight:500!important;margin-bottom:7px!important;color:#454858!important}
+.app-shell .v5-course-modal input,.app-shell .v5-course-modal select,.app-shell .v5-course-modal textarea,.app-shell .v5-activity-modal input,.app-shell .v5-activity-modal select,.app-shell .v5-activity-modal textarea,.app-shell .v5-profile-modal input{font-size:15px!important;line-height:1.3!important;min-height:46px!important}
+.app-shell .v5-day-choice span,.app-shell .v6-time-slot{font-size:15px!important;min-height:50px!important;font-weight:400!important}.app-shell .v5-type-choice,.app-shell .v5-occurrence-choice,.app-shell .v5-pattern-button,.app-shell .v5-reminder-choice{font-size:14.5px!important;font-weight:400!important}
+.app-shell .v5-type-button strong,.app-shell .v5-occurrence-choice strong{font-size:16px!important;font-weight:500!important}.app-shell .v5-type-button small,.app-shell .v5-occurrence-choice small,.app-shell .v5-preview-dates span,.app-shell .v5-activity-preview{font-size:14.5px!important}
+/* Location step: keep inputs and colors in the same natural column, no right-hand sidebar. */
+.app-shell .v5-course-modal .v14-location-panel.active{display:flex!important;flex-direction:column!important;gap:18px!important}
+.app-shell .v5-course-modal .v14-location-fields{display:grid!important;grid-template-columns:140px minmax(0,1fr)!important;gap:12px!important;max-width:560px!important;align-items:end!important}
+.app-shell .v5-course-modal .v14-color-field{max-width:560px!important;margin-top:0!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-row{display:grid!important;grid-template-columns:repeat(8,40px)!important;gap:11px!important;align-items:center!important;justify-content:start!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice,.app-shell .v5-course-modal .v14-color-field .v5-color-choice span{width:40px!important;height:34px!important;border-radius:10px!important}
+/* Activity occurrence: the selection comes first; the date appears beneath it. */
+.app-shell .v5-activity-modal [data-v5-activity-panel="2"] .v5-occurrence-choice-grid{margin-top:0!important;margin-bottom:14px!important}
+.app-shell .v5-activity-modal [data-v5-single-date]{margin-top:0!important;margin-bottom:14px!important;max-width:none!important}
+.app-shell .v5-activity-modal [data-v5-single-date][hidden],.app-shell .v5-activity-modal [data-v5-grade-date][hidden],.app-shell .v5-activity-modal [data-v5-series-options][hidden]{display:none!important}
+@media(max-width:760px){
+  .app-shell .modal{width:100%!important;border-radius:0!important}.app-shell .modal-head h2{font-size:26px!important}.app-shell .v5-modal-panel h3{font-size:22px!important}.app-shell .page-head h1,.app-shell .v5-setup-page-head h1{font-size:30px!important}
+  .app-shell .v5-course-modal .v14-location-fields{grid-template-columns:1fr!important;max-width:none!important}.app-shell .v5-course-modal .v14-color-field .v5-color-row{grid-template-columns:repeat(4,40px)!important}
+}
+</style>
+<script id="acadence-workflow-polish-v6-script">
+(function(){
+  function moveActivityDateBelowChoice(){
+    var modal=document.getElementById('modal');
+    if(!modal)return;
+    var panel=modal.querySelector('.v5-activity-modal [data-v5-activity-panel="2"], [data-v5-activity-panel="2"]');
+    if(!panel)return;
+    var date=panel.querySelector('[data-v5-single-date]');
+    var choices=panel.querySelector('.v5-occurrence-choice-grid');
+    if(date&&choices&&choices.nextElementSibling!==date){
+      choices.insertAdjacentElement('afterend',date);
+    }
+  }
+  var priorOpen=window.openModal;
+  if(typeof priorOpen==='function'&&!priorOpen.__acadenceV6Polished){
+    var wrapped=function(type,prefill){
+      var result=priorOpen.apply(this,arguments);
+      setTimeout(moveActivityDateBelowChoice,0);
+      return result;
+    };
+    wrapped.__acadenceV6Polished=true;
+    window.openModal=wrapped;
+  }
+  document.addEventListener('click',function(){setTimeout(moveActivityDateBelowChoice,0)},true);
+  document.addEventListener('change',function(){setTimeout(moveActivityDateBelowChoice,0)},true);
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',moveActivityDateBelowChoice);else moveActivityDateBelowChoice();
+})();
+</script>
+
 </body></html>`);w.document.close()}
   function plannerBody(){return state.plannerMode==='day'?renderPlannerDay():state.plannerMode==='week'?renderWeek():state.plannerMode==='semester'?renderPlannerSemester():renderMonth()}
   function dayCountCsv(){const c=course(state.dayCountCourseId);if(!c)return;const rows=[['Date','Weekday','Meeting number','Status','Online','Makeup','Activities']];for(const r of classMeetingDetails(c))rows.push([r.date,formatDate(r.date,{weekday:'long'}),r.count||'',r.status,r.online?'Yes':'No',r.makeup?'Yes':'No',state.activities.filter(a=>a.courseId===c.id&&a.date===r.date).map(a=>a.title).join('; ')]);const csv=rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'),blob=new Blob([csv],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acadence-${c.code.replace(/\s+/g,'-')}-daycount.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
@@ -3940,7 +4056,7 @@ body.activity-dragging{user-select:none}
     return `<div class="modal-head"><div><h2>${prefill.id?'Edit course':'Add one course'}</h2></div><button class="icon-btn" data-close-modal>${icon('x')}</button></div><form id="courseForm" data-v5-course-form data-v5-course-step="1" data-v5-setup-flow="${setupFlow?'true':'false'}"><input type="hidden" name="id" value="${prefill.id||''}"><input type="hidden" name="finalDate" value="${prefill.finalDate||''}"><input type="hidden" name="finalStart" value="${prefill.finalStart||''}"><input type="hidden" name="finalEnd" value="${prefill.finalEnd||''}"><div class="v5-modal-progress"><div class="v5-modal-progress-row" style="--steps:4">${[['Course','Course'],['Times','Times'],['Location','Location'],['Final','Final']].map(([label,title],i)=>`<button type="button" class="v5-modal-step ${i===0?'current':''}" data-v5-course-jump="${i+1}" title="${title}"><span>${i+1}</span>${label}</button>`).join('')}</div><div class="v5-modal-progress-track"><span style="width:25%"></span></div></div><div class="modal-body">
       <section class="v5-modal-panel active" data-v5-course-panel="1"><h3>Course information</h3><div class="form-grid"><div class="form-field"><label>Course code</label><input name="code" list="v5CourseCodes" required value="${esc(prefill.code||'')}" placeholder="PHY 221"><datalist id="v5CourseCodes">${codes.map(x=>`<option value="${esc(x)}"></option>`).join('')}</datalist></div><div class="form-field"><label>Course title</label><input name="title" list="v5CourseTitles" required value="${esc(prefill.title||'')}" placeholder="Physics with Calculus I"><datalist id="v5CourseTitles">${titles.map(x=>`<option value="${esc(x)}"></option>`).join('')}</datalist></div><div class="form-field"><label>Credits</label><input name="credits" inputmode="decimal" value="${esc(prefill.credits||'')}" placeholder="3"></div><div id="courseSuggestionSummary" class="course-suggestion-summary v6-course-suggestion" hidden></div></div></section>
       <section class="v5-modal-panel" data-v5-course-panel="2"><h3>Class times</h3><div class="form-field full"><label>Meeting days</label><div class="v5-day-choice-row">${[['M','Mon'],['T','Tue'],['W','Wed'],['R','Thu'],['F','Fri'],['S','Sat']].map(([d,label])=>`<label class="v5-day-choice"><input type="checkbox" name="days" value="${d}" ${prefill.days?.includes(d)?'checked':''}><span>${label}</span></label>`).join('')}</div></div><div class="v6-time-suggestion-block"><label>Time options</label><div class="v6-time-slot-grid" data-v6-time-slots></div></div><div class="form-grid v6-manual-time"><div class="form-field"><label>Start time</label><input type="time" name="start" value="${prefill.start||''}" required></div><div class="form-field"><label>End time</label><input type="time" name="end" value="${prefill.end||''}" required></div></div></section>
-      <section class="v5-modal-panel" data-v5-course-panel="3"><h3>Class location</h3><div class="form-grid"><div class="form-field"><label>Building</label><input name="building" value="${esc(prefill.building||'')}" placeholder="BL"></div><div class="form-field"><label>Room</label><input name="room" value="${esc(prefill.room||'')}" placeholder="031"></div><div class="form-field full"><label>Course color</label>${courseColorChoicesV5(selectedColor)}</div></div></section>
+      <section class="v5-modal-panel v14-location-panel" data-v5-course-panel="3"><h3>Class location</h3><div class="v14-location-fields"><div class="form-field"><label>Building</label><input name="building" value="${esc(prefill.building||'')}" placeholder="BL"></div><div class="form-field"><label>Room</label><input name="room" value="${esc(prefill.room||'')}" placeholder="031"></div></div><div class="form-field v14-color-field"><label>Course color</label>${courseColorChoicesV5(selectedColor)}</div></section>
       <section class="v5-modal-panel" data-v5-course-panel="4"><h3>Final confirmation</h3><div class="v5-course-final-summary" data-v5-course-summary></div><div class="form-field full"><label>Final examination</label><div class="final-exam-selection"><button type="button" class="final-exam-selection-button" id="openSmartFinalPicker"><span class="final-exam-selection-icon">⚑</span><span class="final-exam-selection-copy"><strong id="finalExamSelectionText">${esc(finalText)}</strong><small>Open final schedule</small></span><span class="final-exam-selection-arrow">›</span></button></div></div><div class="form-field" style="margin-top:13px"><label>Final room</label><input name="finalRoom" value="${esc(finalRoom)}" placeholder="Same as class location" data-v5-final-room></div></section>
     </div><div class="modal-foot">${prefill.id?`<button type="button" class="btn danger modal-delete-left" data-delete-course="${prefill.id}">${icon('trash','sm')}Delete course</button>`:''}<button type="button" class="btn" data-v5-course-back hidden>${icon('chevronLeft','sm')}Back</button><button type="button" class="btn primary" data-v5-course-next>Continue${icon('chevronRight','sm')}</button></div></form>`}
   function activityTypesV5(selected='Lecture plan'){
@@ -4652,5 +4768,46 @@ strong,b,.btn.primary,.v11-now-main,.v11-flow-step.current,.v5-bite-card-head h2
 .v5-activity-modal .v5-inline-number span,.v5-activity-modal .v5-weekday-toolbar strong{font-size:16px!important;font-weight:500!important}
 .v5-course-final-summary span,.v5-course-final-summary strong,.final-exam-selection-copy strong,.final-exam-selection-copy small{font-size:17px!important;font-weight:400!important}
 </style>
+
+
+<style id="acadence-location-font-v5">
+/* Location screen polish + slightly calmer sizing. */
+.app-shell .modal{width:min(700px,calc(100vw - 32px))!important;border-radius:22px!important}
+.app-shell .modal-head{padding:24px 30px!important}
+.app-shell .modal-head h2{font-size:29px!important;line-height:1.15!important;font-weight:500!important}
+.app-shell .modal-body{padding:24px 30px!important}
+.app-shell .modal-foot{padding:18px 30px!important}
+.app-shell .v5-modal-progress{padding:16px 30px 14px!important}
+.app-shell .v5-modal-step{font-size:14px!important;line-height:1.25!important;font-weight:400!important}
+.app-shell .v5-modal-step span{width:32px!important;height:32px!important;font-size:14px!important;font-weight:500!important;margin-bottom:6px!important}
+.app-shell .v5-modal-progress-track{height:5px!important}
+.app-shell .v5-modal-panel h3{font-size:25px!important;line-height:1.2!important;margin:0 0 18px!important;font-weight:500!important}
+.app-shell .v5-course-modal label,.app-shell .v5-activity-modal label,.app-shell .v5-profile-modal label{font-size:15px!important;line-height:1.3!important;font-weight:500!important;margin-bottom:8px!important}
+.app-shell .v5-course-modal input,.app-shell .v5-course-modal select,.app-shell .v5-course-modal textarea,.app-shell .v5-activity-modal input,.app-shell .v5-activity-modal select,.app-shell .v5-activity-modal textarea,.app-shell .v5-profile-modal input{font-size:16px!important;line-height:1.3!important;min-height:48px!important}
+.app-shell .v5-day-choice span,.app-shell .v6-time-slot,.app-shell .v5-type-choice,.app-shell .v5-occurrence-choice,.app-shell .v5-pattern-button,.app-shell .v5-reminder-choice{font-size:15px!important;line-height:1.35!important;font-weight:400!important}
+.app-shell .v5-day-choice span,.app-shell .v6-time-slot{min-height:52px!important}
+.app-shell .v5-type-button strong,.app-shell .v5-occurrence-choice strong{font-size:16px!important;font-weight:500!important}
+.app-shell .v5-type-button small,.app-shell .v5-occurrence-choice small,.app-shell .v5-preview-dates span,.app-shell .v5-activity-preview{font-size:15px!important}
+.app-shell .btn{font-size:15px!important;min-height:46px!important;font-weight:500!important}
+
+/* The location step should read top-to-bottom, not as a right-hand color sidebar. */
+.app-shell .v5-course-modal .v14-location-panel.active{display:flex!important;flex-direction:column!important;gap:22px!important}
+.app-shell .v5-course-modal .v14-location-fields{display:grid!important;grid-template-columns:150px minmax(0,1fr)!important;gap:14px!important;max-width:560px!important;align-items:end!important}
+.app-shell .v5-course-modal .v14-color-field{max-width:560px!important;margin-top:0!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-row{display:grid!important;grid-template-columns:repeat(8,44px)!important;gap:12px!important;align-items:center!important;justify-content:start!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice{width:44px!important;height:36px!important;display:block!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice span{width:44px!important;height:36px!important;border-radius:11px!important}
+.app-shell .v5-course-modal .v14-color-field .v5-color-choice input:checked+span{box-shadow:0 0 0 3px var(--primary)!important}
+
+@media(max-width:760px){
+  .app-shell .modal{width:100%!important;border-radius:0!important}
+  .app-shell .modal-head h2{font-size:27px!important}
+  .app-shell .v5-modal-panel h3{font-size:23px!important}
+  .app-shell .v5-course-modal .v14-location-fields{grid-template-columns:1fr!important;max-width:none!important}
+  .app-shell .v5-course-modal .v14-color-field{max-width:none!important}
+  .app-shell .v5-course-modal .v14-color-field .v5-color-row{grid-template-columns:repeat(4,44px)!important}
+}
+</style>
+
 </body>
 </html>
