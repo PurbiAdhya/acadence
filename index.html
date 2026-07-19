@@ -991,6 +991,38 @@ courseModal=function(prefill={}){
 @media(max-width:620px){.setup4-course-activity-head{align-items:flex-start;flex-wrap:wrap}.setup4-course-activity-head .btn{margin-left:0}.setup4-course-activity-row{align-items:flex-start;flex-wrap:wrap}.setup4-course-activity-row .btn{margin-left:36px}}
 </style>
 
+
+<style id="acadence-clean-workflow-polish-v8">
+/* Quieter, syllabus-first-by-end workflow polish */
+body{font-weight:400}
+strong,b,.btn,.nav-btn,.segment,.tag,.clean-step-copy strong,.v5-dashboard-card-kicker,.v5-course-progress-top strong{font-weight:600!important}
+.eyebrow,.nav-label,.setup-step-label,.v5-action-icon,.v5-bite-step-icon{font-weight:650!important;letter-spacing:.08em}
+.page-head h1,.clean-setup-top h1,.v5-setup-page-head h1{font-size:26px;font-weight:620;letter-spacing:-.35px}
+.card-head h2,.v5-bite-card-head h2,.modal-head h2,.v5-modal-panel h3{font-weight:620!important;letter-spacing:-.2px}
+.card,.v5-bite-card,.v5-setup-dashboard-card{box-shadow:0 2px 12px rgba(29,25,68,.045)}
+.v5-dashboard-setup-stack:empty{display:none}
+.v5-setup-dashboard-stack,.v5-dashboard-setup-stack{gap:12px}
+.v5-semester-detail-nav{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.v5-activity-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px}
+.v5-quick-activity{justify-content:flex-start;background:#fff}
+.v5-empty-choice{background:#fbfbfe}
+.v5-quiet-note{margin-top:11px;color:var(--muted);font-size:11.5px;line-height:1.45}
+.modal.v5-office-modal{width:min(560px,100%)}
+.v5-office-form{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.v5-office-form .full{grid-column:1/-1}
+.v5-office-days{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.v5-office-days label{position:relative}
+.v5-office-days input{position:absolute;opacity:0}
+.v5-office-days span{min-height:40px;border:1px solid var(--line-strong);border-radius:10px;background:#fff;display:grid;place-items:center;font-size:12px;font-weight:600;color:#5f6072}
+.v5-office-days input:checked+span{border-color:var(--primary);background:var(--soft);color:var(--primary-2)}
+.v5-profile-form-grid{display:grid;gap:12px}
+@media(max-width:760px){
+  .v5-office-form{grid-template-columns:1fr}
+  .v5-office-form .full{grid-column:auto}
+  .v5-office-days{grid-template-columns:repeat(3,1fr)}
+}
+</style>
+
 </body></html>`);w.document.close()}
   function plannerBody(){return state.plannerMode==='day'?renderPlannerDay():state.plannerMode==='week'?renderWeek():state.plannerMode==='semester'?renderPlannerSemester():renderMonth()}
   function dayCountCsv(){const c=course(state.dayCountCourseId);if(!c)return;const rows=[['Date','Weekday','Meeting number','Status','Online','Makeup','Activities']];for(const r of classMeetingDetails(c))rows.push([r.date,formatDate(r.date,{weekday:'long'}),r.count||'',r.status,r.online?'Yes':'No',r.makeup?'Yes':'No',state.activities.filter(a=>a.courseId===c.id&&a.date===r.date).map(a=>a.title).join('; ')]);const csv=rows.map(row=>row.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n'),blob=new Blob([csv],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`acadence-${c.code.replace(/\s+/g,'-')}-daycount.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
@@ -3820,6 +3852,11 @@ body.activity-dragging{user-select:none}
   const semesterChecklistV5=()=>{
     state.checklists=state.checklists&&typeof state.checklists==='object'?state.checklists:{};
     state.checklists.semester=Array.isArray(state.checklists.semester)?state.checklists.semester:[];
+    const needed=[
+      ['canvas-syllabus','Upload each syllabus to Canvas'],
+      ['canvas-setup','Set up Canvas pages, modules, and course navigation']
+    ];
+    needed.forEach(([id,text])=>{if(!state.checklists.semester.some(item=>item.id===id||String(item.text||'').toLowerCase()===text.toLowerCase()))state.checklists.semester.push({id,text,done:false})});
     return state.checklists.semester;
   };
   function deriveStageForCourseV5Raw(id,f){
@@ -3849,27 +3886,27 @@ body.activity-dragging{user-select:none}
         f.activeCourseId=(pending||courses[courses.length-1]).id;
       }
     }
-    if(!['course','activities','syllabus','next','semesterDetails','complete'].includes(f.stage))f.stage='course';
+    if(!['course','activities','syllabus','next','semesterDetails','presemester','complete'].includes(f.stage))f.stage='course';
     if(courses.length&&f.stage!=='complete'){
       if(f.coursesFinished&&['course','activities','next'].includes(f.stage)){
-        const pending=courses.find(c=>{
-          const x=state.syllabusPreparation?.[state.selectedSemester]?.[c.id];
-          return !(x?.importantReviewed&&x?.syllabusReady);
-        });
-        if(pending){f.activeCourseId=pending.id;f.stage='syllabus'}
-        else f.stage='semesterDetails';
+        f.stage='semesterDetails';
+        f.detailStep=f.detailStep||'office';
       }
-      if(!f.coursesFinished&&f.stage==='syllabus')f.stage=deriveStageForCourseV5Raw(f.activeCourseId,f);
+      if(f.coursesFinished&&f.stage==='syllabus'&&!['office','absences','preview'].every(id=>Boolean(f.detailDone[id]))){
+        f.stage='semesterDetails';
+        f.detailStep=f.detailStep||'office';
+      }
+      if(!f.coursesFinished&&['syllabus','semesterDetails','presemester'].includes(f.stage))f.stage=deriveStageForCourseV5Raw(f.activeCourseId,f);
     }
-    if(!['office','absences','preview','presemester'].includes(f.detailStep))f.detailStep='office';
+    if(!['office','absences','preview'].includes(f.detailStep))f.detailStep='office';
     return f;
   }
   function activitiesCompleteV5(id){const f=flowV5();return courseActivitiesV5(id).length>0||Boolean(f.activitiesSkipped[id])}
   function syllabusCompleteV5(id){const s=syllabusStateV5(id);return Boolean(s.importantReviewed&&s.syllabusReady)}
   function courseCompleteV5(id){return Boolean(courseByIdV5(id)&&activitiesCompleteV5(id)&&syllabusCompleteV5(id))}
   function overallCourseProgressV5(){const list=teachingCoursesV5();if(!list.length)return 0;const points=list.reduce((sum,c)=>sum+1+Number(activitiesCompleteV5(c.id))+Number(syllabusCompleteV5(c.id)),0);return Math.round(points/(list.length*3)*100)}
-  function semesterDetailsCompleteV5(){const f=flowV5();return ['office','absences','preview','presemester'].every(x=>Boolean(f.detailDone[x]))}
-  function setupCompleteV5(){return Boolean(state.setupCompleted?.[state.selectedSemester]&&teachingCoursesV5().length&&teachingCoursesV5().every(c=>courseCompleteV5(c.id))&&semesterDetailsCompleteV5())}
+  function semesterDetailsCompleteV5(){const f=flowV5();return ['office','absences','preview'].every(x=>Boolean(f.detailDone[x]))}
+  function setupCompleteV5(){return Boolean(state.setupCompleted?.[state.selectedSemester]&&teachingCoursesV5().length&&teachingCoursesV5().every(c=>activitiesCompleteV5(c.id))&&semesterDetailsCompleteV5())}
   function deriveStageForCourseV5(id){const f=flowV5();if(!courseByIdV5(id))return'course';if(!activitiesCompleteV5(id))return'activities';return f.coursesFinished?'syllabus':'next'}
   function openSetupV5(){state.currentView='setup';persistState({render:false});renderAll();window.scrollTo({top:0,behavior:'smooth'})}
   function closeToDashboardV5(){state.currentView='today';persistState({render:false});renderAll();window.scrollTo({top:0,behavior:'smooth'})}
@@ -3906,6 +3943,14 @@ body.activity-dragging{user-select:none}
       <section class="v5-modal-panel" data-v5-course-panel="3"><h3>Class location</h3><div class="form-grid"><div class="form-field"><label>Building</label><input name="building" value="${esc(prefill.building||'')}" placeholder="BL"></div><div class="form-field"><label>Room</label><input name="room" value="${esc(prefill.room||'')}" placeholder="031"></div></div><details class="v6-optional-details"><summary>Course color</summary>${courseColorChoicesV5(selectedColor)}</details></section>
       <section class="v5-modal-panel" data-v5-course-panel="4"><h3>Final confirmation</h3><div class="v5-course-final-summary" data-v5-course-summary></div><div class="form-field full"><label>Final examination</label><div class="final-exam-selection"><button type="button" class="final-exam-selection-button" id="openSmartFinalPicker"><span class="final-exam-selection-icon">⚑</span><span class="final-exam-selection-copy"><strong id="finalExamSelectionText">${esc(finalText)}</strong><small>Open final schedule</small></span><span class="final-exam-selection-arrow">›</span></button></div></div><div class="form-field" style="margin-top:13px"><label>Final room</label><input name="finalRoom" value="${esc(finalRoom)}" placeholder="Same as class location" data-v5-final-room></div></section>
     </div><div class="modal-foot">${prefill.id?`<button type="button" class="btn danger modal-delete-left" data-delete-course="${prefill.id}">${icon('trash','sm')}Delete course</button>`:''}<button type="button" class="btn" data-v5-course-back hidden>${icon('chevronLeft','sm')}Back</button><button type="button" class="btn primary" data-v5-course-next>Continue${icon('chevronRight','sm')}</button></div></form>`}
+  function activityTypesV5(selected='Lecture plan'){
+    const types=['Exam','Quiz','Homework','Lab','Lecture plan','Discussion','Project','Custom'];
+    return types.map(type=>`<button type="button" class="v5-type-choice ${type===selected?'active':''}" data-v5-activity-type="${esc(type)}">${esc(type)}</button>`).join('');
+  }
+  function blockModalV5(prefill={}){
+    const p=profileV5(),days=prefill.days||[],location=prefill.room||p.officeLocation||'',title=prefill.code||prefill.title||'Office Hours';
+    return `<div class="modal-head"><div><h2>${prefill.id?'Edit office hours':'Add office hours'}</h2><p>Keep this quick. Add the recurring times students can find you.</p></div><button class="icon-btn" data-close-modal>${icon('x')}</button></div><form id="blockForm"><input type="hidden" name="id" value="${prefill.id||''}"><div class="modal-body"><div class="v5-office-form"><div class="form-field full"><label>Title</label><input name="title" required value="${esc(title)}" placeholder="Office Hours"></div><div class="form-field full"><label>Days</label><div class="v5-office-days">${[['M','Mon'],['T','Tue'],['W','Wed'],['R','Thu'],['F','Fri']].map(([d,label])=>`<label><input type="checkbox" name="days" value="${d}" ${days.includes(d)?'checked':''}><span>${label}</span></label>`).join('')}</div></div><div class="form-field"><label>Start</label><input type="time" name="start" required value="${prefill.start||'08:15'}"></div><div class="form-field"><label>End</label><input type="time" name="end" required value="${prefill.end||'09:30'}"></div><div class="form-field full"><label>Location</label><input name="room" value="${esc(location)}" placeholder="BL 110 or Online"></div><details class="v6-optional-details full"><summary>Color</summary>${courseColorChoicesV5(prefill.color||'#5f8d68')}</details></div>${!prefill.id&&p.officeLocation?`<div class="v6-profile-default-note">${icon('check','sm')}Using your profile office location. Change it here if these hours meet somewhere else.</div>`:''}</div><div class="modal-foot">${prefill.id?`<button type="button" class="btn danger modal-delete-left" data-delete-block="${prefill.id}">${icon('trash','sm')}Delete</button>`:''}<button type="button" class="btn" data-close-modal>Cancel</button><button class="btn primary" type="submit">${icon('check','sm')}Save office hours</button></div></form>`;
+  }
   function activityModalV5(prefill={}){
     const courses=teachingCoursesV5(),selected=courseByIdV5(prefill.courseId)||courses[0],type=prefill.type||'Lecture plan',editing=Boolean(prefill.id),auto=Boolean(prefill.autoSchedule)&&['Exam','Quiz','Lab'].includes(type),scope=editing?'single':(auto?'series':'single'),pattern='distribute',start=prefill.date||nextCountedDateV5(selected,state.selectedDate||todayActual),setupFlow=Boolean(prefill._v5SetupFlow),generate=prefill.generate||'no';
     return `<div class="modal-head"><div><h2>${editing?'Edit activity':'Add activity'}</h2><p>Three short steps: activity type, occurrence, and faculty tasks.</p></div><button class="icon-btn" data-close-modal>${icon('x')}</button></div><form id="activityForm" data-v5-activity-form data-v5-activity-step="1" data-v5-scope="${scope}" data-v5-pattern="${pattern}" data-v5-setup-flow="${setupFlow?'true':'false'}"><input type="hidden" name="id" value="${prefill.id||''}"><input type="hidden" name="recurrenceId" value="${prefill.recurrenceId||''}"><input type="hidden" name="type" value="${esc(type)}"><input type="hidden" name="generate" value="${esc(generate)}"><div class="v5-modal-progress"><div class="v5-modal-progress-row" style="--steps:3">${[['Type','Activity type'],['Occurrence','When it happens'],['Faculty work','Preparation and grading']].map(([label,title],i)=>`<button type="button" class="v5-modal-step ${i===0?'current':''}" data-v5-activity-jump="${i+1}" title="${title}"><span>${i+1}</span>${label}</button>`).join('')}</div><div class="v5-modal-progress-track"><span style="width:33.333%"></span></div></div><div class="modal-body">
@@ -3916,11 +3961,12 @@ body.activity-dragging{user-select:none}
 
   const previousOpenModalV5=openModal;
   openModal=function(type,prefill={}){
-    if(!['profileV5','course','activity'].includes(type)){document.getElementById('modal')?.classList.remove('v5-profile-modal','v5-course-modal','v5-activity-modal');previousOpenModalV5(type,prefill);return}
-    const modal=document.getElementById('modal');modal.classList.remove('office-compact-modal','clean-activity-modal','intuitive-activity-modal','v5-profile-modal','v5-course-modal','v5-activity-modal');
+    if(!['profileV5','course','activity','block'].includes(type)){document.getElementById('modal')?.classList.remove('v5-profile-modal','v5-course-modal','v5-activity-modal','v5-office-modal');previousOpenModalV5(type,prefill);return}
+    const modal=document.getElementById('modal');modal.classList.remove('office-compact-modal','clean-activity-modal','intuitive-activity-modal','v5-profile-modal','v5-course-modal','v5-activity-modal','v5-office-modal');
     if(type==='profileV5'){modal.classList.add('v5-profile-modal');modal.innerHTML=profileModalV5()}
     if(type==='course'){modal.classList.add('v5-course-modal');modal.innerHTML=courseModalV5(prefill)}
     if(type==='activity'){modal.classList.add('v5-activity-modal');modal.innerHTML=activityModalV5(prefill)}
+    if(type==='block'){modal.classList.add('v5-office-modal');modal.innerHTML=blockModalV5(prefill)}
     document.getElementById('modalBackdrop').classList.add('open');document.getElementById('addMenu')?.classList.remove('open');hydrateIcons(modal);
     if(type==='course'){const form=modal.querySelector('#courseForm');syncCourseStepV5(form);syncTimeSuggestionsV6(form);const label=modal.querySelector('#finalExamSelectionText');if(label)new MutationObserver(()=>syncCourseSummaryV5(form)).observe(label,{childList:true,subtree:true,characterData:true});setTimeout(()=>syncFinalRoomV5(form),0)}
     if(type==='activity'){rebuildWeekdaysV5(modal.querySelector('#activityForm'),true);syncActivityStepV5(modal.querySelector('#activityForm'))}
@@ -3928,7 +3974,8 @@ body.activity-dragging{user-select:none}
 
   function profileDashboardCardV5(){
     const p=profileV5(),complete=profileCompleteV5(),filled=[p.position,p.officeLocation,p.phone].filter(x=>String(x).trim()).length;
-    return `<article class="v5-setup-dashboard-card profile"><div class="v5-dashboard-card-inner"><div><div class="v5-dashboard-card-kicker">Profile setup</div><h2>${complete?'Faculty profile ready':'Set up your faculty profile'}</h2><p>${complete?'Your office location will be used automatically for new office hours.':'Add your position, office location, and phone number.'}</p><div class="v5-profile-summary">${p.position?`<span>${esc(p.position)}</span>`:''}${p.officeLocation?`<span>Office: ${esc(p.officeLocation)}</span>`:''}${p.phone?`<span>${esc(p.phone)}</span>`:''}${!filled?'<span>Not started</span>':''}</div></div><button type="button" class="v5-dashboard-setup-action" data-v5-open-profile><span class="v5-action-icon">${icon(complete?'check':'settings','lg')}</span><span><strong>${complete?'Edit profile':'Set up profile'}</strong><small>Position · office · phone</small></span><span class="v5-action-arrow">›</span></button></div><div class="v5-dashboard-progress"><span style="width:${Math.round(filled/3*100)}%"></span></div></article>`
+    if(complete)return '';
+    return `<article class="v5-setup-dashboard-card profile"><div class="v5-dashboard-card-inner"><div><div class="v5-dashboard-card-kicker">Profile setup</div><h2>Set up your faculty profile</h2><p>Add your position, office location, and phone number.</p><div class="v5-profile-summary">${p.position?`<span>${esc(p.position)}</span>`:''}${p.officeLocation?`<span>Office: ${esc(p.officeLocation)}</span>`:''}${p.phone?`<span>${esc(p.phone)}</span>`:''}${!filled?'<span>Not started</span>':''}</div></div><button type="button" class="v5-dashboard-setup-action" data-v5-open-profile><span class="v5-action-icon">${icon('settings','lg')}</span><span><strong>Set up profile</strong><small>Position · office · phone</small></span><span class="v5-action-arrow">›</span></button></div><div class="v5-dashboard-progress"><span style="width:${Math.round(filled/3*100)}%"></span></div></article>`
   }
   function semesterNextV5(){
     const f=flowV5(),courses=teachingCoursesV5(),active=courseByIdV5(f.activeCourseId),activityReady=courses.filter(c=>activitiesCompleteV5(c.id)).length,syllabusReady=courses.filter(c=>syllabusCompleteV5(c.id)).length;
@@ -3936,8 +3983,10 @@ body.activity-dragging{user-select:none}
     if(!courses.length||f.stage==='course')return{title:'Add your first class',copy:'Add the course, then its known activities.',button:'Start semester setup',hint:'Course 1',icon:'book',pct:0};
     if(f.stage==='activities')return{title:`Add activities for ${active?.code||'this course'}`,copy:'Add the exams, quizzes, labs, homework, or lecture plans you already know.',button:'Continue setup',hint:`${activityReady} of ${courses.length} course plans ready`,icon:'calendarPlus',pct:overallCourseProgressV5()};
     if(f.stage==='next')return{title:'Finish adding courses',copy:'Add another course or confirm that all courses and known activities are entered.',button:'Continue setup',hint:`${activityReady} course plan${activityReady===1?'':'s'} ready`,icon:'check',pct:overallCourseProgressV5()};
-    if(f.stage==='syllabus')return{title:`Prepare the ${active?.code||'course'} syllabus`,copy:'Review important dates and complete the syllabus guide.',button:'Continue setup',hint:`${syllabusReady} of ${courses.length} syllabi ready`,icon:'list',pct:overallCourseProgressV5()};
-    return{title:'Finish semester details',copy:'Add office hours and absences, then review the weekly schedule.',button:'Continue semester setup',hint:'Final setup steps',icon:'settings',pct:Math.max(overallCourseProgressV5(),80)};
+    if(f.stage==='semesterDetails')return{title:'Review the weekly pattern',copy:'Add office hours or absences if useful, then check the weekly preview.',button:'Continue setup',hint:'Schedule details',icon:'settings',pct:Math.max(overallCourseProgressV5(),70)};
+    if(f.stage==='syllabus')return{title:`Prepare ${active?.code||'course'} syllabus`,copy:'Review important dates, mark the syllabus ready, or leave it for later.',button:'Continue setup',hint:`${syllabusReady} of ${courses.length} syllabi ready`,icon:'list',pct:Math.max(overallCourseProgressV5(),82)};
+    if(f.stage==='presemester')return{title:'Pre-semester Canvas checklist',copy:'Publish syllabi, check Canvas, or skip items you will do later.',button:'Finish setup',hint:'Last step',icon:'check',pct:95};
+    return{title:'Finish semester setup',copy:'Choose the next small step. You can always return later.',button:'Continue semester setup',hint:'Setup in progress',icon:'settings',pct:Math.max(overallCourseProgressV5(),80)};
   }
   function semesterDashboardCardV5(){const n=semesterNextV5();return `<article class="v5-setup-dashboard-card semester"><div class="v5-dashboard-card-inner"><div><div class="v5-dashboard-card-kicker">Semester setup · ${esc(selectedSemesterLabel())}</div><h2>${esc(n.title)}</h2><p>${esc(n.copy)}</p></div><button type="button" class="v5-dashboard-setup-action" data-v5-open-semester><span class="v5-action-icon">${icon(n.icon,'lg')}</span><span><strong>${esc(n.button)}</strong><small>${esc(n.hint)}</small></span><span class="v5-action-arrow">›</span></button></div><div class="v5-dashboard-progress"><span style="width:${n.pct}%"></span></div></article>`}
   const previousRenderTodayV5=renderToday;
@@ -3956,11 +4005,11 @@ body.activity-dragging{user-select:none}
   function currentCourseStepNumberV5(){const f=flowV5();return f.stage==='course'?1:f.stage==='activities'?2:f.stage==='next'?3:1}
   function setupHeaderV5(){
     const f=flowV5(),active=courseByIdV5(f.activeCourseId),courses=teachingCoursesV5();
-    const coursePhase=!f.coursesFinished&&!['semesterDetails','complete'].includes(f.stage);
-    const syllabusPhase=f.stage==='syllabus';
-    const pct=coursePhase?(f.stage==='course'?20:f.stage==='activities'?65:100):syllabusPhase?(courses.length?Math.round(courses.filter(c=>syllabusCompleteV5(c.id)).length/courses.length*100):0):100;
-    const title=coursePhase?(active?`${esc(active.code)} · Courses and activities`:'Courses and activities'):syllabusPhase?`${esc(active?.code||'Course')} · Syllabus preparation`:'Semester details';
-    const copy=coursePhase?'Add every course and its known activities before preparing syllabi.':syllabusPhase?'Review one syllabus at a time.':'Finish the semester-wide details.';
+    const coursePhase=!f.coursesFinished&&!['semesterDetails','syllabus','presemester','complete'].includes(f.stage);
+    const syllabusPhase=f.stage==='syllabus',presemesterPhase=f.stage==='presemester';
+    const pct=coursePhase?(f.stage==='course'?20:f.stage==='activities'?65:100):syllabusPhase?(courses.length?Math.round(courses.filter(c=>syllabusCompleteV5(c.id)).length/courses.length*100):0):presemesterPhase?95:100;
+    const title=coursePhase?(active?`${esc(active.code)} · Courses and activities`:'Courses and activities'):syllabusPhase?`${esc(active?.code||'Course')} · Syllabus preparation`:presemesterPhase?'Pre-semester checklist':'Semester details';
+    const copy=coursePhase?'Add every course and its known activities before the final syllabus steps.':syllabusPhase?'Review one syllabus at a time, or leave any syllabus item for later.':presemesterPhase?'Finish Canvas and syllabus publishing checks, or plan to complete them later.':'Office hours, absences, and the weekly preview come before syllabus preparation.';
     return `<div class="v5-setup-page-head"><div><div class="eyebrow">${esc(selectedSemesterLabel())}</div><h1>Semester setup</h1><p>${copy}</p></div><div class="v6-setup-head-actions"><button class="btn" data-v5-open-profile>${icon('book','sm')}Faculty profile</button><button class="btn" data-v5-exit-setup>${icon('x','sm')}Save and exit</button></div></div><div class="v5-course-progress-shell"><div class="v5-course-progress-top"><strong>${title}</strong><span>${courses.length} course${courses.length===1?'':'s'}</span></div><div class="v5-course-progress-track"><span style="width:${pct}%"></span></div>${courses.length?`<div class="v5-course-tabs">${setupCourseTabsV5()}</div>`:''}</div>`}
   function courseStageBodyV5(){
     const f=flowV5(),active=courseByIdV5(f.activeCourseId);
@@ -3973,31 +4022,34 @@ body.activity-dragging{user-select:none}
     return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('list','lg')}</span><div><h2>${esc(c?.code||'Course')} syllabus</h2><p>Syllabus ${index+1} of ${courses.length}</p></div></header><div class="v5-bite-card-body"><div class="v5-syllabus-course-guide"><div class="v5-guide-block"><span class="v5-guide-number">1</span><div><strong>Review important dates</strong></div><button type="button" class="btn" data-syllabus-important="${c?.id||''}">${icon('calendar','sm')}Review dates</button></div><label class="v5-guide-check"><input type="checkbox" data-syllabus-important-reviewed="${c?.id||''}" ${s.importantReviewed?'checked':''}><span>Dates are accurate and included.</span></label><div class="v5-guide-block"><span class="v5-guide-number">2</span><div><strong>Complete the syllabus</strong></div></div><label class="v5-guide-check"><input type="checkbox" data-syllabus-ready="${c?.id||''}" ${s.syllabusReady?'checked':''}><span>Syllabus is ready to publish.</span></label></div></div><footer class="v5-bite-card-foot"><button class="btn" data-v6-review-courses>${icon('chevronLeft','sm')}Courses & activities</button><button class="btn primary" data-v5-syllabus-next>${remaining?'Next syllabus':'Continue'}${icon('chevronRight','sm')}</button></footer></article>`}
   function nextCourseBodyV5(){
     const f=flowV5(),c=courseByIdV5(f.activeCourseId),ready=teachingCoursesV5().filter(x=>activitiesCompleteV5(x.id)).length;
-    return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('check','lg')}</span><div><h2>${esc(c?.code||'This course')} course plan is ready</h2><p>Course information and known activities are saved.</p></div></header><div class="v5-bite-card-body"><div class="v5-next-course-actions"><button type="button" class="v5-next-choice" data-v5-add-another-course><strong>+ Add another course</strong><small>Add its course information and known activities.</small></button><button type="button" class="v5-next-choice" data-v5-finish-course-cycle><strong>All courses are added</strong><small>Review the syllabi next.</small></button></div></div><footer class="v5-bite-card-foot"><button class="btn" data-v5-setup-back="activities">${icon('chevronLeft','sm')}Activities</button><span>${ready} course plan${ready===1?'':'s'} ready</span></footer></article>`}
+    return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('check','lg')}</span><div><h2>${esc(c?.code||'This course')} course plan is ready</h2><p>Course information and known activities are saved.</p></div></header><div class="v5-bite-card-body"><div class="v5-next-course-actions"><button type="button" class="v5-next-choice" data-v5-add-another-course><strong>+ Add another course</strong><small>Add its course information and known activities.</small></button><button type="button" class="v5-next-choice" data-v5-finish-course-cycle><strong>All courses are added</strong><small>Review weekly schedule, then syllabi.</small></button></div></div><footer class="v5-bite-card-foot"><button class="btn" data-v5-setup-back="activities">${icon('chevronLeft','sm')}Activities</button><span>${ready} course plan${ready===1?'':'s'} ready</span></footer></article>`}
   function officeDetailV5(){const rows=recurringBlocksV5().map(b=>`<div class="clean-list-row" style="--course:${b.color}"><div><strong>${esc(b.code||'Office hours')}</strong><small>${(b.days||[]).join('')} · ${fmtTime(b.start)}–${fmtTime(b.end)}${courseLocation(b)?` · ${esc(courseLocation(b))}`:''}</small></div><div class="clean-row-actions"><button class="btn small" data-edit-block="${b.id}">Edit</button><button class="btn small danger" data-delete-block="${b.id}">Delete</button></div></div>`).join('');return `${rows?`<div class="clean-list">${rows}</div>`:'<div class="v5-empty-choice">No office hours or recurring commitments added yet.</div>'}<div style="margin-top:12px"><button class="btn primary" data-clean-add-office>${icon('plus','sm')}Add office hours</button></div>`}
   function absenceDetailV5(){const list=state.plannedAbsences||[],rows=list.map(a=>`<div class="clean-list-row" style="--course:#b98339"><div><strong>${esc(a.reason)}</strong><small>${a.startDate===a.endDate?formatDate(a.startDate,{month:'short',day:'numeric',year:'numeric'}):`${formatDate(a.startDate,{month:'short',day:'numeric'})}–${formatDate(a.endDate,{month:'short',day:'numeric',year:'numeric'})}`}</small></div><div class="clean-row-actions"><button class="btn small" data-edit-absence="${a.id}">Edit</button><button class="btn small danger" data-delete-absence="${a.id}">Delete</button></div></div>`).join('');return `${rows?`<div class="clean-list">${rows}</div>`:'<div class="v5-empty-choice">No planned absences added.</div>'}<div style="margin-top:12px"><button class="btn primary" data-add="absence">${icon('plus','sm')}Add planned absence</button></div>`}
   function previewDetailV5(){const dayNames={M:'Monday',T:'Tuesday',W:'Wednesday',R:'Thursday',F:'Friday'},all=[...teachingCoursesV5(),...recurringBlocksV5()];return `<div class="v5-week-preview">${Object.entries(dayNames).map(([day,name])=>{const items=all.filter(x=>(x.days||[]).includes(day)).sort((a,b)=>timeMinutes(a.start||'23:59')-timeMinutes(b.start||'23:59'));return `<section class="v5-week-preview-day"><h3>${name}</h3><div class="v5-week-preview-items">${items.map(item=>`<div class="v5-week-preview-item" style="--course:${item.color}"><strong>${esc(item.code)}</strong><small>${fmtTime(item.start)}–${fmtTime(item.end)}</small></div>`).join('')||'<span class="muted tiny">Open</span>'}</div></section>`}).join('')}</div><div style="margin-top:12px"><button class="btn" data-print-week>${icon('download','sm')}Print weekly view</button></div>`}
   function presemesterDetailV5(){const list=semesterChecklistV5();return `<section class="setup-checklist-card"><div class="setup-checklist-head"><strong>Pre-semester checklist</strong><span>${list.filter(x=>x.done).length} of ${list.length} complete</span></div><div class="setup-checklist">${list.map(item=>`<label class="check-item"><input type="checkbox" data-v5-semester-check="${item.id}" ${item.done?'checked':''}><span>${esc(item.text)}</span></label>`).join('')}</div></section>`}
+  function presemesterStageBodyV5(){
+    const list=semesterChecklistV5(),done=list.filter(x=>x.done).length;
+    return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('check','lg')}</span><div><h2>Pre-semester checklist</h2><p>Canvas, syllabus publishing, and final readiness. Check what is done; leave the rest for later.</p></div></header><div class="v5-bite-card-body">${presemesterDetailV5()}<div class="v5-quiet-note">${done} of ${list.length} items checked. You can finish setup even if some items are planned for later.</div></div><footer class="v5-bite-card-foot"><button class="btn" data-v5-setup-back="syllabus">${icon('chevronLeft','sm')}Syllabi</button><div class="v6-footer-actions"><button class="btn" data-v5-finish-semester>Do later</button><button class="btn primary" data-v5-finish-semester>${icon('check','sm')}Finish setup</button></div></footer></article>`;
+  }
   function semesterDetailsBodyV5(){
     const f=flowV5();
-    const steps=[['office','Office hours'],['absences','Absences'],['preview','Weekly preview'],['presemester','Pre-semester']];
+    const steps=[['office','Office hours'],['absences','Absences'],['preview','Weekly preview']];
     const index=steps.findIndex(item=>item[0]===f.detailStep);
     const copies={
       office:['Add office hours','Add the recurring times when students can meet with you, or continue if none are needed.'],
       absences:['Add planned absences','Known travel or leave dates help Acadence remove affected class meetings.'],
-      preview:['Review the weekly pattern','Check all classes and recurring commitments together before the semester begins.'],
-      presemester:['Complete the pre-semester checklist','Finish the remaining semester-wide preparation after each syllabus is ready.']
+      preview:['Review the weekly pattern','Check classes and recurring commitments together before writing syllabi.']
     };
     const copy=copies[f.detailStep];
     const body=f.detailStep==='office'?officeDetailV5():f.detailStep==='absences'?absenceDetailV5():f.detailStep==='preview'?previewDetailV5():presemesterDetailV5();
     const iconName=f.detailStep==='office'?'clock':f.detailStep==='absences'?'calendarPlus':f.detailStep==='preview'?'calendar':'check';
     const nav=steps.map(([id,label])=>`<button type="button" class="${id===f.detailStep?'current':''} ${f.detailDone[id]?'done':''}" data-v5-detail-jump="${id}">${label}</button>`).join('');
     const back=index>0?`<button class="btn" data-v5-detail-back>${icon('chevronLeft','sm')}Back</button>`:`<button class="btn" data-v5-return-course-cycle>${icon('chevronLeft','sm')}Courses</button>`;
-    const next=index===steps.length-1?`<button class="btn primary" data-v5-finish-semester>${icon('check','sm')}Finish semester setup</button>`:`<button class="btn primary" data-v5-detail-next>Continue${icon('chevronRight','sm')}</button>`;
+    const next=index===steps.length-1?`<button class="btn primary" data-v5-details-to-syllabus>Prepare syllabi${icon('chevronRight','sm')}</button>`:`<button class="btn primary" data-v5-detail-next>Continue${icon('chevronRight','sm')}</button>`;
     return `<div class="v5-semester-detail-nav">${nav}</div><article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon(iconName,'lg')}</span><div><h2>${copy[0]}</h2><p>${copy[1]}</p></div></header><div class="v5-bite-card-body">${body}</div><footer class="v5-bite-card-foot">${back}${next}</footer></article>`;
   }
-  function setupCompleteBodyV5(){return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('check','lg')}</span><div><h2>${esc(selectedSemesterLabel())} is ready</h2><p>Your profile remains reusable, and this semester's courses, syllabi, and supporting details are complete.</p></div></header><div class="v5-bite-card-body"><div class="v5-next-course-actions"><button class="v5-next-choice" data-v5-open-planner><strong>Open the course planner</strong><small>Continue planning activities inside each counted class meeting.</small></button><button class="v5-next-choice" data-v5-review-course-setup><strong>Review a course</strong><small>Return to a course's information, activities, or syllabus at any time.</small></button></div></div><footer class="v5-bite-card-foot"><button class="btn" data-v5-exit-setup>Dashboard</button><span></span></footer></article>`}
-  renderSetup=function(){const root=document.getElementById('view-setup');if(!root)return;const f=flowV5();let body=f.stage==='course'?courseStageBodyV5():f.stage==='activities'?activityStageBodyV5():f.stage==='syllabus'?syllabusStageBodyV5():f.stage==='next'?nextCourseBodyV5():f.stage==='semesterDetails'?semesterDetailsBodyV5():setupCompleteBodyV5();root.innerHTML=`<div class="v5-semester-setup-page">${setupHeaderV5()}${body}</div>`;hydrateIcons(root)};
+  function setupCompleteBodyV5(){return `<article class="card v5-bite-card"><header class="v5-bite-card-head"><span class="v5-bite-step-icon">${icon('check','lg')}</span><div><h2>${esc(selectedSemesterLabel())} is ready</h2><p>Your profile remains reusable, and this semester's courses and setup choices are saved.</p></div></header><div class="v5-bite-card-body"><div class="v5-next-course-actions"><button class="v5-next-choice" data-v5-open-planner><strong>Open the course planner</strong><small>Continue planning activities inside each counted class meeting.</small></button><button class="v5-next-choice" data-v5-review-course-setup><strong>Review a course</strong><small>Return to a course's information, activities, or syllabus at any time.</small></button></div></div><footer class="v5-bite-card-foot"><button class="btn" data-v5-exit-setup>Dashboard</button><span></span></footer></article>`}
+  renderSetup=function(){const root=document.getElementById('view-setup');if(!root)return;const f=flowV5();let body=f.stage==='course'?courseStageBodyV5():f.stage==='activities'?activityStageBodyV5():f.stage==='syllabus'?syllabusStageBodyV5():f.stage==='presemester'?presemesterStageBodyV5():f.stage==='next'?nextCourseBodyV5():f.stage==='semesterDetails'?semesterDetailsBodyV5():setupCompleteBodyV5();root.innerHTML=`<div class="v5-semester-setup-page">${setupHeaderV5()}${body}</div>`;hydrateIcons(root)};
 
   function commonTimeSlotsV6(form){
     const days=[...form.querySelectorAll('input[name="days"]:checked')].map(x=>x.value).sort().join('');
@@ -4057,18 +4109,19 @@ body.activity-dragging{user-select:none}
     const editCurrent=e.target.closest('[data-v5-edit-current-course]');if(editCurrent){e.preventDefault();e.stopImmediatePropagation();openModal('course',{...courseByIdV5(editCurrent.dataset.v5EditCurrentCourse),_v5SetupFlow:true});return}
     if(e.target.closest('[data-v5-course-info-next]')){e.preventDefault();e.stopImmediatePropagation();flowV5().stage='activities';persistState({render:false});renderSetup();return}
     const setupBack=e.target.closest('[data-v5-setup-back]');if(setupBack){e.preventDefault();e.stopImmediatePropagation();flowV5().stage=setupBack.dataset.v5SetupBack;persistState({render:false});renderSetup();return}
-    const addActivity=e.target.closest('[data-v5-add-activity]');if(addActivity){e.preventDefault();e.stopImmediatePropagation();const type=addActivity.dataset.v5ActivityPrefill||'Lecture plan',c=courseByIdV5(addActivity.dataset.v5AddActivity);openModal('activity',{courseId:c?.id,date:nextCountedDateV5(c,todayActual),type,autoSchedule:['Exam','Quiz','Lab'].includes(type),_v5SetupFlow:true});return}
+    const addActivity=e.target.closest('[data-v5-add-activity]');if(addActivity){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),type=addActivity.dataset.v5ActivityPrefill||'Lecture plan',c=courseByIdV5(addActivity.dataset.v5AddActivity)||courseByIdV5(f.activeCourseId)||teachingCoursesV5()[0];if(!c){toast('Add a course first.');return}openModal('activity',{courseId:c.id,date:nextCountedDateV5(c,todayActual),type,autoSchedule:['Exam','Quiz','Lab'].includes(type),_v5SetupFlow:true});return}
     if(e.target.closest('[data-v5-skip-activities]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.activitiesSkipped[f.activeCourseId]=true;f.stage='next';persistState({render:false});renderSetup();return}
     if(e.target.closest('[data-v5-activities-next]')){e.preventDefault();e.stopImmediatePropagation();flowV5().stage='next';persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-syllabus-next]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();if(!syllabusCompleteV5(f.activeCourseId)){alert('Review the dates and mark the syllabus ready.');return}const next=teachingCoursesV5().find(c=>!syllabusCompleteV5(c.id));if(next){f.activeCourseId=next.id;f.stage='syllabus'}else{f.stage='semesterDetails';f.detailStep='office'}persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-finish-course-cycle]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.coursesFinished=true;const first=teachingCoursesV5().find(c=>!syllabusCompleteV5(c.id))||teachingCoursesV5()[0];f.activeCourseId=first?.id||'';f.stage=first?'syllabus':'semesterDetails';f.detailStep='office';persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-syllabus-next]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),courses=teachingCoursesV5(),idx=Math.max(0,courses.findIndex(c=>String(c.id)===String(f.activeCourseId))),next=courses[idx+1]||courses.find(c=>!syllabusCompleteV5(c.id)&&String(c.id)!==String(f.activeCourseId));if(next){f.activeCourseId=next.id;f.stage='syllabus'}else{f.stage='presemester'}persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-finish-course-cycle]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.coursesFinished=true;f.stage='semesterDetails';f.detailStep='office';persistState({render:false});renderSetup();return}
     if(e.target.closest('[data-v6-review-courses]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.coursesFinished=false;f.activeCourseId=teachingCoursesV5().at(-1)?.id||f.activeCourseId;f.stage='next';persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-return-course-cycle]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.coursesFinished=true;f.activeCourseId=teachingCoursesV5().find(c=>!syllabusCompleteV5(c.id))?.id||teachingCoursesV5()[0]?.id||'';f.stage='syllabus';persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-return-course-cycle]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.coursesFinished=false;f.stage='next';persistState({render:false});renderSetup();return}
     const switchCourse=e.target.closest('[data-v5-switch-course]');if(switchCourse){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.activeCourseId=switchCourse.dataset.v5SwitchCourse;f.stage=f.coursesFinished?'syllabus':deriveStageForCourseV5(f.activeCourseId);persistState({render:false});renderSetup();return}
     const detailJump=e.target.closest('[data-v5-detail-jump]');if(detailJump){e.preventDefault();e.stopImmediatePropagation();flowV5().detailStep=detailJump.dataset.v5DetailJump;persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-detail-next]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),steps=['office','absences','preview','presemester'],i=steps.indexOf(f.detailStep);f.detailDone[f.detailStep]=true;f.detailStep=steps[Math.min(i+1,steps.length-1)];persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-detail-back]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),steps=['office','absences','preview','presemester'],i=steps.indexOf(f.detailStep);f.detailStep=steps[Math.max(0,i-1)];persistState({render:false});renderSetup();return}
-    if(e.target.closest('[data-v5-finish-semester]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();['office','absences','preview','presemester'].forEach(id=>f.detailDone[id]=true);f.stage='complete';state.setupCompleted=state.setupCompleted&&typeof state.setupCompleted==='object'?state.setupCompleted:{};state.setupCompleted[state.selectedSemester]=true;persistState({render:false});renderSetup();toast('Semester setup complete.');return}
+    if(e.target.closest('[data-v5-detail-next]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),steps=['office','absences','preview'],i=steps.indexOf(f.detailStep);f.detailDone[f.detailStep]=true;f.detailStep=steps[Math.min(i+1,steps.length-1)];persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-detail-back]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),steps=['office','absences','preview'],i=steps.indexOf(f.detailStep);f.detailStep=steps[Math.max(0,i-1)];persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-details-to-syllabus]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();f.detailDone[f.detailStep]=true;['office','absences','preview'].forEach(id=>{if(f.detailDone[id]!==false)f.detailDone[id]=true});f.stage='syllabus';f.activeCourseId=teachingCoursesV5()[0]?.id||'';persistState({render:false});renderSetup();return}
+    if(e.target.closest('[data-v5-finish-semester]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5();['office','absences','preview'].forEach(id=>f.detailDone[id]=true);f.presemesterDone=true;f.stage='complete';state.setupCompleted=state.setupCompleted&&typeof state.setupCompleted==='object'?state.setupCompleted:{};state.setupCompleted[state.selectedSemester]=true;persistState({render:false});renderSetup();toast('Semester setup complete.');return}
     if(e.target.closest('[data-v5-open-planner]')){e.preventDefault();e.stopImmediatePropagation();state.currentView='semester';state.cleanWorkspace='plan';state.plannerMode='daycount';persistState({render:false});renderAll();return}
     if(e.target.closest('[data-v5-review-course-setup]')){e.preventDefault();e.stopImmediatePropagation();const f=flowV5(),first=teachingCoursesV5()[0];if(first){f.activeCourseId=first.id;f.stage=deriveStageForCourseV5(first.id)}renderSetup();return}
 
@@ -4110,6 +4163,38 @@ body.activity-dragging{user-select:none}
   renderAll();
 })();
 </script>
+
+
+<style id="acadence-clean-workflow-polish-v8">
+/* Quieter, syllabus-first-by-end workflow polish */
+body{font-weight:400}
+strong,b,.btn,.nav-btn,.segment,.tag,.clean-step-copy strong,.v5-dashboard-card-kicker,.v5-course-progress-top strong{font-weight:600!important}
+.eyebrow,.nav-label,.setup-step-label,.v5-action-icon,.v5-bite-step-icon{font-weight:650!important;letter-spacing:.08em}
+.page-head h1,.clean-setup-top h1,.v5-setup-page-head h1{font-size:26px;font-weight:620;letter-spacing:-.35px}
+.card-head h2,.v5-bite-card-head h2,.modal-head h2,.v5-modal-panel h3{font-weight:620!important;letter-spacing:-.2px}
+.card,.v5-bite-card,.v5-setup-dashboard-card{box-shadow:0 2px 12px rgba(29,25,68,.045)}
+.v5-dashboard-setup-stack:empty{display:none}
+.v5-setup-dashboard-stack,.v5-dashboard-setup-stack{gap:12px}
+.v5-semester-detail-nav{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
+.v5-activity-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:8px}
+.v5-quick-activity{justify-content:flex-start;background:#fff}
+.v5-empty-choice{background:#fbfbfe}
+.v5-quiet-note{margin-top:11px;color:var(--muted);font-size:11.5px;line-height:1.45}
+.modal.v5-office-modal{width:min(560px,100%)}
+.v5-office-form{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.v5-office-form .full{grid-column:1/-1}
+.v5-office-days{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.v5-office-days label{position:relative}
+.v5-office-days input{position:absolute;opacity:0}
+.v5-office-days span{min-height:40px;border:1px solid var(--line-strong);border-radius:10px;background:#fff;display:grid;place-items:center;font-size:12px;font-weight:600;color:#5f6072}
+.v5-office-days input:checked+span{border-color:var(--primary);background:var(--soft);color:var(--primary-2)}
+.v5-profile-form-grid{display:grid;gap:12px}
+@media(max-width:760px){
+  .v5-office-form{grid-template-columns:1fr}
+  .v5-office-form .full{grid-column:auto}
+  .v5-office-days{grid-template-columns:repeat(3,1fr)}
+}
+</style>
 
 </body>
 </html>
